@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.43 1998/02/22 18:48:28 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44 1998/03/16 16:40:40 mpearce Exp $";
 #endif
 
 
@@ -850,8 +850,7 @@ int	m_server_estab(aClient *cptr)
       *s = '@';
     }
   
-  sendto_one(cptr, "SVINFO %d %d %d :%ld", TS_CURRENT, TS_MIN,
-	     (ts_servcount() == 0 ? 1 : 0),
+  sendto_one(cptr, "SVINFO %d %d 0 :%ld", TS_CURRENT, TS_MIN,
 	     (ts_val)timeofday);
   
   det_confs_butmask(cptr, CONF_LEAF|CONF_HUB|CONF_NOCONNECT_SERVER);
