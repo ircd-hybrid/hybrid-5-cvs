@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.6 1997/11/28 01:58:46 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.7 1997/12/07 23:06:00 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1484,10 +1484,16 @@ int	m_join(aClient *cptr,
 	{
 	  if (sptr->user->channel == NULL)
 	    continue;
+/*
+  Added /quote set for SPAMBOT
+
+int spam_time = MIN_JOIN_LEAVE_TIME;
+int spam_num = MAX_JOIN_LEAVE_COUNT;
+*/
 #ifdef ANTI_SPAMBOT 	  /* Dianora */
 	  if( MyConnect(sptr) && !IsAnOper(sptr))
 	    {
-	      if(sptr->join_leave_count >= MAX_JOIN_LEAVE_COUNT)
+	      if(sptr->join_leave_count >= spam_num)
 		{
 		  sendto_ops("User %s (%s@%s) is a possible spambot",
 			     sptr->name,
@@ -1506,7 +1512,7 @@ int	m_join(aClient *cptr,
 		    }
 		  else
 		    {
-		      if((NOW - (sptr->last_join_time)) < MIN_JOIN_LEAVE_TIME)
+		      if((NOW - (sptr->last_join_time)) < spam_time)
 			{
 			  /* oh, its a possible spambot */
 			  sptr->join_leave_count++;
@@ -1545,7 +1551,7 @@ int	m_join(aClient *cptr,
 	    }
 #ifdef ANTI_SPAMBOT 	  /* Dianora */
 
-	  if( sptr->join_leave_count >= MAX_JOIN_LEAVE_COUNT)
+	  if( sptr->join_leave_count >= spam_num)
 	    {
 	      /* Its already known as a possible spambot */
 
@@ -1672,7 +1678,7 @@ int	m_part(aClient *cptr,
 
       if (name && MyConnect(sptr) && !IsAnOper(sptr))
 	{
-	  if(sptr->join_leave_count >= MAX_JOIN_LEAVE_COUNT)
+	  if(sptr->join_leave_count >= spam_num)
 	    {
 	      sendto_ops("User %s (%s@%s) is a possible spambot",
 			 sptr->name,
@@ -1691,7 +1697,7 @@ int	m_part(aClient *cptr,
 		}
 	      else
 		{
-		  if( (NOW - (sptr->last_join_time)) < MIN_JOIN_LEAVE_TIME)
+		  if( (NOW - (sptr->last_join_time)) < spam_time)
 		    {
 		      /* oh, its a possible spambot */
 		      sptr->join_leave_count++;

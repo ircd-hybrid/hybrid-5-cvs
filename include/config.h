@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.9 1997/12/07 22:08:54 lusky Exp $
+ * $Id: config.h,v 1.10 1997/12/07 23:05:58 db Exp $
  */
 
 #ifndef	__config_include__
@@ -826,6 +826,14 @@
  * -Dianora
 */
 #undef OLD_Y_LIMIT
+
+/*
+ * If the OS has SOMAXCONN use that value, otherwise
+ * Use the value in HYBRID_SOMAXCONN for the listen(); backlog
+ * try 5 or 25. 5 for AIX and SUNOS, 25 should work better for other OS's
+*/
+#define HYBRID_SOMAXCONN 5
+
 
 /* ----------------- archaic and/or broken secion -------------------- */
 

@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.6 1997/12/07 22:03:29 lusky Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.7 1997/12/07 23:06:03 db Exp $";
 #endif
 
 #include "struct.h"
@@ -315,7 +315,15 @@ int	inetport(aClient *cptr, char *name, int port, u_long bind_addr)
     highest_fd = cptr->fd;
   cptr->ip.s_addr = inet_addr(ipname);
   cptr->port = (int)ntohs(server.sin_port);
-  (void)listen(cptr->fd, 5);
+/* If the operating system has a define for SOMAXCONN, use it, otherwise
+   use HYBRID_SOMAXCONN -Dianora
+*/
+
+#ifdef SOMAXCONN
+  (void)listen(cptr->fd, SOMAXCONN);
+#else
+  (void)listen(cptr->fd, HYBRID_SOMAXCONN);
+#endif
   local[cptr->fd] = cptr;
 
   return 0;

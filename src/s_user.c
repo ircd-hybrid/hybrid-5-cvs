@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.23 1997/12/04 05:13:50 lusky Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.24 1997/12/07 23:06:05 db Exp $";
 
 #endif
 
@@ -100,6 +100,11 @@ int check_for_fludblock(aClient *,aClient *,aChannel *,int);
 int check_for_flud(aClient *,aClient *,aChannel *,int);
 void free_fluders(aClient *,aChannel *);
 void free_fludees(aClient *);
+#endif
+
+#ifdef ANTI_SPAMBOT
+int spam_time = MIN_JOIN_LEAVE_TIME;
+int spam_num = MAX_JOIN_LEAVE_COUNT;
 #endif
 
 /*
