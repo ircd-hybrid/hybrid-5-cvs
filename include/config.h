@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.18 1998/02/11 21:51:52 db Exp $
+ * $Id: config.h,v 1.19 1998/02/12 14:15:24 db Exp $
  */
 
 #ifndef	__config_include__
@@ -653,13 +653,6 @@
  * should be YES or NO
  */
 #define NOISY_HTM YES
-
-/* NO_CHANOP_WHEN_SPLIT
- * When this is defined, users will not be chanopped on empty channels
- * if there are no servers presently connected to this server
- * opers are not affected. 
- */
-#define NO_CHANOPS_WHEN_SPLIT
 
 /* LITTLE_I_LINES
  * yes, a version of ircnet's i: line
