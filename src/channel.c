@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.17 1998/01/26 21:50:27 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.18 1998/02/08 21:25:30 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -72,7 +72,6 @@ unsigned long tsdms;
 ** number of seconds to add to all readings of time() when making TS's
 ** -orabidoo
 */
-ts_val	timedelta = 0;
 
 static	char	*PartFmt = ":%s PART %s";
 /*
@@ -1707,7 +1706,7 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
       */
       if (MyClient(sptr) && flags == CHFL_CHANOP)
 	{
-	  chptr->channelts = timeofday + timedelta;
+	  chptr->channelts = timeofday;
 #ifdef USE_ALLOW_OP
 	  if(allow_op)
 	    sendto_match_servs(chptr, cptr,

@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.13 1998/02/08 20:58:35 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.14 1998/02/08 21:25:31 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -103,8 +103,6 @@ static	char	*readbuf;
 #else
 static	char	readbuf[8192];
 #endif
-
-extern	ts_val	timedelta;
 
 /*
  * Try and find the correct name to use with getrlimit() for setting the max.
