@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.20 1997/11/17 05:05:54 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.21 1997/11/27 07:45:42 brian Exp $";
 #endif
 
 
@@ -3878,7 +3878,8 @@ int     m_dline(aClient *cptr,
       return 0;
     }
 
-  (void)ircsprintf(buffer, "D:%s:%s:\n", host, reason);
+  (void)ircsprintf(buffer, "D:%s:%s (%s):\n", host, reason,
+			current_date);
 
   if (write(out, buffer, strlen(buffer)) <= 0)
     {
