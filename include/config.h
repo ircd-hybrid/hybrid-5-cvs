@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.21.4.3 1998/09/19 05:02:52 lusky Exp $
+ * $Id: config.h,v 1.21.4.4 1998/09/19 17:12:22 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -1014,6 +1014,6 @@ error CLIENT_FLOOD undefined.
 #  define LOGFILE "/dev/null"
 #endif
 
-#define CONFIG_H_LEVEL_5_3P1
+#define CONFIG_H_LEVEL_5_3P2
 
 #endif /* __config_include__ */

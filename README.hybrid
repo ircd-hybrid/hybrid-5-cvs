@@ -1,9 +1,11 @@
-+hybrid-5.3p1 (9/19/98)
++hybrid-5.3p2 (9/19/98)
 fixed obscure ban bug (Dianora)
 corrected CONFIG_H_LEVEL (Rodder)
 reworked stats flooding code (Dianora)
 removed extraneous files from tree (Rodder)
 updated contact email addresses to the-project.org (Rodder)
+
++hybrid-5.3p1 was never publicly released
 
 +hybrid-5.3 (6/13/98)
 added NO_CHANOPS_WHEN_SPLIT code back in (Rodder/Dianora)

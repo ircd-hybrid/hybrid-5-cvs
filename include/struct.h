@@ -18,14 +18,14 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.15.4.3 1998/09/19 05:02:54 lusky Exp $
+ * $Id: struct.h,v 1.15.4.4 1998/09/19 17:12:24 lusky Exp $
  */
 
 #ifndef	__struct_include__
 #define __struct_include__
 
 #include "config.h"
-#if !defined(CONFIG_H_LEVEL_5_3P1)
+#if !defined(CONFIG_H_LEVEL_5_3P2)
 #  error Incorrect config.h for this revision of ircd.
 #endif
 
