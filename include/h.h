@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.12 1998/07/08 06:11:00 db Exp $
+ * $Id: h.h,v 1.13 1998/07/08 17:31:56 db Exp $
  *
  */
 
@@ -333,9 +333,9 @@ extern	void	send_listinfo (aClient *, char *);
 extern	void	count_memory (aClient *, char *);
 #endif
 
+/* iphash code */
 void remove_one_ip(unsigned long);
 void clear_ip_hash_table(void);
-void rehash_ip_hash(void);
 
 #ifdef FLUD
 int	check_for_ctcp();

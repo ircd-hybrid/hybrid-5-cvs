@@ -80,7 +80,7 @@ blow up.
 #endif
 
 #ifndef lint
-static char *rcs_version = "$Id: dich_conf.c,v 1.1 1997/09/29 15:35:26 db Exp $";
+static char *rcs_version = "$Id: dich_conf.c,v 1.2 1998/07/08 17:31:58 db Exp $";
 #endif /* lint */
 
 void report_conf_links(aClient *sptr,
@@ -123,11 +123,7 @@ void report_conf_links(aClient *sptr,
 		       pass, name, port, get_conf_class(tmp));
 #endif
 	  else
-	    if (tmp->status == CONF_DLINE)
-	      sendto_one(sptr, rpl_str(numeric), me.name,
-			 sptr->name, c, host, pass);
-	    else
-	      sendto_one(sptr, rpl_str(numeric), me.name,
+	    sendto_one(sptr, rpl_str(numeric), me.name,
 			 sptr->name, c, host, name, port,
 			 get_conf_class(tmp));
 	}

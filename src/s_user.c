@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.50 1998/07/08 06:11:08 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.51 1998/07/08 17:32:03 db Exp $";
 
 #endif
 
@@ -679,7 +679,13 @@ static	int	register_user(aClient *cptr,
 #ifdef BOTCHECK
 	  !isbot &&
 #endif /* BOTCHECK */
-	  (sptr->fd >= (MAXCLIENTS+MAX_BUFFER))) || ((sptr->fd >= (MAXCLIENTS - 5)) && !(find_fline(sptr))))
+          ((Count.local + 1) >= (MAXCLIENTS+MAX_BUFFER))) ||
+            (((Count.local +1) >= (MAXCLIENTS - 5)) && !(find_fline(sptr))))
+/*
+	  (sptr->fd >= (MAXCLIENTS+MAX_BUFFER))) ||
+             ((sptr->fd >= (MAXCLIENTS - 5)) && !(find_fline(sptr))))
+*/
+
     {
       sendto_realops_lev(FULL_LEV, "Too many clients, rejecting %s[%s].",
 			 nick, sptr->sockhost);
