@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.15 1998/07/11 03:05:22 db Exp $
+ * $Id: h.h,v 1.16 1998/07/11 04:51:41 db Exp $
  *
  */
 
@@ -138,6 +138,7 @@ extern  void    add_gline(aConfItem *);
 
 extern	int	find_restrict (aClient *);
 extern	int	rehash (aClient *, aClient *, int);
+extern  int	rehash_dump (aClient *,char *);
 extern	int	initconf (int, int);
 extern  int	openconf (char *);
 extern  int     lock_kline_file ();

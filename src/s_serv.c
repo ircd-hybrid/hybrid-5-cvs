@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.58 1998/07/11 03:54:34 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.59 1998/07/11 04:51:43 db Exp $";
 #endif
 
 
@@ -4818,6 +4818,11 @@ int	m_rehash(aClient *cptr,
           read_motd(MOTD);
 	  return(0);
         }
+      else if(mycmp(parv[1],"dump") == 0)
+	{
+	  rehash_dump(sptr,parv[0]);
+	  return(0);
+	}
     }
   else
     {
