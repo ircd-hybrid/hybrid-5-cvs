@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: common.h,v 1.1 1997/09/29 15:35:22 db Exp $
+ * $Id: common.h,v 1.2 1998/09/15 19:56:30 db Exp $
  */
 
 #ifndef	__common_include__
@@ -71,7 +71,6 @@ void	free();
 #include MALLOCH
 #endif
 #endif
-extern	void	flush_fdlist_connections();
 extern	int	matches (char *, char *);
 extern	int	mycmp (char *, char *);
 extern	int	myncmp (char *, char *, int);

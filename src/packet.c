@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)packet.c	2.12 1/30/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: packet.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static char *rcs_version = "$Id: packet.c,v 1.2 1998/09/15 19:56:46 db Exp $";
 
 #endif
  

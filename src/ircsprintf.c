@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #ifndef lint
-static char *rcs_version = "$Id: ircsprintf.c,v 1.2 1998/05/25 12:37:02 db Exp $";
+static char *rcs_version = "$Id: ircsprintf.c,v 1.3 1998/09/15 19:56:43 db Exp $";
 #endif
 
 #ifndef USE_VARARGS

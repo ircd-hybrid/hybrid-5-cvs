@@ -25,7 +25,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)dbuf.c	2.16 20 Oct 1993 (C) 1990 Markku Savela";
-static char *rcs_version = "$Id: dbuf.c,v 1.1 1997/09/29 15:35:26 db Exp $";
+static char *rcs_version = "$Id: dbuf.c,v 1.2 1998/09/15 19:56:40 db Exp $";
 #endif
 
 #include <stdio.h>

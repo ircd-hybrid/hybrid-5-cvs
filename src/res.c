@@ -20,7 +20,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)res.c	2.34 03 Nov 1993 (C) 1992 Darren Reed";
-static  char *rcs_version = "$Id: res.c,v 1.2 1998/07/08 15:24:12 db Exp $";
+static  char *rcs_version = "$Id: res.c,v 1.3 1998/09/15 19:56:49 db Exp $";
 #endif
 
 #undef	DEBUG	/* because there is a lot of debug code in here :-) */
