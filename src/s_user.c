@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.36 1998/02/05 19:11:38 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.37 1998/02/06 03:47:06 db Exp $";
 
 #endif
 
@@ -279,7 +279,7 @@ int	hunt_server(aClient *cptr,
       if(!wilds)
 	{
 	  acptr = find_name(parv[server],(aClient *)NULL);
-	  if( !IsRegistered(acptr) || !IsServer(acptr) )
+	  if( !acptr || !IsRegistered(acptr) || !IsServer(acptr) )
 	    {
 	      sendto_one(sptr, err_str(ERR_NOSUCHSERVER), me.name,
 			 parv[0], parv[server]);
@@ -3333,9 +3333,9 @@ int	m_umode(aClient *cptr,
 	}
 
   if(badflag)
-            sendto_one(sptr,
-                       err_str(ERR_UMODEUNKNOWNFLAG),
-                       me.name, parv[0]);
+    sendto_one(sptr,
+	       err_str(ERR_UMODEUNKNOWNFLAG),
+	       me.name, parv[0]);
 
   /*
    * stop users making themselves operators too easily
