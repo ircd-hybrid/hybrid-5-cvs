@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.42 1998/02/11 21:51:58 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.42.4.1 1998/06/15 01:11:26 db Exp $";
 
 #endif
 
@@ -2148,7 +2148,7 @@ int	m_whois(aClient *cptr,
       if(!wilds)
 	{
 	  acptr = hash_find_client(nick,(aClient *)NULL);
-	  if(!acptr)
+          if(!acptr || !IsPerson(acptr))
 	    {
 	      sendto_one(sptr, err_str(ERR_NOSUCHNICK),
 			 me.name, parv[0], nick);

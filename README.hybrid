@@ -3,6 +3,7 @@ added NO_CHANOPS_WHEN_SPLIT code back in (Rodder/Dianora)
 fixed SEPARATE_QUOTE_KLINES_BY_DATE so it compiles (Rodder)
 removed LITTLE_I_LINES from config.h for now (Rodder)
 should compile on Linux/glibc now (Rodder)
+fixed m_whois with hash table lookup (Dianora)
 
 +hybrid-5.2p1 (5/12/98)
 removed uneeded variable in aClient (Dianora)
