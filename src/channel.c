@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.19 1998/02/12 14:15:27 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.20 1998/02/12 22:04:09 mpearce Exp $";
 #endif
 
 #include "struct.h"
@@ -1672,7 +1672,10 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
       */
       if (MyClient(sptr) && flags == CHFL_CHANOP)
 	{
-	  chptr->channelts = timeofday;
+	  if((chptr->channelts = timeofday) < (time_t)887300000)
+	    ts_warn("Setting insane TS (%ld) for %s", chptr->channelts,
+			chptr->chname);
+	      
 #ifdef USE_ALLOW_OP
 	  if(allow_op)
 	    sendto_match_servs(chptr, cptr,
