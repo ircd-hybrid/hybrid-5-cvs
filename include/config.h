@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.32 1998/07/10 19:57:56 db Exp $
+ * $Id: config.h,v 1.33 1998/07/12 19:41:02 db Exp $
  */
 
 #ifndef	__config_include__
@@ -913,7 +913,7 @@
 */
 #undef  DEBUGMODE               /* define DEBUGMODE to enable debugging mode.*/
 
-/* ----------------- archaic and/or broken secion -------------------- */
+/* ----------------- archaic and/or broken section -------------------- */
 
 /* GLINES - global Kline-like bans
  * Define this if you want GLINE support
