@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.21.4.2 1998/06/13 22:51:06 lusky Exp $
+ * $Id: config.h,v 1.21.4.3 1998/09/19 05:02:52 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -370,12 +370,18 @@
  * its always defined now
  */
 
-/* LINK_WAIT - minimum seconds between use of LINKS
- * Allow a links request only every LINK_WAIT seconds to
- * discourage link lookers. IMO its still legit for "normal" non-opers
- * to do /links but not too often -Dianora
+/* MOTD_WAIT - minimum seconds between use of MOTD, INFO, HELP, LINKS
+ * before max use count is reset 
+ * -Dianora
  */
-#define LINK_WAIT 10
+#define MOTD_WAIT 10
+
+/* MOTD_MAX
+ * max use count before delay above comes into effect
+ */
+
+#define MOTD_MAX 3
+
 
 /* EXTRA_BOT_NOTICES - Have the server send extra bot notices?
  */
@@ -1008,6 +1014,6 @@ error CLIENT_FLOOD undefined.
 #  define LOGFILE "/dev/null"
 #endif
 
-#define CONFIG_H_LEVEL_5_2
+#define CONFIG_H_LEVEL_5_3P1
 
 #endif /* __config_include__ */
