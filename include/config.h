@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.40 1998/07/16 20:58:06 db Exp $
+ * $Id: config.h,v 1.41 1998/07/18 02:06:11 db Exp $
  */
 
 #ifndef	__config_include__
@@ -1055,8 +1055,12 @@ error CLIENT_FLOOD undefined.
 #  define LOGFILE "/dev/null"
 #endif
 
+/* If using ANTI_SPAMBOT_EXTRA =must= also use ANTI_SPAMBOT */
+#ifdef ANTI_SPAMBOT_EXTRA
+#define ANTI_SPAMBOT
+#endif
 
-/* experimental LINKLIST */
+/* experimental LINKLIST. works fine */
 
 #define DEBUG_LINKLIST
 #define USE_LINKLIST

@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.32 1998/07/17 01:24:05 db Exp $
+ * $Id: struct.h,v 1.33 1998/07/18 02:06:12 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -302,6 +302,8 @@ typedef struct	MotdItem aMotd;
 #define IsSetOperGline(x)	((x)->flags2 & FLAGS2_OPER_GLINE)
 #define SetOperN(x)		((x)->flags2 |= FLAGS2_OPER_N)
 #define IsSetOperN(x)		((x)->flags2 & FLAGS2_OPER_N)
+#define SetOperK(x)		((x)->flags2 |= FLAGS2_OPER_K)
+#define IsSetOperK(x)		((x)->flags2 & FLAGS2_OPER_K)
 
 /*
  * defined debugging levels

@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.70 1998/07/17 01:53:08 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.71 1998/07/18 02:06:17 db Exp $";
 
 #endif
 
@@ -2724,12 +2724,30 @@ int	m_quit(aClient *cptr,
        * we know about them now
        * -Dianora
        */
-      if( MyConnect(sptr) && sptr->person_privmsgs && !sptr->channel_privmsgs)
+      if( MyConnect(sptr))
 	{
-	  sendto_realops("Possible spambot exiting %s [%s@%s] : privmsgs to clients %d privmsgs to channels %d",
-			 sptr->name, sptr->user->username,
-			 sptr->user->host,
-			 sptr->person_privmsgs,sptr->channel_privmsgs);
+	  if(sptr->person_privmsgs && !sptr->channel_privmsgs)
+	    {
+	      sendto_realops("Possible spambot exiting %s [%s@%s] [%s] : privmsgs to clients %d, privmsgs to channels %d",
+			     sptr->name, sptr->user->username,
+			     sptr->user->host, 
+			     comment,
+			     sptr->person_privmsgs,sptr->channel_privmsgs);
+	    }
+
+	  /* If its a client that has joined at least one channel
+	   * but not messaged anyone at all.. it might be trying to exit
+	   * with a spam message.
+	   */
+
+	  if(sptr->last_join_time &&
+	     !sptr->person_privmsgs && !sptr->channel_privmsgs)
+	    {
+	      sendto_realops("Possible spambot exiting %s [%s@%s] [%s]",
+			     sptr->name, sptr->user->username,
+			     sptr->user->host,
+			     comment);
+	    }
 	}
 #endif
 #ifdef ANTI_SPAM_EXIT_MESSAGE
@@ -2781,8 +2799,14 @@ int	m_kill(aClient *cptr,
       return 0;
     }
 #endif
-  if (IsAnOper(cptr))
+  if (IsAnOper(sptr))
     {
+      if(MyClient(sptr) && !IsSetOperK(sptr))
+	{
+	  sendto_one(sptr,":%s NOTICE %s :You have no K flag",me.name,parv[0]);
+	  return 0;
+	}
+	
       if (!BadPtr(path))
 	/*  {
 	    sendto_one(sptr, err_str(ERR_NEEDMOREPARAMS),
