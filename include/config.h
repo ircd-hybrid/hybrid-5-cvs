@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.8 1997/12/06 18:29:26 db Exp $
+ * $Id: config.h,v 1.9 1997/12/07 22:08:54 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -627,11 +627,9 @@
 /* You shouldn't change anything below this line, unless absolutely needed. */
 
 /* VIRTUAL_HOST - bind to a specific IP address
- * Define this if you'd like to run two or more servers on the same port
- * of one machine, using IP aliasing.  ircd will do look up the IP address
- * for the server name defined in the M: line and bind to that IP. 
+ * This is no longer used.  Use the passwd field of the M: line to
+ * bind to a specific virtual host
  */
-#undef VIRTUAL_HOST
 
 /* INITIAL_DBUFS - how many dbufs to preallocate
  */
