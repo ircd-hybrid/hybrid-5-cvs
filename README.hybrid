@@ -1,5 +1,10 @@
-+hybrid-5.3p2 (9/23/98)
-improved anti flooding disallow multi channel /topic (Dianora)
++hybrid-5.3p3 (11/5/98)
+fixed bad dns problem (kalt)
+fixed m_topic (Dianora)
+fixed m_motd oper notice in the wrong place (Dianora)
+fixed m_lusers, added send_lusers() (Dianora)
+removed pacing from m_time() (Dianora)
+fixed remote m_info() for opers (Dianora)
 
 +hybrid-5.3p2 (9/19/98)
 fixed obscure ban bug (Dianora)

@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.42.4.2 1998/09/19 07:11:32 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.42.4.3 1998/11/07 02:04:11 db Exp $";
 
 #endif
 
@@ -56,6 +56,7 @@ int    botwarn (char *, char *, char *, char *);
 
 extern char motd_last_changed_date[];
 extern int send_motd(aClient *,aClient *,int, char **);
+extern int send_lusers(aClient *,aClient *,int, char **);
 
 extern void outofmemory(void);         /* defined in list.c */
 
@@ -477,11 +478,11 @@ static	int	register_user(aClient *cptr,
 				   "Too many connections from your hostname");
 	      }
 	    else if (i == -3)
-	      sendto_realops_lev(FULL_LEV, "%s for %s.",
-				 "I-line is full", get_client_host(sptr));
+	      sendto_realops_lev(FULL_LEV, "%s for %s [%s].",
+				 "I-line is full", get_client_host(sptr),p);
             else
-              sendto_realops_lev(CCONN_LEV, "%s from %s.",
-                "Unauthorized client connection", get_client_host(sptr));
+              sendto_realops_lev(CCONN_LEV, "%s from %s [%s].",
+                "Unauthorized client connection", get_client_host(sptr),p);
 #if 0
 #ifdef USE_SYSLOG
 	    syslog(LOG_INFO,"%s from %s.",i == -3 ? "Too many connections" :
@@ -935,7 +936,7 @@ static	int	register_user(aClient *cptr,
 		  sendto_one(sptr, rpl_str(RPL_CREATED),me.name,nick,creation);
 		  sendto_one(sptr, rpl_str(RPL_MYINFO), me.name, parv[0],
 			     me.name, version);
-		  (void)m_lusers(sptr, sptr, 1, parv);
+		  (void)send_lusers(sptr, sptr, 1, parv);
 
 		  sendto_one(sptr,"NOTICE %s :*** Notice -- motd was last changed at %s",
 			     nick, motd_last_changed_date);

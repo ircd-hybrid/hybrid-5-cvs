@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.4 1998/09/23 20:25:52 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.5 1998/11/07 02:04:08 db Exp $";
 #endif
 
 #include "struct.h"
@@ -2027,10 +2027,11 @@ int	m_topic(aClient *cptr,
 
   name = strtoken(&p, parv[1], ",");
 
-  if(!name)
-    return 0;
+  /* multi channel topic's are now known to be used by cloners
+   * trying to flood off servers.. so disable it *sigh* - Dianora
+   */
 
-  if (parc > 1 && IsChannelName(name))
+  if (name && IsChannelName(name))
     {
       chptr = find_channel(name, NullChn);
       if (!chptr || !IsMember(sptr, chptr))
@@ -2039,54 +2040,56 @@ int	m_topic(aClient *cptr,
 		     me.name, parv[0], name);
 	  return 0;
 	}
-      if (parc > 2)
+      
+      if (parc > 2) /* setting topic */
 	topic = parv[2];
-    }
-
-  if (!chptr)
-    {
-      sendto_one(sptr, rpl_str(RPL_NOTOPIC),
-		 me.name, parv[0], name);
-      return 0;
-    }
-
-  if (!topic)  /* only asking  for topic  */
-    {
-      if (chptr->topic[0] == '\0')
-	sendto_one(sptr, rpl_str(RPL_NOTOPIC),
-		   me.name, parv[0], chptr->chname);
-      else
+      
+      if(topic)	/* a little extra paranoia never hurt */
 	{
-	  sendto_one(sptr, rpl_str(RPL_TOPIC),
-		     me.name, parv[0],
-		     chptr->chname, chptr->topic);
+	  if ((chptr->mode.mode & MODE_TOPICLIMIT) == 0 ||
+	      is_chan_op(sptr, chptr))
+	    {
+	      /* setting a topic */
+	      strncpyzt(chptr->topic, topic, sizeof(chptr->topic));
 #ifdef TOPIC_INFO
-	  sendto_one(sptr, rpl_str(RPL_TOPICWHOTIME),
-		     me.name, parv[0], chptr->chname,
-		     chptr->topic_nick,
-		     chptr->topic_time);
+	      strcpy(chptr->topic_nick, sptr->name);
+	      chptr->topic_time = timeofday;
 #endif
+	      sendto_match_servs(chptr, cptr,":%s TOPIC %s :%s",
+				 parv[0], chptr->chname,
+				 chptr->topic);
+	      sendto_channel_butserv(chptr, sptr, ":%s TOPIC %s :%s",
+				     parv[0],
+				     chptr->chname, chptr->topic);
+	    }
+	  else
+	    sendto_one(sptr, err_str(ERR_CHANOPRIVSNEEDED),
+		       me.name, parv[0], chptr->chname);
 	}
-    } 
-  else if (((chptr->mode.mode & MODE_TOPICLIMIT) == 0 ||
-	    is_chan_op(sptr, chptr)) && topic)
-    {
-      /* setting a topic */
-      strncpyzt(chptr->topic, topic, sizeof(chptr->topic));
+      else  /* only asking  for topic  */
+	{
+	  if (chptr->topic[0] == '\0')
+	    sendto_one(sptr, rpl_str(RPL_NOTOPIC),
+		       me.name, parv[0], chptr->chname);
+	  else
+	    {
+	      sendto_one(sptr, rpl_str(RPL_TOPIC),
+			 me.name, parv[0],
+			 chptr->chname, chptr->topic);
 #ifdef TOPIC_INFO
-      strcpy(chptr->topic_nick, sptr->name);
-      chptr->topic_time = timeofday;
+	      sendto_one(sptr, rpl_str(RPL_TOPICWHOTIME),
+			 me.name, parv[0], chptr->chname,
+			 chptr->topic_nick,
+			 chptr->topic_time);
 #endif
-      sendto_match_servs(chptr, cptr,":%s TOPIC %s :%s",
-			 parv[0], chptr->chname,
-			 chptr->topic);
-      sendto_channel_butserv(chptr, sptr, ":%s TOPIC %s :%s",
-			     parv[0],
-			     chptr->chname, chptr->topic);
+	    }
+	}
     }
   else
-    sendto_one(sptr, err_str(ERR_CHANOPRIVSNEEDED),
-	       me.name, parv[0], chptr->chname);
+    {
+      sendto_one(sptr, err_str(ERR_NOSUCHCHANNEL),
+		 me.name, parv[0], name);
+    }
 
   return 0;
 }
