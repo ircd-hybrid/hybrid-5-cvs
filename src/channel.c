@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.12 1998/01/18 18:24:11 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.13 1998/01/21 16:53:32 db Exp $";
 #endif
 
 #include "struct.h"
@@ -953,8 +953,8 @@ static	int	set_mode(aClient *cptr,
 		break;
 	      if (MyClient(sptr) && opcnt >= MAXMODEPARAMS)
 		break;
-	      if (!(nusers = atoi(*++parv)))
-		break;
+	      if ( (nusers = atoi(*++parv)) <= 0)
+	        break;
 	      lp = &chops[opcnt++];
 	      lp->flags = MODE_ADD|MODE_LIMIT;
 	      limitset = 1;
