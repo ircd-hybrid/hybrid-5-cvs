@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.31 1998/01/23 19:35:57 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.32 1998/01/25 16:22:55 db Exp $";
 
 #endif
 
@@ -886,11 +886,11 @@ static	int	register_user(aClient *cptr,
 #endif
 #ifdef LITTLE_I_LINES
 		  if(sptr->confs && sptr->confs->value.aconf &&
-		     (sptr->confs->value.aconf->
-		      flags & CONF_FLAGS_LITTLE_I_LINE))
+		     (sptr->confs->value.aconf->flags
+		      & CONF_FLAGS_LITTLE_I_LINE))
 		    {
-		      sendto_one(sptr,"NOTICE %s :*** You are in a restricted access mode");
-		      sendto_one(sptr,"NOTICE %s :*** You can not be chanopped");
+		      sendto_one(sptr,"NOTICE %s :*** You are in a restricted access mode",nick);
+		      sendto_one(sptr,"NOTICE %s :*** You can not be chanopped",nick);
 		    }
 #endif
 		  nextping = timeofday;
