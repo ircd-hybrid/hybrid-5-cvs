@@ -1,3 +1,6 @@
++hybrid-5.3p2 (9/23/98)
+improved anti flooding disallow multi channel /topic (Dianora)
+
 +hybrid-5.3p2 (9/19/98)
 fixed obscure ban bug (Dianora)
 corrected CONFIG_H_LEVEL (Rodder)
