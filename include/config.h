@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.21.4.5 1998/11/24 03:00:03 lusky Exp $
+ * $Id: config.h,v 1.21.4.6 1998/12/23 23:56:47 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -369,6 +369,11 @@
 /* LINKS_NOTICE - See a notice when a user does a /links
  * its always defined now
  */
+
+/* WHOIS_WAIT - minimum seconds between remote use of WHOIS before
+ * max use count is reset
+ */
+#define WHOIS_WAIT 1
 
 /* MOTD_WAIT - minimum seconds between use of MOTD, INFO, HELP, LINKS
  * before max use count is reset 
@@ -1016,6 +1021,6 @@ error CLIENT_FLOOD undefined.
 #  define LOGFILE "/dev/null"
 #endif
 
-#define CONFIG_H_LEVEL_5_3P2
+#define CONFIG_H_LEVEL_5_3P5
 
 #endif /* __config_include__ */

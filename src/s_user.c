@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.42.4.4 1998/11/24 03:00:08 lusky Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.42.4.5 1998/12/23 23:56:53 lusky Exp $";
 
 #endif
 
@@ -2133,7 +2133,7 @@ int	m_whois(aClient *cptr,
 
   if(!IsAnOper(sptr) && !MyConnect(sptr)) /* pace non local requests */
     {
-      if((last_used + MOTD_WAIT) > NOW)
+      if((last_used + WHOIS_WAIT) > NOW)
         {
           return 0;
         }

@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.6 1998/11/17 04:57:10 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.7 1998/12/23 23:56:51 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -36,7 +36,7 @@ static char *rcs_version="$Id: channel.c,v 1.23.4.6 1998/11/17 04:57:10 db Exp $
 #include "fdlist.h"
 extern fdlist serv_fdlist;
 
-int server_was_split=NO;
+int server_was_split=YES;
 time_t server_split_time;
 int server_split_recovery_time = (MAX_SERVER_SPLIT_RECOVERY_TIME * 60);
 #define USE_ALLOW_OP
@@ -2245,9 +2245,16 @@ int	m_names( aClient *cptr,
   int	idx, flag, len, mlen;
   char	*s, *para = parc > 1 ? parv[1] : NULL;
 
-  if (parc > 1 &&
+/*  if (parc > 1 &&
       hunt_server(cptr, sptr, ":%s NAMES %s %s", 2, parc, parv))
     return 0;
+ */
+
+  if(!MyConnect(sptr))
+    {
+      sendto_one(sptr, rpl_str(RPL_ENDOFNAMES), me.name, parv[0], "*");
+      return 0;
+    }
 
   mlen = strlen(me.name) + NICKLEN + 7;
 

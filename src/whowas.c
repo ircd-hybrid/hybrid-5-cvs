@@ -24,7 +24,7 @@
 #include "h.h"
 
 #ifndef lint
-static char *rcs_version = "$Id: whowas.c,v 1.3 1997/10/15 19:29:32 db Exp $";
+static char *rcs_version = "$Id: whowas.c,v 1.3.4.1 1998/12/23 23:56:53 lusky Exp $";
 #endif
 
 /* externally defined functions */
@@ -145,6 +145,8 @@ int     m_whowas(aClient *cptr,
   register int cur = 0;
   int     max = -1, found = 0;
   char    *p, *nick, *s;
+  static time_t last_used=0L;
+  static int last_count=0;
 
   if (parc < 2)
     {
@@ -157,6 +159,18 @@ int     m_whowas(aClient *cptr,
   if (parc > 3)
     if (hunt_server(cptr,sptr,":%s WHOWAS %s %s :%s", 3,parc,parv))
       return 0;
+
+  if(!IsAnOper(sptr) && !MyConnect(sptr)) /* pace non local requests */
+    {
+      if((last_used + WHOIS_WAIT) > NOW)
+        {
+          return 0;
+        }
+      else
+        {
+          last_used = NOW;
+        }
+    }
 
   parv[1] = canonize(parv[1]);
   if (!MyConnect(sptr) && (max > 20))
