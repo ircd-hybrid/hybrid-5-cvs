@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: s_err.h,v 1.2 1997/11/17 05:05:52 db Exp $
+ * $Id: s_err.h,v 1.3 1998/01/23 19:35:49 db Exp $
  *
  */
 
@@ -213,11 +213,7 @@ static	Numeric	numeric_replies[] = {
 /* 374 */	RPL_ENDOFINFO, ":End of /INFO list.",
 /* 375 */	RPL_MOTDSTART, ":- %s Message of the Day - ",
 /* 376 */	RPL_ENDOFMOTD, ":End of /MOTD command.",
-#ifdef FORCE_MOTD
-/* 377 */	RPL_FORCE_MOTD, ":%s",
-#else
 		0, (char *)NULL,
-#endif
 		0, (char *)NULL, 0, (char *)NULL,
 		0, (char *)NULL,
 /* 381 */	RPL_YOUREOPER, ":You are now one bad motherfucker - Go /kill someone.",

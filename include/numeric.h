@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: numeric.h,v 1.1 1997/09/29 15:35:24 db Exp $
+ * $Id: numeric.h,v 1.2 1998/01/23 19:35:49 db Exp $
  */
 #ifdef TOPIC_INFO
 # define RPL_TOPICWHOTIME 333
@@ -261,9 +261,6 @@
 #define	RPL_ENDOFINFO        374
 #define	RPL_MOTDSTART        375
 #define	RPL_ENDOFMOTD        376
-#ifdef FORCE_MOTD
-#define RPL_FORCE_MOTD	     377
-#endif
 
 #define RPL_YOUREOPER        381
 #define RPL_REHASHING        382

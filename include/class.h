@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-/* $Id: class.h,v 1.1 1997/09/29 15:35:22 db Exp $ */
+/* $Id: class.h,v 1.2 1998/01/23 19:35:46 db Exp $ */
 
 #ifndef	__class_include__
 #define __class_include__
@@ -30,6 +30,7 @@ typedef struct Class {
 	int	links;
 	struct Class *next;
 } aClass;
+
 
 #define	Class(x)	((x)->class)
 #define	ConFreq(x)	((x)->conFreq)

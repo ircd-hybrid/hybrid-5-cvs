@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.5 1997/12/10 22:35:26 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.6 1998/01/23 19:35:55 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -109,7 +109,7 @@ char	*date(time_t clock)
 */
 char    *smalldate(time_t clock)
 {
-  static  char    buf[20];
+  static  char    buf[MAX_DATE_STRING];
   Reg     struct  tm *lt, *gm;
   struct  tm      gmbuf;
 

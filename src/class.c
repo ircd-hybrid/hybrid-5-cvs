@@ -19,7 +19,7 @@
 
 #ifndef	lint
 static char sccsid[] = "@(#)class.c	1.4 28 Jun 1993 (C) 1990 Darren Reed";
-static char *rcs_version = "$Id: class.c,v 1.1 1997/09/29 15:35:26 db Exp $";
+static char *rcs_version = "$Id: class.c,v 1.2 1998/01/23 19:35:52 db Exp $";
 #endif
 
 #include "struct.h"
@@ -55,8 +55,6 @@ static	int	get_conf_ping(aConfItem *aconf)
 
   return (BAD_PING);
 }
-
-
 
 int	get_client_class(aClient *acptr)
 {

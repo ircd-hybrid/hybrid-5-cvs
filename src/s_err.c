@@ -23,7 +23,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.2 1997/11/17 05:05:54 db Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.3 1998/01/23 19:35:54 db Exp $";
 #endif
 
 typedef	struct	{
@@ -235,11 +235,7 @@ static	Numeric	numeric_replies[] = {
 /* 374 */	RPL_ENDOFINFO, ":End of /INFO list.",
 /* 375 */	RPL_MOTDSTART, ":- %s Message of the Day - ",
 /* 376 */	RPL_ENDOFMOTD, ":End of /MOTD command.",
-#ifdef FORCE_MOTD
-/* 377 */	RPL_FORCE_MOTD, ":%s",
-#else
 		0, (char *)NULL,
-#endif
 		0, (char *)NULL, 0, (char *)NULL,
 		0, (char *)NULL,
 /* 381 */	RPL_YOUREOPER, ":You have entered... the Twilight Zone!.",

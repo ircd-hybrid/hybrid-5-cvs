@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.7 1997/12/19 21:44:14 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.8 1998/01/23 19:35:53 db Exp $";
 #endif
 
 #include "struct.h"
@@ -137,6 +137,7 @@ int	attach_Iline(aClient *cptr,
     {
       if (aconf->status != CONF_CLIENT)
 	continue;
+
       if (aconf->port && aconf->port != cptr->acpt->port)
 	continue;
 
@@ -1240,11 +1241,21 @@ int 	initconf(int opt, char *conf_file)
 	  aconf->status = CONF_HUB;
 	  break;
 
-	case 'I': /* Just plain normal irc client trying  */
+#ifdef LITTLE_I_LINES
 	case 'i': /* to connect me */
 	  aconf->status = CONF_CLIENT;
+	  aconf->flags |= CONF_FLAGS_LITTLE_I_LINE;
 	  break;
 
+	case 'I': /* Just plain normal irc client trying  */
+	  aconf->status = CONF_CLIENT;
+	  break;
+#else
+	case 'i': /* to connect me */
+	case 'I': /* Just plain normal irc client trying  */
+	  aconf->status = CONF_CLIENT;
+	  break;
+#endif
 	case 'K': /* Kill user line on irc.conf           */
 	case 'k':
 	  aconf->status = CONF_KILL;
