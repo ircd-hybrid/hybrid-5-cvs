@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.30 1998/01/01 21:50:53 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.31 1998/01/21 23:12:34 db Exp $";
 #endif
 
 
@@ -3739,13 +3739,6 @@ int m_unkline (aClient *cptr,aClient *sptr,int parc,char *parv[])
     {
       sendto_one(sptr, err_str(ERR_NEEDMOREPARAMS),
 		 me.name, parv[0], "UNKLINE");
-      return 0;
-    }
-
-  if (parc > 2) 
-    {
-      sendto_one(sptr, ":%s NOTICE %s :Too many parameters",
-		 me.name, parv[0]);
       return 0;
     }
 
