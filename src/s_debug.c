@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_debug.c	2.28 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *version = "$Id: s_debug.c,v 1.4 1997/12/07 23:51:07 db Exp $";
+static char *version = "$Id: s_debug.c,v 1.5 1997/12/08 05:26:19 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -110,111 +110,6 @@ char	serveropts[] = {
 /* th+hybrid servers ALWAYS do TS_WARNINGS */
 'o',
 'w',
-' ',
-'h',
-'y',
-'=',
-
-#ifdef ANTI_SPAMBOT
-'B',
-#else
-'b',
-#endif
-
-#ifdef CLIENT_SERVER
-'C',
-#else
-'c',
-#endif
-
-#ifdef FLUD
-'F',
-#else
-'f'
-#endif
-
-#ifdef GLINES
-'G',
-#else
-'g'
-#endif
-
-#if defined(TOPIC_INFO) || defined(BAN_INFO)
-'I', '[',
-# ifdef BAN_INFO
-'B',
-#  ifdef USE_UH
-'+',
-#  endif
-# else
-'b',
-# endif
-
-#ifdef ANTI_IP_SPOOF
-'S',
-#else
-'s',
-#endif
-
-# ifdef TOPIC_INFO
-'T',
-# else
-'t',
-# endif
-']',
-#endif
-
-#ifdef K_COMMENT_ONLY
-'+',
-#endif
-
-'M',
-
-#ifdef FORCE_MOTD
-'+',
-#endif
-
-#ifdef NO_OPER_FLOOD
-'O',
-#else
-'o',
-#endif
-
-#ifdef KPATH
-'P',
-#else
-'p',
-#endif
-
-' ',
-'N',
-'=',
-#ifdef EXTRA_BOT_NOTICES
-'B',
-#endif
-
-#ifdef BOT_GCOS_WARN
-'G',
-#endif
-
-#ifdef LINKS_NOTICE
-'L',
-#endif
-
-'N',
-
-#ifdef STATS_NOTICE
-'S',
-#endif
-
-#ifdef UNKLINE
-'U',
-#endif
-
-#ifdef WHOIS_NOTICE
-'W',
-#endif
-
 '\0'};
 
 #include "numeric.h"
