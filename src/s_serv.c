@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.74 1998/07/16 14:55:35 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.75 1998/07/16 18:17:08 db Exp $";
 #endif
 
 
@@ -2638,7 +2638,7 @@ int     m_locops(aClient *cptr,
   if (BadPtr(message))
     {
       sendto_one(sptr, err_str(ERR_NEEDMOREPARAMS),
-                 me.name, parv[0], "WALLOPS");
+                 me.name, parv[0], "LOCOPS");
       return 0;
     }
 
@@ -2841,13 +2841,12 @@ int   m_set(aClient *cptr,
 	    {
 	      int newval = atoi(parv[2]);
 
-	      if(newval < MIN_IDLETIME)
+	      if((newval*60) < MIN_IDLETIME)
 		{
 		  sendto_one(sptr, ":%s NOTICE %s :IDLETIME must be >= %d",
 			     me.name, parv[0],MIN_IDLETIME/60);
 		  return 0;
 		}       
-	      idle_time = newval;
 	      sendto_ops("%s has changed IDLETIME to %i", parv[0], idle_time);
 	      sendto_one(sptr, ":%s NOTICE %s :IDLETIME is now set to %i",
 			 me.name, parv[0], newval);

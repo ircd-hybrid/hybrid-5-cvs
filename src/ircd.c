@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.37 1998/07/15 06:25:22 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.38 1998/07/16 18:17:07 db Exp $";
 #endif
 
 #include "struct.h"
@@ -533,6 +533,8 @@ static	time_t	check_pings(time_t currenttime)
 	      aconf->port = 0;
 	      aconf->hold = timeofday + 60;
 	      add_temp_kline(aconf);
+	      sendto_ops("Idle exceeder %s temp k-lining",
+			 get_client_name(cptr,FALSE));
 	      continue;		/* and go examine next fd/cptr */
 	    }
 	}
