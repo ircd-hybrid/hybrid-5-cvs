@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.23 1998/07/16 22:53:27 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.24 1998/07/16 23:08:10 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -767,9 +767,7 @@ static	void	exit_one_client(aClient *cptr,
 				   sptr->name, comment);
 	  else
 	    {
-	      if( (sptr->from == from ) && /* local client, MyConnect
-					      no longer valid! */
-		  (sptr->firsttime + ANTI_SPAM_EXIT_MESSAGE_TIME) > NOW)
+	      if((sptr->firsttime + ANTI_SPAM_EXIT_MESSAGE_TIME) > NOW)
 		sendto_common_channels(sptr, ":%s QUIT :%s",
 				       sptr->name, "Client Quit");
 	      else
