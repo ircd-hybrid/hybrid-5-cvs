@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.4 1998/09/19 08:52:14 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.5 1998/09/19 09:06:37 db Exp $";
 #endif
 
 
@@ -1076,7 +1076,7 @@ int	m_info(aClient *cptr,
 	last_used = NOW;
     }
 
-  sendto_realops_lev(SPY_LEV, "info requested by %s (%s@%s) [%s]",
+  sendto_realops_lev(SPY_LEV, "INFO requested by %s (%s@%s) [%s]",
 		     sptr->name, sptr->user->username, sptr->user->host,
 		     sptr->user->server);
 
@@ -4718,7 +4718,7 @@ int	m_trace(aClient *cptr,
 	last_used = NOW;
     }
 
-  sendto_realops_lev(SPY_LEV, "trace requested by %s (%s@%s) [%s]",
+  sendto_realops_lev(SPY_LEV, "TRACE requested by %s (%s@%s) [%s]",
 		     sptr->name, sptr->user->username, sptr->user->host,
 		     sptr->user->server);
 
