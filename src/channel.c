@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.9 1998/12/24 07:19:00 lusky Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.10 1999/06/13 01:24:03 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -60,7 +60,7 @@ static	int	set_mode (aClient *, aClient *, aChannel *, int,
 			        char **, char *,char *);
 static	void	sub1_from_channel (aChannel *);
 
-void	clean_channelname(unsigned char *);
+int     clean_channelname(unsigned char *, aClient *);
 void	del_invite (aClient *, aChannel *);
 
 #ifdef ORATIMING
@@ -659,7 +659,12 @@ int	m_mode(aClient *cptr,
       return 0;
     }
 
-  clean_channelname((unsigned char *)parv[1]);
+  if(clean_channelname((unsigned char *)parv[1],sptr))
+    { 
+      sendto_one(sptr, err_str(ERR_BADCHANNAME),
+                 me.name, parv[0], (unsigned char *)parv[1]);
+      return 0;
+    }
   chanop = is_chan_op(sptr, chptr) || IsServer(sptr);
 
   if (parc < 3)
@@ -1268,18 +1273,22 @@ static	int	can_join(aClient *sptr, aChannel *chptr, char *key)
 ** Remove bells and commas from channel name
 */
 
-void	clean_channelname(unsigned char *cn)
+int     clean_channelname(unsigned char *name, aClient *sptr)
 {
-  for (; *cn; cn++)
+  unsigned char *cn;
+
+  for (cn = name; *cn; cn++)
     /*
      * Find bad characters and remove them, also check for
      * characters in the '\0' -> ' ' range, but +127   -Taner
      */
-    if (*cn == '\007' || *cn == ' ' || *cn == ',' || (*cn > 127 && *cn <= 160))
-      {
-	*cn = '\0';
-	return;
+    if (*cn == '\007' || *cn == ' ' || *cn == ',' ||
+        (MyClient(sptr) && (*cn > 127) && (*cn <= 160)))
+      { 
+        return 1;
       }
+
+  return 0;
 }
 
 /*
@@ -1479,7 +1488,11 @@ int	m_join(aClient *cptr,
 
       if(strlen(name) >  CHANNELLEN)  /* same thing is done in get_channel() */
 	name[CHANNELLEN] = '\0';
-      clean_channelname((unsigned char *)name);
+      if (clean_channelname((unsigned char *)name, sptr))
+        {           sendto_one(sptr, err_str(ERR_BADCHANNAME),
+                       me.name, parv[0], (unsigned char *)name);
+          continue;
+        }
       if (*name == '&' && !MyConnect(sptr))
 	continue;
       if (*name == '0' && !atoi(name))
@@ -2117,7 +2130,13 @@ int	m_invite(aClient *cptr,
 		 me.name, parv[0], parv[1]);
       return 0;
     }
-  clean_channelname((unsigned char *)parv[2]);
+
+  if (clean_channelname((unsigned char *)parv[2],sptr))
+    { 
+      sendto_one(sptr, err_str(ERR_BADCHANNAME),
+                 me.name, parv[0], (unsigned char *)parv[2]);
+      return 0;
+    }
 
   if (!(chptr = find_channel(parv[2], NullChn)))
     {
@@ -2305,7 +2324,12 @@ int	m_names( aClient *cptr,
       s = strchr(para, ',');
       if (s)
         *s = '\0';
-      clean_channelname((unsigned char *)para);
+      if (clean_channelname((unsigned char *)para,sptr))
+        { 
+          sendto_one(sptr, err_str(ERR_BADCHANNAME),
+                     me.name, parv[0], (unsigned char *)para);
+          return 0;
+        }
       ch2ptr = find_channel(para, (aChannel *)NULL);
     }
 
@@ -2530,6 +2554,17 @@ int	m_sjoin(aClient *cptr,
     return 0;
   if (!IsChannelName(parv[2]))
     return 0;
+
+  if(clean_channelname((unsigned char *)parv[2],sptr))
+    return 0;
+
+  /* comstud server did this, SJOIN's for
+   * local channels can't happen.
+   */
+  
+  if(*parv[2] == '&')
+    return 0;
+
   newts = atol(parv[1]);
   bzero((char *)&mode, sizeof(mode));
 

@@ -23,7 +23,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.4 1998/02/22 18:48:26 db Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.4.4.1 1999/06/13 01:24:05 lusky Exp $";
 #endif
 
 typedef	struct	{
@@ -128,7 +128,7 @@ static	Numeric	numeric_errors[] = {
 /* 476 */	ERR_BADCHANMASK, "%s :Bad Channel Mask",
 /* 477 */	0, (char *)NULL,
 /* 478 */	0, (char *)NULL,
-/* 479 */	0, (char *)NULL,
+/* 479 */	ERR_BADCHANNAME, "%s :Cannot join channel (illegal name)",
 /* 480 */	0, (char *)NULL,
 /* 481 */	ERR_NOPRIVILEGES,
 		":Permission Denied- You're not an IRC operator",

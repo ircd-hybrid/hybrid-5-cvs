@@ -1,3 +1,6 @@
++hybrid-5.3p7 (6/12/1999)
+* fix for channel namespace issues
+
 +hybrid-5.3p6 (12/24/1998)
 * NAMES now only works for a single target
 * WHOWAS now only works for a single target

@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: s_err.h,v 1.4 1998/02/22 18:48:24 db Exp $
+ * $Id: s_err.h,v 1.4.4.1 1999/06/13 01:24:02 lusky Exp $
  *
  */
 
@@ -101,7 +101,9 @@ static	Numeric	numeric_errors[] = {
 /* 474 */	ERR_BANNEDFROMCHAN, "%s :Cannot join channel - you are banned (+b)",
 /* 475 */	ERR_BADCHANNELKEY, "%s :Cannot join channel - password required (+k)",
 /* 476 */	ERR_BADCHANMASK, "%s :Bad Channel Mask",
-		0, (char *)NULL, 0, (char *)NULL, 0, (char *)NULL,
+		0, (char *)NULL,
+		0, (char *)NULL,
+/* 479 */	ERR_BADCHANNAME, "%s :Cannot join channel (illegal name)",
 		0, (char *)NULL,
 /* 481 */	ERR_NOPRIVILEGES,
 		":UHHH, I don't THINK so, homez... you ain't got what it takes. (IRC Operator)",

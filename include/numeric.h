@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: numeric.h,v 1.2 1998/01/23 19:35:49 db Exp $
+ * $Id: numeric.h,v 1.2.4.1 1999/06/13 01:24:02 lusky Exp $
  */
 #ifdef TOPIC_INFO
 # define RPL_TOPICWHOTIME 333
@@ -184,6 +184,8 @@
 #define ERR_BANNEDFROMCHAN   474
 #define	ERR_BADCHANNELKEY    475
 #define	ERR_BADCHANMASK      476
+
+#define ERR_BADCHANNAME      479
 
 #define ERR_NOPRIVILEGES     481
 #define ERR_CHANOPRIVSNEEDED 482
