@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.52 1998/07/10 07:38:26 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.53 1998/07/10 18:06:13 db Exp $";
 #endif
 
 
@@ -1290,10 +1290,15 @@ int	m_info(aClient *cptr,
 #endif
 	sendto_one(sptr, rpl_str(RPL_INFO),
 		me.name, parv[0], outstr);
-#ifdef REJECT_IPHONE
-	strcpy(outstr,"REJECT_IPHONE=1");
+#ifdef REJECT_HOLD
+	strcpy(outstr,"REJECT_HOLD=1 ");
 #else
-	strcpy(outstr,"REJECT_IPHONE=0");
+	strcpy(outstr,"REJECT_HOLD=0 ");
+#endif
+#ifdef REJECT_IPHONE
+	strcat(outstr," REJECT_IPHONE=1");
+#else
+	strcat(outstr," REJECT_IPHONE=0");
 #endif
 #ifdef RFC1035_ANAL
 	strcat(outstr," RFC1035_ANAL=1");
@@ -1442,6 +1447,13 @@ int	m_info(aClient *cptr,
         ircsprintf(outstr,"TS_MAX_DELTA=%d TS_WARN_DELTA=%d",TS_MAX_DELTA,TS_WARN_DELTA);
 	sendto_one(sptr, rpl_str(RPL_INFO),
 		me.name, parv[0], outstr);
+#ifdef USE_LINKLIST
+	sendto_one(sptr, rpl_str(RPL_INFO),
+		me.name, parv[0], "USE_LINKLIST=1");
+#else
+	sendto_one(sptr, rpl_str(RPL_INFO),
+		me.name, parv[0], "USE_LINKLIST=0");
+#endif
       }
 
       sendto_one(sptr,
