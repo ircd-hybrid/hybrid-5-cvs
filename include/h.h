@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.11 1998/07/07 03:43:03 db Exp $
+ * $Id: h.h,v 1.12 1998/07/08 06:11:00 db Exp $
  *
  */
 
@@ -121,7 +121,11 @@ extern void add_to_dline_hash(unsigned long,unsigned long,char *,char *);
 extern aConfItem *find_host_in_dline_hash(unsigned long);
 unsigned long host_name_to_ip(char *, unsigned long *);
 extern aConfItem *find_dkill(aClient *cptr);
-extern report_dline_hash(aClient *,int);
+extern void report_dline_hash(aClient *,int);
+extern void dhash_stats(aClient *,aClient *,int,char **);
+
+/* iphash */
+extern void iphash_stats(aClient *,aClient *,int,char **);
 
 extern  void	add_temp_kline(aConfItem *);
 extern  void	flush_temp_klines(void);

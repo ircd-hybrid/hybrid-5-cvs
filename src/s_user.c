@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.49 1998/07/07 03:43:09 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.50 1998/07/08 06:11:08 db Exp $";
 
 #endif
 
@@ -945,14 +945,14 @@ static	int	register_user(aClient *cptr,
 		  /* This is a duplicate of the NOTICE but see below...*/
 		  sendto_one(sptr, rpl_str(RPL_YOURHOST), me.name, nick,
 			     get_client_name(&me, FALSE), version);
-#ifdef	IRCII_KLUDGE
+
 		  /*
 		  ** Don't mess with this one - IRCII needs it! -Avalon
 		  */
 		  sendto_one(sptr,
 			     "NOTICE %s :*** Your host is %s, running version %s",
 			     nick, get_client_name(&me, FALSE), version);
-#endif
+
 		  sendto_one(sptr, rpl_str(RPL_CREATED),me.name,nick,creation);
 		  sendto_one(sptr, rpl_str(RPL_MYINFO), me.name, parv[0],
 			     me.name, version);
