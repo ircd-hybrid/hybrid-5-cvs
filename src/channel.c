@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.20 1998/02/12 22:04:09 mpearce Exp $";
+static char *rcs_version="$Id: channel.c,v 1.21 1998/02/12 23:02:25 mpearce Exp $";
 #endif
 
 #include "struct.h"
@@ -2680,6 +2680,9 @@ int	m_sjoin(aClient *cptr,
 	      l->flags &= ~MODE_VOICE;
 	    }
 	}
+        sendto_channel_butserv(chptr, &me,
+	    ":%s NOTICE %s :*** Notice -- TS for %s changed from %ld to %ld",
+	    me.name, chptr->chname, chptr->chname, oldts, newts);
     }
   if (mbuf != modebuf)
     {
