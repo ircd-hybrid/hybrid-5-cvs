@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.31 1998/07/10 07:38:23 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.32 1998/07/10 21:31:25 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1332,14 +1332,14 @@ time_t io_loop(time_t delay)
 #else
     if ((lasttime + (lifesux + 1)) < timeofday)
       {
-#endif
+#endif /* CLIENT_SERVER */
 	(void)read_message(delay, NULL); /*  check everything! */
 	lasttime = timeofday;
       }
    }
 #else
   (void)read_message(delay, NULL); /*  check everything! */
-#endif
+#endif /* NO_PRIORITY */
 
   /*
   ** ...perhaps should not do these loops every time,
