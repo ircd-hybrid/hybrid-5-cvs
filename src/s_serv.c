@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.29 1997/12/18 12:50:03 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.30 1998/01/01 21:50:53 lusky Exp $";
 #endif
 
 
@@ -1644,6 +1644,11 @@ int	m_stats(aClient *cptr,
 	{
 	  if (!(acptr = local[i]))
 	    continue;
+
+          if (IsPerson(acptr) &&
+              !IsAnOper(acptr) && !IsAnOper(sptr) &&
+              (acptr != sptr))
+            continue;
 	  if (IsInvisible(acptr) && (doall || wilds) &&
 	      !(MyConnect(sptr) && IsOper(sptr)) &&
 	      !IsAnOper(acptr) && (acptr != sptr))
