@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.53 1998/07/10 07:50:31 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.54 1998/07/11 05:48:14 db Exp $";
 
 #endif
 
@@ -1076,8 +1076,17 @@ static	int	register_user(aClient *cptr,
 #ifdef USE_LINKLIST
         /* LINKLIST */
         /* add to local client link list -Dianora */
-        sptr->next_local_client = local_cptr_list;
-        local_cptr_list = sptr;
+	/* I really want to move this add to link list
+	 * inside the if (MyConnect(sptr)) up above
+	 * but I also want to make sure its really good and registered
+	 * local client
+	 * -Dianora
+	 */
+	if (MyConnect(sptr))
+	  {
+	    sptr->next_local_client = local_cptr_list;
+	    local_cptr_list = sptr;
+	  }
 #endif
  
 	sendto_serv_butone(cptr, "NICK %s %d %ld %s %s %s %s :%s",
