@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #ifndef lint
-static char *rcs_version = "$Id: ircsprintf.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static char *rcs_version = "$Id: ircsprintf.c,v 1.2 1998/05/25 12:37:02 db Exp $";
 #endif
 
 #ifndef USE_VARARGS
@@ -84,7 +84,8 @@ va_dcl
 			  in9p,in10p);
 		  return;
 		}
-	  
+	      /* leading 0's are not suppressed unlike format()
+		 -Dianora */
 	  
 	      *(wp++) = (char) ((myint / 100) + (int) '0');
 	      myint %=100;
