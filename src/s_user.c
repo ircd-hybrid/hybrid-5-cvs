@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.11 1997/10/10 00:25:18 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.12 1997/10/10 01:34:53 db Exp $";
 
 #endif
 
@@ -2035,10 +2035,12 @@ int	m_whois(aClient *cptr,
 	      user = &UnknownUser;
 	      name = "?";
 	    }
-#else
-	  user = acptr->user ? acptr->user : &UnknownUser;
-	  name = (!*acptr->name) ? "?" : acptr->name;
+	  else
 #endif
+	    {
+              user = acptr->user ? acptr->user : &UnknownUser;
+	      name = (!*acptr->name) ? "?" : acptr->name;
+            }
 	  invis = IsInvisible(acptr);
 	  member = (user->channel) ? 1 : 0;
 	  showperson = (wilds && !invis && !member) || !wilds;
