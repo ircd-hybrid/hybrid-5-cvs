@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.2 1997/10/06 05:36:09 db Exp $
+ * $Id: struct.h,v 1.3 1997/10/06 19:35:47 mpearce Exp $
  */
 
 #ifndef	__struct_include__
@@ -490,6 +490,9 @@ struct	stats {
 	unsigned int	is_abad; /* bad auth requests */
 	unsigned int	is_udp;	/* packets recv'd on udp port */
 	unsigned int	is_loc;	/* local connections made */
+#ifdef FLUD
+	unsigned int	is_flud;	/* users/channels flood protected */
+#endif /* FLUD */
 };
 
 /* mode structure for channels */
