@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.19 1997/10/16 21:15:10 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.20 1997/10/28 00:15:04 db Exp $";
 
 #endif
 
@@ -3032,6 +3032,7 @@ int	m_umode(aClient *cptr,
   Reg	char	**p, *m;
   aClient *acptr;
   int	what, setflags;
+  int   badflag = NO;	/* Only send one bad flag notice -Dianora */
 
   what = MODE_ADD;
 
@@ -3115,11 +3116,15 @@ int	m_umode(aClient *cptr,
 		break;
 	      }
 	  if (flag == 0 && MyConnect(sptr))
-	    sendto_one(sptr,
-		       err_str(ERR_UMODEUNKNOWNFLAG),
-		       me.name, parv[0]);
+	    badflag = YES;
 	  break;
 	}
+
+  if(badflag)
+            sendto_one(sptr,
+                       err_str(ERR_UMODEUNKNOWNFLAG),
+                       me.name, parv[0]);
+
   /*
    * stop users making themselves operators too easily
    */
