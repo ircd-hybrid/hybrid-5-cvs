@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.9 1998/11/12 03:00:46 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.10 1998/11/24 03:00:06 lusky Exp $";
 #endif
 
 
@@ -214,15 +214,6 @@ int	m_version(aClient *cptr,
   static time_t last_used=0L;
   static int last_count=0;
 
-  if(!IsAnOper(sptr))
-    {
-      if((last_used + MOTD_WAIT) > NOW)
-	return 0;
-      else
-	last_used = NOW;
-    }
-
-  if(IsAnOper(sptr))
   if (hunt_server(cptr,sptr,":%s VERSION :%s",1,parc,parv)==HUNTED_ISME)
     {
       if(!IsAnOper(sptr))
@@ -4714,6 +4705,7 @@ int	m_trace(aClient *cptr,
 
   if(!IsAnOper(sptr))
     {
+#if 0 /* I don't think this is really needed, we'll see */
       if((last_used + MOTD_WAIT) > NOW)
         {
           return 0;
@@ -4722,6 +4714,7 @@ int	m_trace(aClient *cptr,
         {
           last_used = NOW;
         }
+#endif
       if (parv[1] && !index(parv[1],'.') && (index(parv[1], '*')
           || index(parv[1], '?'))) /* bzzzt, no wildcard nicks for nonopers */
         {

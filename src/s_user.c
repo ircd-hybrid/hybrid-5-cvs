@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.42.4.3 1998/11/07 02:04:11 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.42.4.4 1998/11/24 03:00:08 lusky Exp $";
 
 #endif
 
@@ -2112,6 +2112,9 @@ int	m_whois(aClient *cptr,
   char	*nick, *tmp, *name;
   char	*p = NULL;
   int	found, len, mlen;
+  static time_t last_used=0L;
+  static int last_count=0;
+
 
   if (parc < 2)
     {
@@ -2126,6 +2129,18 @@ int	m_whois(aClient *cptr,
 	  HUNTED_ISME)
 	return 0;
       parv[1] = parv[2];
+    }
+
+  if(!IsAnOper(sptr) && !MyConnect(sptr)) /* pace non local requests */
+    {
+      if((last_used + MOTD_WAIT) > NOW)
+        {
+          return 0;
+        }
+      else
+        {
+          last_used = NOW;
+        }
     }
 
   for (tmp = parv[1]; (nick = strtoken(&p, tmp, ",")); tmp = NULL)

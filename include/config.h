@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.21.4.4 1998/09/19 17:12:22 lusky Exp $
+ * $Id: config.h,v 1.21.4.5 1998/11/24 03:00:03 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -100,11 +100,11 @@
  * If the difference is less than TS_MAX_DELTA, I just sends out a warning
  * but don't drop the link.
  *
- * TS_MAX_DELTA currently set to 30 minutes to deal with older timedelta
+ * TS_MAX_DELTA currently set to 15 minutes to deal with older timedelta
  * implementation.  Once pre-hybrid5.2 servers are eradicated, we can drop this
- * down to 90 seconds or so. --Rodder
+ * down to 180 seconds or so. --Rodder
  */
-#define TS_MAX_DELTA 1800	/* seconds */
+#define TS_MAX_DELTA 900	/* seconds */
 #define TS_WARN_DELTA 15 	/* seconds */
 
 /* LOCKFILE - Exclusive use of ircd.conf and kline.conf during writes
@@ -540,7 +540,9 @@
  * To use m4 as a preprocessor on the ircd.conf file, define M4_PREPROC.
  * The server will then call m4 each time it reads the ircd.conf file,
  * reading m4 output as the server's ircd.conf file.
- * m4 support is being moved into viconf.c
+ *
+ * M4 SUPPORT HAS BEEN MOVED INTO viconf.c (in the tools dir)
+ *
  * m4 will be run on ircd.conf.m4 producing ircd.conf
  */
 #undef	M4_PREPROC

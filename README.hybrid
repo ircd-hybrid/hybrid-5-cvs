@@ -1,4 +1,4 @@
-+hybrid-5.3p3 (11/16/98)
++hybrid-5.3p3 (11/23/98)
 * fixed +k handling (Dianora)
 * fixed a dns problem (kalt)
 * fixed m_topic (Dianora)
@@ -8,7 +8,7 @@
 * fixed remote m_info() for opers (Dianora)
 * non-opers can now /trace nickname properly (Rodder)
 * These commands are flood controlled: VERSION, INFO, LINKS, STATS, HELP,
-  LUSERS, ADMIN, TRACE, MOTD
+  LUSERS, ADMIN, MOTD, WHOIS (remote only)
 * These functions are local-only for non-opers:
   INFO, LINK, STATS (except 'p'), HELP
 * Fixed install script to try to create IRCDDIR if it doesn't exist (Rodder)
