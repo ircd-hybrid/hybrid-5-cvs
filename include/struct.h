@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.15 1998/04/24 20:16:40 lusky Exp $
+ * $Id: struct.h,v 1.16 1998/05/07 01:20:06 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -426,7 +426,6 @@ struct Client
   anUser	*user;		/* ...defined, if this is a User */
   aServer	*serv;		/* ...defined, if this is a server */
   aWhowas 	*whowas;	/* Pointers to whowas structs */
-  int		hashv;		/* raw hash value */
   time_t	lasttime;	/* ...should be only LOCAL clients? --msa */
   time_t	firsttime;	/* time client was created */
   time_t	since;		/* last time we parsed something */
