@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.43 1998/05/25 12:37:04 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.44 1998/07/04 20:03:09 db Exp $";
 
 #endif
 
@@ -1539,7 +1539,7 @@ nickkilldone:
       else
 	{
 	  sendto_common_channels(sptr, ":%s NICK :%s", parv[0], nick);
-	  if (sptr->user)
+	  if ((sptr->user)&&(sptr->flags & FLAGS_GOT_ANTI_SPOOF_PING))
 	    {
 	      add_history(sptr,1);
 	      
