@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h.dist,v 1.22.4.9 2000/07/20 02:09:25 lusky Exp $
+ * $Id: config.h.dist,v 1.22.4.10 2000/07/29 17:02:36 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -670,7 +670,13 @@
  * to meeting the other conditions.  This is very useful for true
  * leafs, less useful for "clustered" servers.
  */
-#undef SPLIT_PONG 
+#define SPLIT_PONG 
+
+/* MAX_SERVER_SPLIT_RECOVERY_TIME is the amount of time to wait after a server
+ * rejoins the network before allowing chanops new channels.  If you are using
+ * SPLIT_PONG, it's safe to set down to 1 minute.
+ */
+#define MAX_SERVER_SPLIT_RECOVERY_TIME 1
 
 /*
  * comstud and I have both noted that solaris 2.5 at least, takes a hissy
