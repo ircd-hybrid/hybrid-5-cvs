@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.2 1998/09/19 05:03:20 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.3 1998/09/19 07:11:31 db Exp $";
 #endif
 
 
@@ -85,6 +85,7 @@ extern void rehash_ip_hash();		/* defined in s_conf.c */
 static int isnumber(char *);	/* return 0 if not, else return number */
 static char *cluster(char *);
 
+int send_motd(aClient *,aClient *,int, char **); 
 void read_motd(char *);
 
 char motd_last_changed_date[MAX_DATE_STRING];	/* enough room for date */
@@ -4904,8 +4905,6 @@ int	m_motd(aClient *cptr,
 	       int parc,
 	       char *parv[])
 {
-  register aMotd	*temp;
-  struct	tm	*tm;
   /* anti flooding code,
    * I did have this in parse.c with a table lookup
    * but I think this will be less inefficient doing it in each
@@ -4931,6 +4930,28 @@ int	m_motd(aClient *cptr,
 
   if (hunt_server(cptr, sptr, ":%s MOTD :%s", 1,parc,parv)!=HUNTED_ISME)
     return 0;
+
+
+  send_motd(cptr,sptr,parc,parv);
+}
+
+/*
+** send_motd
+**	parv[0] = sender prefix
+**	parv[1] = servername
+**
+** This function split off so a server notice could be generated on a
+** user requested motd, but not on each connecting client.
+** -Dianora
+*/
+
+int send_motd(aClient *cptr,
+	      aClient *sptr,
+	      int parc,
+	      char *parv[])
+{
+  register aMotd	*temp;
+  struct	tm	*tm;
 
   tm = motd_tm;
   if (motd == (aMotd *)NULL)

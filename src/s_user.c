@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.42.4.1 1998/06/15 01:11:26 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.42.4.2 1998/09/19 07:11:32 db Exp $";
 
 #endif
 
@@ -55,6 +55,7 @@ int    do_user (char *, aClient *, aClient*, char *, char *, char *,
 int    botwarn (char *, char *, char *, char *);
 
 extern char motd_last_changed_date[];
+extern int send_motd(aClient *,aClient *,int, char **);
 
 extern void outofmemory(void);         /* defined in list.c */
 
@@ -955,7 +956,7 @@ static	int	register_user(aClient *cptr,
 		  sendto_one(sptr, rpl_str(RPL_ENDOFMOTD),
 			     me.name, parv[0]);
 #else
-		  (void)m_motd(sptr, sptr, 1, parv);
+		  (void)send_motd(sptr, sptr, 1, parv);
 #endif
 #ifdef LITTLE_I_LINES
 		  if(sptr->confs && sptr->confs->value.aconf &&
