@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.25 1997/12/10 22:35:28 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.26 1997/12/19 21:44:15 db Exp $";
 
 #endif
 
@@ -2736,8 +2736,13 @@ int	m_oper(aClient *cptr,
       char *s;
       
       s = index(aconf->host, '@');
-      if(s)
-        *s++ = '\0';
+      if(s == (char *)NULL)
+        {
+          sendto_one(sptr, err_str(ERR_NOOPERHOST), me.name, parv[0]);
+          sendto_realops("corrupt aconf->host = [%s]",aconf->host);
+          return 0;
+        }
+      *s++ = '\0';
 #ifdef	OPER_REMOTE
       if (aconf->status == CONF_LOCOP)
 #else
@@ -2754,8 +2759,7 @@ int	m_oper(aClient *cptr,
 	    sptr->flags |= (OPER_UMODES);
 	  }
       Count.oper++;
-      if(s)
-        *--s =  '@';
+      *--s =  '@';
       addto_fdlist(sptr->fd, &oper_fdlist);
       sendto_ops("%s (%s@%s) is now operator (%c)", parv[0],
 		 sptr->user->username, sptr->sockhost,

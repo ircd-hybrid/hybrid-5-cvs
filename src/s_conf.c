@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.6 1997/12/07 22:03:32 lusky Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.7 1997/12/19 21:44:14 db Exp $";
 #endif
 
 #include "struct.h"
@@ -863,16 +863,15 @@ aConfItem *find_conf_ip(Link *lp,char *ip,char *user, int statmask)
       if (!(tmp->status & statmask))
 	continue;
       s = index(tmp->host, '@');
-      if(s)
-	*s = '\0';
+      if(s == (char *)NULL)
+	continue;
+      *s = '\0';
       if (match(tmp->host, user))
 	{
-	  if(s)
-	    *s = '@';
+	  *s = '@';
 	  continue;
 	}
-      if(s)
-	*s = '@';
+      *s = '@';
       if (!bcmp((char *)&tmp->ipnum, ip, sizeof(struct in_addr)))
 	return tmp;
     }
