@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.15 1997/10/12 18:00:11 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.16 1997/10/13 00:21:30 db Exp $";
 
 #endif
 
@@ -460,7 +460,7 @@ static	int	register_user(aClient *cptr,
        */
       strncpyzt(bottemp, user->host, HOSTLEN);
 #endif
-      strncpyzt(user->host, sptr->sockhost, HOSTLEN+1);
+      strncpyzt(user->host, sptr->sockhost, HOSTLEN);
 
       dots = 0;
       p = user->host;

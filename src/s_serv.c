@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.11 1997/10/11 15:09:44 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.12 1997/10/13 00:21:28 db Exp $";
 #endif
 
 
@@ -2636,7 +2636,7 @@ static int majority_gline(char *oper_nick,
 	  return NO;
 	}
 
-      strncpyzt(new_pending_gline->oper_nick1,oper_nick,NICKLEN);
+      strncpyzt(new_pending_gline->oper_nick1,oper_nick,NICKLEN+1);
       new_pending_gline->oper_nick2[0] = '\0';
 
       strncpyzt(new_pending_gline->oper_user1,oper_user,USERLEN);
@@ -2700,7 +2700,7 @@ static int majority_gline(char *oper_nick,
 	}
       else
 	{
-	  strncpyzt(gline_pending_ptr->oper_nick2,oper_nick,NICKLEN);
+	  strncpyzt(gline_pending_ptr->oper_nick2,oper_nick,NICKLEN+1);
 	  strncpyzt(gline_pending_ptr->oper_user2,oper_user,USERLEN);
 	  strncpyzt(gline_pending_ptr->oper_host2,oper_host,HOSTLEN);
 	  gline_pending_ptr->oper_server2 = find_or_add(oper_server);
