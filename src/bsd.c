@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)bsd.c	2.14 1/30/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: bsd.c,v 1.1 1997/09/29 15:35:26 db Exp $";
+static char *rcs_version = "$Id: bsd.c,v 1.1.1.1.4.1 1998/05/13 00:30:41 db Exp $";
 #endif
 
 #include "struct.h"
@@ -40,6 +40,7 @@ extern	char	*sys_errlist[];
 
 #if defined(DEBUGMODE) || defined (DNS_DEBUG)
 int	writecalls = 0, writeb[10] = {0,0,0,0,0,0,0,0,0,0};
+int     readcalls = 0;
 #endif
 VOIDSIG dummy()
 {

@@ -2,6 +2,7 @@
 removed uneeded variable in aClient (Dianora)
 added missing #ifdef's for USE_SYSLOG (Dianora)
 reverted to old check_pings() to fix high cpu usage (Rodder)
+fixed DEBUGMODE (Dianora)
 
 +hybrid-5.2 (4/21/98) - The inevitable bug fix release
 -fixes
