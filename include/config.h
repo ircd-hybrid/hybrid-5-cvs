@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.27 1998/07/05 01:17:58 db Exp $
+ * $Id: config.h,v 1.28 1998/07/05 03:33:42 db Exp $
  */
 
 #ifndef	__config_include__
@@ -858,7 +858,7 @@
  */
   
 #undef REJECT_HOLD
-#define REJECT_HOLD_TIME 60 
+#define REJECT_HOLD_TIME 30 
 
 /*
  * OLD_Y_LIMIT

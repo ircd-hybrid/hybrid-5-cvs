@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.26 1998/05/25 12:37:01 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.27 1998/07/05 03:33:45 db Exp $";
 #endif
 
 #include "struct.h"
@@ -511,6 +511,18 @@ static	time_t	check_pings(time_t currenttime)
 	    }
 	}
 
+#ifdef REJECT_HOLD
+      if (IsRejectHeld(cptr))
+	{
+	  if( timeofday > (cptr->firsttime + REJECT_HOLD_TIME) )
+	    {
+	      dying_clients[die_index] = cptr;
+	      dying_clients_reason[die_index++] = "reject held client";
+	      dying_clients[die_index] = (aClient *)NULL;
+	    }
+	}
+#endif
+
 #if defined(R_LINES) && defined(R_LINES_OFTEN)
       /*
        * this is used for KILL lines with time restrictions
@@ -633,10 +645,12 @@ static	time_t	check_pings(time_t currenttime)
 	timeout += ping;
       if (timeout < oldest || !oldest)
 	oldest = timeout;
+
       /*
        * Check UNKNOWN connections - if they have been in this state
        * for > 100s, close them.
        */
+
       if (IsUnknown(cptr))
 	{
 	  if (cptr->firsttime ? ((timeofday - cptr->firsttime) > 100) : 0)

@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.19 1998/07/05 01:18:01 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.20 1998/07/05 03:33:45 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1401,12 +1401,7 @@ int read_packet(aClient *cptr, int msg_ready)
 
 	/* FLAGS_REJECT_HOLD should NEVER be set for non local client */
 	if(IsRejectHeld(cptr))
-	  {
-	    if( timeofday > (cptr->firsttime + REJECT_HOLD_TIME) )
-	      exit_client(cptr, cptr, cptr, "reject held client");
-	    else
-	      return 1;
-	  }
+	  return 1;
 #endif
 
 	cptr->lasttime = timeofday;
