@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.25 1998/07/08 06:11:04 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.26 1998/07/08 13:44:28 db Exp $";
 #endif
 
 #include "struct.h"
@@ -146,7 +146,7 @@ static	char	*check_string(char *s)
 	break;
       }
 
-  return (BadPtr(str)) ? star : str;
+  return (str);
 }
 
 /*
