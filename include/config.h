@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.12 1997/12/17 21:02:32 db Exp $
+ * $Id: config.h,v 1.13 1998/01/20 06:46:47 brian Exp $
  */
 
 #ifndef	__config_include__
@@ -761,6 +761,10 @@
  * if ANTI_SPAMBOT is defined try to discourage spambots
  * The defaults =should= be fine for the timers/counters etc.
  * but you can play with them. -Dianora
+ *
+ * Defining this also does a quick check whether the client sends
+ * us a "user foo x x :foo" where x is just a single char.  More
+ * often than not, it's a bot if it did. -ThemBones
  */
 #define ANTI_SPAMBOT
 
