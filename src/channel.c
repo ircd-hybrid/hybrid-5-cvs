@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.29 1998/07/12 23:18:30 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.30 1998/07/16 22:53:26 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1734,6 +1734,11 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
       if (MyClient(sptr))
 	{
 	  del_invite(sptr, chptr);
+        /*  call m_names BEFORE spewing the topic, so people actually see
+        **  the topic, and stop whining.  --SuperTaz
+        */
+          parv[1] = name;
+          (void)m_names(cptr, sptr, 2, parv);
 	  if (chptr->topic[0] != '\0')
 	    {
 	      sendto_one(sptr, rpl_str(RPL_TOPIC), me.name,
@@ -1745,8 +1750,6 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
 			 chptr->topic_time);
 #endif
 	    }
-	  parv[1] = name;
-	  (void)m_names(cptr, sptr, 2, parv);
 	}
     }
 
