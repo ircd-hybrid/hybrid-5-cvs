@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.35 1998/07/13 18:48:37 db Exp $
+ * $Id: config.h,v 1.36 1998/07/15 03:30:29 db Exp $
  */
 
 #ifndef	__config_include__
@@ -664,6 +664,12 @@
  *
  */
 #undef LIMIT_UH
+
+/* IDLE_CHECK
+ *
+ */
+#define IDLE_CHECK
+#define IDLE_TIME 60
 
 /*   STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP  */
 
