@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.3 1998/09/19 07:11:31 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.4 1998/09/19 08:52:14 db Exp $";
 #endif
 
 
@@ -4708,6 +4708,10 @@ int	m_trace(aClient *cptr,
 
   if(!IsAnOper(sptr))
     {
+      /* reject non local requests */
+      if(!MyConnect(sptr))
+	return 0;
+
       if((last_used + MOTD_WAIT) > NOW)
 	return 0;
       else
@@ -4917,13 +4921,17 @@ int	m_motd(aClient *cptr,
 
   if(!IsAnOper(sptr))
     {
+      /* reject non local requests */
+      if(!MyConnect(sptr))
+	return 0;
+
       if((last_used + MOTD_WAIT) > NOW)
 	return 0;
       else
 	last_used = NOW;
     }
 
-  sendto_realops_lev(SPY_LEV, "motd requested by %s (%s@%s) [%s]",
+  sendto_realops_lev(SPY_LEV, "MOTD requested by %s (%s@%s) [%s]",
 		     sptr->name, sptr->user->username, sptr->user->host,
 		     sptr->user->server);
 
