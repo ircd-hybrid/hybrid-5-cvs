@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: s_err.h,v 1.4.4.1 1999/06/13 01:24:02 lusky Exp $
+ * $Id: s_err.h,v 1.4.4.2 1999/08/07 06:49:02 lusky Exp $
  *
  */
 
@@ -65,7 +65,8 @@ static	Numeric	numeric_errors[] = {
 /* 434 */	0, (char *)NULL,
 /* 435 */	0, (char *)NULL,
 /* 436 */       ERR_NICKCOLLISION, "%s :NICK COLLISION - Nickname collision KILL",
-		0, (char *)NULL, 0, (char *)NULL,
+/* 437 */	ERR_UNAVAILRESOURCE, "%s :Nick/channel is temporarily unavailable",
+		0, (char *)NULL,
 		0, (char *)NULL, 0, (char *)NULL,
 		ERR_USERNOTINCHANNEL, "%s %s :isn't on that channel",
 		ERR_NOTONCHANNEL, "%s :You're not on that channel",

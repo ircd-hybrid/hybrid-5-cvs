@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.15.4.5 1998/12/23 23:56:50 lusky Exp $
+ * $Id: struct.h,v 1.15.4.6 1999/08/07 06:49:03 lusky Exp $
  */
 
 #ifndef	__struct_include__
@@ -776,7 +776,7 @@ extern unsigned long tsdms;
 /* allow 5 minutes after server rejoins the network before allowing
    chanops new channels */
 
-#ifdef NO_CHANOPS_WHEN_SPLIT
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
 #define MAX_SERVER_SPLIT_RECOVERY_TIME 5
 #endif
 

@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.42.4.5 1998/12/23 23:56:53 lusky Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.42.4.6 1999/08/07 06:49:10 lusky Exp $";
 
 #endif
 
@@ -110,6 +110,13 @@ void free_fludees(aClient *);
 #ifdef ANTI_SPAMBOT
 int spam_time = MIN_JOIN_LEAVE_TIME;
 int spam_num = MAX_JOIN_LEAVE_COUNT;
+#endif
+
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
+extern int server_was_split;               /* defined in channel.c */
+#if defined(SPLIT_PONG)  
+extern int got_server_pong;
+#endif
 #endif
 
 /*
@@ -970,6 +977,13 @@ static	int	register_user(aClient *cptr,
 		    }
 #endif
 		  nextping = timeofday;
+
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
+      if (server_was_split)
+        {
+          sendto_one(sptr,"NOTICE %s :*** Notice -- server is currently in split-mode",nick);
+        }
+#endif
 
 #if defined(EXTRA_BOT_NOTICES) && defined(BOT_GCOS_WARN)
 		  sprintf(botgecos, "/msg %s hello", nick);
@@ -2844,6 +2858,12 @@ int	m_pong(aClient *cptr,
   destination = parv[2];
   cptr->flags &= ~FLAGS_PINGSENT;
   sptr->flags &= ~FLAGS_PINGSENT;
+
+#if defined(SPLIT_PONG) && (defined(NO_CHANOPS_WHEN_SPLIT) || \
+         defined(NO_JOIN_ON_SPLIT_SIMPLE))
+  if (IsServer(cptr))
+    got_server_pong = YES;
+#endif
 
 #ifdef ANTI_IP_SPOOF
   /* ANTI_IP_SPOOF delays the registration of a local client until after we

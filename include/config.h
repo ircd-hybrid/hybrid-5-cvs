@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.21.4.6 1998/12/23 23:56:47 lusky Exp $
+ * $Id: config.h,v 1.21.4.7 1999/08/07 06:49:00 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -643,12 +643,34 @@
  */
 #define NOISY_HTM YES
 
+/*   
+ * define ONE of NO_CHANOPS_ON_SPLIT or NO_JOIN_ON_SPLIT_SIMPLE
+ *   
+ * choose =one= only
+ */  
+
 /* NO_CHANOP_WHEN_SPLIT
  * When this is defined, users will not be chanopped on empty channels
  * if there are no servers presently connected to this server
  * opers are not affected. 
  */
 #define NO_CHANOPS_WHEN_SPLIT
+
+/*
+ * NO_JOIN_ON_SPLIT_SIMPLE
+ *
+ * When this is defined, users will not be allowed to join channels
+ * while the server is split.
+ */
+#undef NO_JOIN_ON_SPLIT_SIMPLE
+
+/*   
+ * SPLIT_PONG will send a PING to a server after the connect burst.
+ * It will stay in "split" mode until it receives a PONG in addition
+ * to meeting the other conditions.  This is very useful for true
+ * leafs, less useful for "clustered" servers.
+ */
+#undef SPLIT_PONG 
 
 /*
  * comstud and I have both noted that solaris 2.5 at least, takes a hissy

@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.12.4.1 1998/06/13 22:51:13 lusky Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.12.4.2 1999/08/07 06:49:05 lusky Exp $";
 #endif
 
 #include <sys/time.h>
@@ -52,7 +52,7 @@ static char *rcs_version = "$Id: s_misc.c,v 1.12.4.1 1998/06/13 22:51:13 lusky E
 #include "fdlist.h"
 extern fdlist serv_fdlist;
 
-#ifdef NO_CHANOPS_WHEN_SPLIT
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
 extern int server_was_split;
 extern time_t server_split_time;
 #endif
@@ -390,11 +390,12 @@ char	*comment	/* Reason for the exit */
 	{
 	  Count.myserver--;
 	  delfrom_fdlist(sptr->fd, &serv_fdlist);
-#ifdef NO_CHANOPS_WHEN_SPLIT
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined (NO_JOIN_ON_SPLIT_SIMPLE)
 	  if(serv_fdlist.entry[1] <= serv_fdlist.last_entry)
 	    {
 	      server_was_split = YES;
 	      server_split_time = NOW;
+	      sendto_ops("Netsplit detected, split-mode activated");
 	    }
 #endif
 	}

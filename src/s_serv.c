@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.11 1998/11/26 07:26:58 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.12 1999/08/07 06:49:07 lusky Exp $";
 #endif
 
 
@@ -56,6 +56,18 @@ static char *rcs_version = "$Id: s_serv.c,v 1.44.4.11 1998/11/26 07:26:58 lusky 
 #endif
 #include "dich_conf.h"
 #include "fdlist.h"
+
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
+extern int server_was_split;            /* defined in channel.c */
+extern time_t server_split_time;        /* defined in channel.c */
+extern int server_split_recovery_time;  /* defined in channel.c */ 
+extern int split_smallnet_size;         /* defined in channel.c */
+extern int split_smallnet_users;        /* defined in channel.c */
+#ifdef SPLIT_PONG
+extern int got_server_pong;             /* defined in channel.c */
+#endif /* SPLIT_PONG */
+#endif
+
 extern fdlist serv_fdlist;
 extern int lifesux;
 static	char	buf[BUFSIZE]; 
@@ -1014,6 +1026,13 @@ int	m_server_estab(aClient *cptr)
 	    sendnick_TS(cptr, acptr);
 	}
     }
+
+#if defined(SPLIT_PONG) && (defined(NO_CHANOPS_WHEN_SPLIT) || \
+        defined(NO_JOIN_ON_SPLIT_SIMPLE))
+  sendto_one(cptr, "PING :%s", me.name);
+  if (server_was_split) 
+    got_server_pong = NO;
+#endif  
 
   return 0;
 }
@@ -2606,10 +2625,6 @@ extern int spam_num;
 extern int spam_time;
 #endif
 
-#ifdef NO_CHANOPS_WHEN_SPLIT
-extern int server_split_recovery_time;
-#endif
-
 /*
  * m_set - set options while running
  */
@@ -2745,7 +2760,7 @@ int   m_set(aClient *cptr,
 	    }
 	}
 #endif
-#ifdef NO_CHANOPS_WHEN_SPLIT
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
       else if(!strncasecmp(command, "SPLITDELAY",10))
 	{
           if(parc > 2)
@@ -2764,6 +2779,17 @@ int   m_set(aClient *cptr,
               sendto_one(sptr, ":%s NOTICE %s :SERVER SPLIT RECOVERY TIME is now set to %i",
                          me.name, parv[0], newval );
 	      server_split_recovery_time = (newval*60);
+              if(server_split_recovery_time == 0)
+                {
+                  if (server_was_split)
+                    {
+                      server_was_split = NO;
+                      sendto_ops("split-mode deactived by manual override");
+                    }
+#if defined(SPLIT_PONG)
+                  got_server_pong = YES;
+#endif  
+                }
               return 0;
             }
 	  else

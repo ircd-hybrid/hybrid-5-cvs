@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.10 1999/06/13 01:24:03 lusky Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.11 1999/08/07 06:49:04 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -32,7 +32,7 @@ static char *rcs_version="$Id: channel.c,v 1.23.4.10 1999/06/13 01:24:03 lusky E
 #include "channel.h"
 #include "h.h"
 
-#ifdef NO_CHANOPS_WHEN_SPLIT
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
 #include "fdlist.h"
 extern fdlist serv_fdlist;
 
@@ -40,6 +40,9 @@ int server_was_split=YES;
 time_t server_split_time=0;
 int server_split_recovery_time = (MAX_SERVER_SPLIT_RECOVERY_TIME * 60);
 #define USE_ALLOW_OP
+#ifdef SPLIT_PONG
+int got_server_pong=NO; 
+#endif /* SPLIT_PONG */ 
 #endif
 
 #ifdef LITTLE_I_LINES
@@ -1435,6 +1438,45 @@ static	void	sub1_from_channel(aChannel *chptr)
     }
 }
 
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
+/*
+ * check_still_split()
+ *
+ * inputs       -NONE
+ * output       -NONE
+ * side effects -
+ * Check to see if the server split timer has expired, if so
+ * check to see if there are now a decent number of servers connected
+ * and users present, so I can consider this split over.
+ *
+ * -Dianora
+ */
+
+static void check_still_split()
+{
+  if((server_split_time + server_split_recovery_time) < NOW)
+    {
+      if((serv_fdlist.entry[1] > serv_fdlist.last_entry) 
+#ifdef SPLIT_PONG
+         && (got_server_pong == YES)
+#endif
+         )
+        {
+          /* server hasn't been split for a while.
+           * -Dianora
+           */
+          server_was_split = NO;
+          sendto_ops("Net Rejoined, split-mode deactivated");
+        }
+      else
+        {
+          server_split_time = NOW; /* still split */
+          server_was_split = YES;
+        }
+    }
+}   
+#endif
+
 /*
 ** m_join
 **	parv[0] = sender prefix
@@ -1472,6 +1514,16 @@ int	m_join(aClient *cptr,
       return 0;
     }
 
+#if defined(NO_CHANOPS_WHEN_SPLIT) || defined(NO_JOIN_ON_SPLIT_SIMPLE)
+  /* Check to see if the timer has timed out, and if so, see if
+   * there are a decent number of servers now connected
+   * to consider any possible split over.
+   */
+ 
+  if (server_was_split)
+    check_still_split(); 
+#endif
+
   *jbuf = '\0';
   /*
   ** Rebuild list of channels joined to be the actual result of the
@@ -1504,6 +1556,15 @@ int	m_join(aClient *cptr,
 		       me.name, parv[0], name);
 	  continue;
 	}
+#ifdef NO_JOIN_ON_SPLIT_SIMPLE
+      if (server_was_split && MyClient(sptr) && (*name != '&') && !IsAnOper(sptr))
+        {
+              sendto_one(sptr, err_str(ERR_UNAVAILRESOURCE), 
+                         me.name, parv[0], name); 
+              continue;
+        }
+#endif /* NO_JOIN_ON_SPLIT_SIMPLE */
+
       if (*jbuf)
 	(void)strcat(jbuf, ",");
       (void)strncat(jbuf, name, sizeof(jbuf) - i - 1);
@@ -1591,22 +1652,9 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
 	  */
 	  flags = (ChannelExists(name)) ? 0 : CHFL_CHANOP;
 #ifdef NO_CHANOPS_WHEN_SPLIT
-	  if(!IsAnOper(sptr) && server_was_split && server_split_recovery_time)
+	  if((*name != '&') && !IsAnOper(sptr) && server_was_split)
 	    {
-	      if( (server_split_time + server_split_recovery_time) < NOW)
-		{
-		  if(serv_fdlist.entry[1] > serv_fdlist.last_entry)
-		    server_was_split = NO;
-		  else
-		    {
-		      server_split_time = NOW;	/* still split */
-		      allow_op = NO;
-		    }
-		}
-	      else
-		{
 		  allow_op = NO;
-		}
 		  if(!IsRestricted(sptr) && !allow_op)
 		      sendto_one(sptr,":%s NOTICE %s :*** Notice -- Due to a network split, you can not obtain channel operator status in a new channel at this time.",
 				 me.name,

@@ -1,3 +1,7 @@
++hybrid-5.3p8 (8/6/1999)
+* back ported NO_JOIN_ON_SPLIT_SIMPLE and SPLIT_PONG from -6
+* added split-mode notification
+
 +hybrid-5.3p7 (6/12/1999)
 * fix for channel namespace issues
 

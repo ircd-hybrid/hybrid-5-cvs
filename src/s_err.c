@@ -23,7 +23,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.4.4.1 1999/06/13 01:24:05 lusky Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.4.4.2 1999/08/07 06:49:05 lusky Exp $";
 #endif
 
 typedef	struct	{
@@ -86,7 +86,7 @@ static	Numeric	numeric_errors[] = {
 /* 434 */	0, (char *)NULL,
 /* 435 */	0, (char *)NULL,
 /* 436 */       ERR_NICKCOLLISION, "%s :Nickname collision KILL",
-/* 437 */	0, (char *)NULL,
+/* 437 */	ERR_UNAVAILRESOURCE, "%s :Nick/channel is temporarily unavailable",
 /* 438 */	0, (char *)NULL,
 /* 439 */	0, (char *)NULL,
 /* 440 */	0, (char *)NULL,

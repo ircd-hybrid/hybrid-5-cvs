@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: numeric.h,v 1.2.4.1 1999/06/13 01:24:02 lusky Exp $
+ * $Id: numeric.h,v 1.2.4.2 1999/08/07 06:49:02 lusky Exp $
  */
 #ifdef TOPIC_INFO
 # define RPL_TOPICWHOTIME 333
@@ -160,6 +160,7 @@
 #define ERR_ERRONEUSNICKNAME 432
 #define ERR_NICKNAMEINUSE    433
 #define	ERR_NICKCOLLISION    436
+#define ERR_UNAVAILRESOURCE  437
 
 #define ERR_USERNOTINCHANNEL 441
 #define ERR_NOTONCHANNEL     442
