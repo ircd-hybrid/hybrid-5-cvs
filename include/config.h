@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.21 1998/04/24 20:16:37 lusky Exp $
+ * $Id: config.h,v 1.22 1998/05/09 21:43:44 db Exp $
  */
 
 #ifndef	__config_include__
@@ -957,9 +957,11 @@
  */
 #undef CHROOTDIR
 
-/* DEBUGMODE is a bad bad bad evil thing that probably won't even compile
- * on this release.  Don't define it!
- */
+ /*
+ * DEBUGMODE is used mostly for internal development, it is likely
+ * to make your client server very sluggish.
+ * You usually shouldn't need this. -db
+*/
 #undef  DEBUGMODE               /* define DEBUGMODE to enable debugging mode.*/
 
 /*

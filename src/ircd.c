@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.24 1998/05/07 01:20:08 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.25 1998/05/09 21:43:48 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1176,7 +1176,9 @@ normal user.\n");
 
   if((timeofday = time(NULL)) == -1)
     {
+#ifdef USE_SYSLOG
       syslog(LOG_WARNING, "Clock Failure (%d), TS can be corrupted", errno);
+#endif
       sendto_ops("Clock Failure (%d), TS can be corrupted", errno);
     }
   while (1)

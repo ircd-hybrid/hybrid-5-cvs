@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: sys.h,v 1.1 1997/09/29 15:35:23 db Exp $
+ * $Id: sys.h,v 1.2 1998/05/09 21:43:46 db Exp $
  */
 
 #ifndef	__sys_include__
@@ -70,11 +70,7 @@ extern	char	*rindex (char *, char);
 #include <sys/time.h>
 #endif
 
-#if !defined(DEBUGMODE)
 #define MyFree(x)       if ((x) != NULL) free(x)
-#else
-#define	free(x)		MyFree(x)
-#endif
 
 #ifdef NEXT
 #define VOIDSIG int	/* whether signal() returns int of void */
