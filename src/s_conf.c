@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.27 1998/07/15 03:30:32 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.28 1998/07/15 03:50:15 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1650,6 +1650,12 @@ int 	initconf(int opt, int fd)
 		  bconf->class->links -= bconf->clients;
 		  bconf->class = aconf->class;
 		  bconf->class->links += bconf->clients;
+		  /*
+		   * still... I've munged the flags possibly
+		   * so update the found aConfItem for now 
+		   * -Dianora
+		   */
+		  bconf->flags = aconf->flags;
 		}
 	      free_conf(aconf);
 	      aconf = bconf;
@@ -1713,7 +1719,6 @@ int 	initconf(int opt, int fd)
 
 	  if (portnum < 0 && aconf->port >= 0)
 	    portnum = aconf->port;
-
 	}
       
       if ((aconf->status & CONF_KILL) && aconf->host)
