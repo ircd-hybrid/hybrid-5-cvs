@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.29 1998/07/15 06:25:23 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.30 1998/07/15 13:20:32 db Exp $";
 #endif
 
 #include "struct.h"
@@ -3192,4 +3192,63 @@ int get_oper_privs(char *privs)
 
   Debug((DEBUG_DEBUG,"about to return int_privs %x",int_privs));
   return(int_privs);
+}
+
+/*
+ * oper_privs
+ *
+ * inputs	- pointer to cptr or NULL
+ * output	- pointer to static string showing oper privs
+ * side effects	-
+ * return as string, the oper privs as derived from port
+ * also, set the oper privs if given cptr is non NULL
+ */
+
+char *oper_privs(aClient *cptr,int port)
+{
+  static char privs_out[10];
+  char *privs_ptr;
+
+  privs_ptr = privs_out;
+  *privs_ptr = '\0';
+
+  if(port & CONF_OPER_GLOBAL_KILL)
+    {
+      if(cptr)
+	SetOperGlobalKill(cptr);
+      *privs_ptr++ = 'O';
+    }
+  else
+    *privs_ptr++ = 'o';
+
+  if(port & CONF_OPER_REMOTE)
+    {
+      if(cptr)
+	SetOperRemote(cptr);
+      *privs_ptr++ = 'R';
+    }
+  else
+    *privs_ptr++ = 'r';
+  
+  if(port & CONF_OPER_UNKLINE)
+    {
+      if(cptr)
+	SetOperUnkline(cptr);
+      *privs_ptr++ = 'U';
+    }
+  else
+    *privs_ptr++ = 'u';
+
+  if(port & CONF_OPER_GLINE)
+    {
+      if(cptr)
+	SetOperGline(cptr);
+      *privs_ptr++ = 'G';
+    }
+  else
+    *privs_ptr++ = 'g';
+
+  *privs_ptr = '\0';
+
+  return(privs_out);
 }
