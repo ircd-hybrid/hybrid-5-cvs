@@ -10,7 +10,7 @@
   LUSERS, ADMIN, TRACE, MOTD
 * These functions are local-only for non-opers:
   INFO, LINK, STATS (except 'p'), HELP
-* Fixed install script to try to create IRCDDIR if it doesn't exist
+* Fixed install script to try to create IRCDDIR if it doesn't exist (Rodder)
 
 +hybrid-5.3p2 (9/19/98)
 * fixed obscure ban bug (Dianora)
