@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.34 1998/07/13 01:31:06 db Exp $
+ * $Id: config.h,v 1.35 1998/07/13 18:48:37 db Exp $
  */
 
 #ifndef	__config_include__
@@ -920,9 +920,9 @@
  * when this is defined, 3 completely different opers from
  * three different servers must do the identical GLINE in order
  * for the G line to take effect.
- * this code is broken right now, it will be fixed in the next release
  */
 #undef GLINES
+#define GLINEFILE	"gline.log"
 
 /* GLINE_TIME - local expire time for GLINES
  * As configured here, a GLINE will last 12 hours

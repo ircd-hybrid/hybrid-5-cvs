@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.33 1998/07/12 23:18:32 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.34 1998/07/13 18:48:42 db Exp $";
 #endif
 
 #include "struct.h"
@@ -133,6 +133,10 @@ char    *dlinefile = CONFIGFILE;
 #else
 char    *klinefile = CONFIGFILE;
 char    *dlinefile = CONFIGFILE;
+#endif
+
+#ifdef	GLINES
+char	*glinefile = GLINEFILE;
 #endif
 
 int	debuglevel = -1;		/* Server debug level */

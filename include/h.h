@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.16 1998/07/11 04:51:41 db Exp $
+ * $Id: h.h,v 1.17 1998/07/13 18:48:39 db Exp $
  *
  */
 
@@ -156,6 +156,9 @@ extern  char    *MyRealloc (char *, int);
 extern	char	*debugmode, *configfile, *sbrk0;
 extern  char    *klinefile;
 extern  char	*dlinefile;
+#ifdef	GLINES
+extern	char	*glinefile;
+#endif
 extern	char	*getfield (char *);
 extern	void	get_sockhost (aClient *, char *);
 extern	char	*rpl_str (int);
