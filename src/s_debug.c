@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_debug.c	2.28 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *version = "$Id: s_debug.c,v 1.5 1997/12/08 05:26:19 lusky Exp $";
+static char *version = "$Id: s_debug.c,v 1.6 1998/02/05 19:23:35 db Exp $";
 #endif
 
 #include "struct.h"
@@ -69,9 +69,6 @@ char	serveropts[] = {
 # else
 'K',
 # endif
-#endif
-#ifdef	M4_PREPROC
-'m',
 #endif
 #ifdef	IDLE_FROM_MSG
 'M',

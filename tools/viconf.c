@@ -18,9 +18,8 @@
 #endif
 
 #ifndef lint
-static char *rcs_version="$Id: viconf.c,v 1.1 1997/09/29 15:35:29 db Exp $";
+static char *rcs_version="$Id: viconf.c,v 1.2 1998/02/05 19:23:37 db Exp $";
 #endif /* lint */
-
 
 int main(int argc, char *argv[])
 {
