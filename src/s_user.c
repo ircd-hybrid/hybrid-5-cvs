@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.47 1998/07/05 03:33:46 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.48 1998/07/06 02:53:44 db Exp $";
 
 #endif
 
@@ -559,16 +559,24 @@ static	int	register_user(aClient *cptr,
 	  *user->username = '~';
 	  (void)strncpy(&user->username[1], temp, USERLEN);
 	  user->username[USERLEN] = '\0';
+
 #ifdef IDENTD_COMPLAIN
 /* tell them to install identd -Taner */
 	  sendto_one(sptr, ":%s NOTICE %s :*** Notice -- It seems that you don't have identd installed on your host.",
 		     me.name,cptr->name);
-	  sendto_one(sptr, ":%s NOTICE %s :*** Notice -- If you wish to have your username show up without the ~ (tilde),",
-		     me.name,cptr->name);
-	  sendto_one(sptr, ":%s NOTICE %s :*** Notice -- then install identd.",
-		     me.name,cptr->name);
 /* end identd hack */
 #endif
+	  if(IsNeedIdentd(aconf))
+	    {
+	      ircstp->is_ref++;
+	      sendto_one(sptr, ":%s NOTICE %s :*** Notice -- You need to install identd to use this server",
+			 me.name, cptr->name);
+	      return exit_client(cptr, sptr, &me, "Install identd");
+	    }
+	  if(IsNoTilde(aconf))
+	    {
+	      strncpyzt(user->username, username, USERLEN+1);
+	    }
 	}
 #ifndef FOLLOW_IDENT_RFC
       else if (sptr->flags & FLAGS_GOTID && *sptr->username != '-')
