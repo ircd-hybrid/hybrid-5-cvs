@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)list.c	2.22 15 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: list.c,v 1.6 1998/02/10 18:05:01 db Exp $";
+static char *rcs_version = "$Id: list.c,v 1.7 1998/07/08 15:24:11 db Exp $";
 #endif
 
 #include "struct.h"
@@ -66,7 +66,7 @@ void	outofmemory();
 
 int	numclients = 0;
 
-/* for jolo's block allocator */
+/* for Wohali's block allocator */
 BlockHeap *free_local_aClients;
 BlockHeap *free_Links;
 BlockHeap *free_remote_aClients;

@@ -20,7 +20,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)res.c	2.34 03 Nov 1993 (C) 1992 Darren Reed";
-static  char *rcs_version = "$Id: res.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static  char *rcs_version = "$Id: res.c,v 1.2 1998/07/08 15:24:12 db Exp $";
 #endif
 
 #undef	DEBUG	/* because there is a lot of debug code in here :-) */
@@ -588,7 +588,7 @@ static	int	proc_answer(ResRQ *rptr,
 	      break;
 	    }
 /*
-This comment is based on analysis by Shadowfax, Jolo and johan, not me.
+This comment is based on analysis by Shadowfax, Wohali and johan, not me.
 (Dianora) I am only commenting it.
 
 	dn_expand is guaranteed to not return more than sizeof(hostbuf)
