@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.17 1998/02/11 21:51:56 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.18 1998/02/12 14:07:46 db Exp $";
 #endif
 
 #include "struct.h"
@@ -621,7 +621,7 @@ static	time_t	check_pings(time_t currenttime)
        * -Dianora
        */
 
-      if ((cptr->flags & FLAGS_PINGSENT) == 0)
+      if (IsRegistered(cptr) && ((cptr->flags & FLAGS_PINGSENT) == 0))
 	{
 	  /*
 	   * if we havent PINGed the connection and we havent
@@ -639,8 +639,6 @@ static	time_t	check_pings(time_t currenttime)
 	  /*
 	   * Check UNKNOWN connections - if they have been in this state
 	   * for > 100s, close them.
-	   * (Regardless of whether they have kept replying PONG to PING
-	   * requests from this server!)
 	   */
 	  if (cptr->firsttime ? ((timeofday - cptr->firsttime) > 100) : 0)
 	    {
@@ -666,12 +664,14 @@ static	time_t	check_pings(time_t currenttime)
 		}
 	    }
 	}
+
 #ifndef SIMPLE_PINGFREQUENCY
       while (timeout <= currenttime)
 	timeout += ping;
       if (timeout < oldest || !oldest)
 	oldest = timeout;
 #endif
+
     }
 
   /* Now exit clients marked for exit above.
