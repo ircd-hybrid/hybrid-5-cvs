@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)parse.c	2.30 17 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: parse.c,v 1.4 1998/07/08 17:32:00 db Exp $";
+static char *rcs_version = "$Id: parse.c,v 1.5 1998/07/08 17:44:20 db Exp $";
 
 #endif
 #include "struct.h"
@@ -638,7 +638,7 @@ static	int	cancel_clients(aClient *cptr,
    */
   if (IsServer(sptr) || IsMe(sptr))
     {
-      sendto_realops_lev(DEBUG_LEV, "Message (%s) for %s[%s] from %s", cmd,
+      sendto_realops_lev(DEBUG_LEV, "Message for %s[%s] from %s",
 			 sptr->name, sptr->from->name,
 			 get_client_name(cptr, TRUE));
       if (IsServer(cptr))
