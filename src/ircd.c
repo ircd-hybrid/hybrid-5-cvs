@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.20 1998/02/13 15:03:20 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.21 1998/02/20 18:27:00 db Exp $";
 #endif
 
 #include "struct.h"
@@ -612,14 +612,6 @@ static	time_t	check_pings(time_t currenttime)
 	  cptr->flags2 |= FLAGS2_PING_TIMEOUT;
 	  continue;			/* and go examine next fd/cptr */
 	}
-
-      /* I'm allowing a client who isn't registered to PONG
-       * and thusly stay connected for at least 100s.
-       * If we (being the hybrid team) don't want that
-       * then the next if should be:
-       * if (IsRegistered(cptr) && ((cptr->flags & FLAGS_PINGSENT) == 0))
-       * -Dianora
-       */
 
       if (IsRegistered(cptr) && ((cptr->flags & FLAGS_PINGSENT) == 0))
 	{

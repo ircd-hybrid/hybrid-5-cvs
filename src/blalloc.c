@@ -8,7 +8,7 @@
 /* ************************************************************************ */
 
 #ifndef lint
-static char *rcs_version = "$Id: blalloc.c,v 1.4 1998/02/10 18:05:00 db Exp $";
+static char *rcs_version = "$Id: blalloc.c,v 1.5 1998/02/20 18:26:59 db Exp $";
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -288,12 +288,15 @@ int BlockHeapFree(BlockHeap *bh, void *ptr)
 	  bitmask = 1L << (ctr % (sizeof(long) * 8));
 	  ctr = ctr / (sizeof(long) * 8);
 	  /* Flip the right allocation bit */
+	  /* Complain if the bit is already clear, something is wrong
+	     (typically, someone freed the same block twice) */
 	  if( (walker->allocMap[ctr] & bitmask) == 0 )
 	    {
 #if defined(USE_SYSLOG) && defined(SYSLOG_BLOCK_ALLOCATOR)
 	      syslog(LOG_DEBUG,"blalloc.c bit already clear in map!");
 #endif
-	      sendto_ops("DEBUG: blalloc.c bit already clear in map!");
+	      sendto_ops("blalloc.c bit already clear in map!");
+	      sendto_ops("Please report to the hybrid team! ircd-hybrid@vol.com");
 	    }
 	  else
 	    {
