@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.16 1998/01/26 02:24:55 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.17 1998/01/26 21:50:27 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1875,6 +1875,7 @@ int	m_kick(aClient *cptr,
   aClient *who;
   aChannel *chptr;
   int	chasing = 0;
+  int   user_count;		/* count nicks being kicked, only allow 4 */
   char	*comment, *name, *p = NULL, *user, *p2 = NULL;
 
   if (parc < 3 || *parv[1] == '\0')
@@ -1892,6 +1893,7 @@ int	m_kick(aClient *cptr,
 
   *nickbuf = *buf = '\0';
   name = strtoken(&p, parv[1], ",");
+
   while(name)
     {
       chptr = get_channel(sptr, name, !CREATE);
@@ -1970,8 +1972,10 @@ int	m_kick(aClient *cptr,
 	}
 
       user = strtoken(&p2, parv[2], ",");
-      while ( user )
+      user_count = 4;
+      while (user && user_count)
 	{
+	  user_count--;
 	  if (!(who = find_chasing(sptr, user, &chasing)))
 	    {
 	      user = strtoken(&p2, (char *)NULL, ",");
