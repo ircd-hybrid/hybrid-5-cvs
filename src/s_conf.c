@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.23 1998/07/12 23:18:34 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.24 1998/07/13 02:54:00 db Exp $";
 #endif
 
 #include "struct.h"
@@ -2936,7 +2936,7 @@ side effects	- hopefully, none
 static int hash_dline_ip(unsigned long ip)
 {
   int hash;
-  hash = ((ip >>= 11) + ip) & (DLINE_HASH_SIZE-1);
+  hash = ((ip >>= 12) + ip) & (DLINE_HASH_SIZE-1);
   return(hash);
 }
 
