@@ -19,7 +19,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_auth.c	1.17 17 Oct 1993 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_auth.c,v 1.3 1997/12/04 05:13:48 lusky Exp $";
+static char *rcs_version = "$Id: s_auth.c,v 1.4 1997/12/07 22:03:29 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -43,10 +43,6 @@ static char *rcs_version = "$Id: s_auth.c,v 1.3 1997/12/04 05:13:48 lusky Exp $"
 
 static void authsenderr(aClient *);
 
-
-#ifdef VIRTUAL_HOST
-extern struct sockaddr_in vserv;
-#endif
 
 /*
  * start_auth

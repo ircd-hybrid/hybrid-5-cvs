@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.7 1997/12/04 05:13:45 lusky Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.8 1997/12/07 22:03:28 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -958,11 +958,17 @@ normal user.\n");
     {
       static	char	star[] = "*";
       aConfItem	*aconf;
+      u_long vaddr;
       
       if ((aconf = find_me()) && portarg <= 0 && aconf->port > 0)
 	portnum = aconf->port;
       Debug((DEBUG_ERROR, "Port = %d", portnum));
-      if (inetport(&me, star, portnum))
+      if ((aconf->passwd[0] != '\0') && (aconf->passwd[0] != '*'))
+	vaddr = inet_addr(aconf->passwd);
+      else
+        vaddr = NULL;
+
+      if (inetport(&me, star, portnum, vaddr))
       {
 	if (bootopt & BOOT_STDERR)
           fprintf(stderr,"Couldn't bind to primary port %d\n", portnum);
@@ -972,7 +978,7 @@ normal user.\n");
 	exit(1);
       }
     }
-  else if (inetport(&me, "*", 0))
+  else if (inetport(&me, "*", 0, 0))
   {
     if (bootopt & BOOT_STDERR)
       fprintf(stderr,"Couldn't bind to port passed from inetd\n");
