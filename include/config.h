@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.36 1998/07/15 03:30:29 db Exp $
+ * $Id: config.h,v 1.37 1998/07/15 06:25:18 db Exp $
  */
 
 #ifndef	__config_include__
@@ -382,6 +382,12 @@
  * -Dianora
  */
 #define MOTD_WAIT 10
+
+/* IDLE_CHECK
+ * If a client has been idle for idletime (set in /quote set) then
+ * exit the client, and give it a 1 minute temporary kline 
+ */
+#undef IDLE_CHECK
 
 /* EXTRA_BOT_NOTICES - Have the server send extra bot notices?
  */

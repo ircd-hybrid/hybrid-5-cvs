@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.18 1998/07/15 00:25:37 db Exp $
+ * $Id: h.h,v 1.19 1998/07/15 06:25:20 db Exp $
  *
  */
 
@@ -357,4 +357,8 @@ void	free_fludees();
 #ifdef ANTI_SPAMBOT
 #define MIN_SPAM_NUM 5
 #define MIN_SPAM_TIME 60
+#endif
+
+#ifdef IDLE_CHECK
+#define MIN_IDLETIME 60
 #endif

@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.36 1998/07/15 03:30:31 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.37 1998/07/15 06:25:22 db Exp $";
 #endif
 
 #include "struct.h"
@@ -40,6 +40,10 @@ static char *rcs_version="$Id: ircd.c,v 1.36 1998/07/15 03:30:31 db Exp $";
 #include "h.h"
 
 #include "dich_conf.h"
+
+#ifdef  IDLE_CHECK
+int	idle_time = MIN_IDLETIME;
+#endif
 
 /* Lists to do K: line matching -Sol */
 aConfList	KList1 = { 0, NULL };	/* ordered */
@@ -126,6 +130,7 @@ char    *dlinefile = CONFIGFILE;
 #ifdef	GLINES
 char	*glinefile = GLINEFILE;
 #endif
+
 
 int	debuglevel = -1;		/* Server debug level */
 int	bootopt = 0;			/* Server boot option flags */
@@ -512,11 +517,22 @@ static	time_t	check_pings(time_t currenttime)
 #ifdef IDLE_CHECK
       if (IsPerson(cptr))
 	{
-	  if( (timeofday - cptr->user->last) > IDLE_TIME)
+	  if( !IsElined(cptr) && ((timeofday - cptr->user->last) > idle_time))
 	    {
+	      aConfItem *aconf;
+
 	      dying_clients[die_index] = cptr;
 	      dying_clients_reason[die_index++] = "idle exceeder";
 	      dying_clients[die_index] = (aClient *)NULL;
+
+	      aconf = make_conf();
+	      aconf->status = CONF_KILL;
+	      DupString(aconf->host, cptr->user->host);
+	      DupString(aconf->passwd, "idle exceeder" );
+	      DupString(aconf->name, cptr->user->username);
+	      aconf->port = 0;
+	      aconf->hold = timeofday + 60;
+	      add_temp_kline(aconf);
 	      continue;		/* and go examine next fd/cptr */
 	    }
 	}
