@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: s_err.h,v 1.6 1998/07/09 23:41:09 db Exp $
+ * $Id: s_err.h,v 1.7 1998/07/11 05:12:49 db Exp $
  *
  */
 
@@ -340,7 +340,7 @@ static	Numeric	numeric_errors[] = {
 /* 475 */	ERR_BADCHANNELKEY, ":%s 475 %s %s :Cannot join channel (+k)",
 /* 476 */	ERR_BADCHANMASK, ":%s 476 %s %s :Bad Channel Mask",
 /* 477 */	0, (char *)NULL,
-/* 478 */	0, (char *)NULL,
+/* 478 */	ERR_BANLISTFULL, ":%s 478 %s :Channel ban list is full",
 /* 479 */	0, (char *)NULL,
 /* 480 */	0, (char *)NULL,
 /* 481 */	ERR_NOPRIVILEGES,

@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.27 1998/07/10 07:38:22 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.28 1998/07/11 05:12:51 db Exp $";
 #endif
 
 #include "struct.h"
@@ -191,19 +191,35 @@ static	int	add_banid(aClient *cptr, aChannel *chptr, char *banid)
 #endif
 
 #ifdef BAN_INFO
-      if (MyClient(cptr) &&
-	  ((len > MAXBANLENGTH) || (++cnt >= MAXBANS) ||
-	   !match(ban->value.banptr->banstr, banid) ||
-	   !match(banid,ban->value.banptr->banstr)))
-	return -1;
+      if (MyClient(cptr))
+	{
+	  if((len > MAXBANLENGTH) || (++cnt >= MAXBANS))
+	    {
+	      sendto_one(cptr, err_str(ERR_BANLISTFULL),
+			 me.name, cptr->name,
+			 chptr->chname, banid);
+	      return -1;
+	    }
+	  if(!match(ban->value.banptr->banstr, banid) ||
+	     !match(banid,ban->value.banptr->banstr))
+	    return -1;
+	}
       else if (!mycmp(ban->value.banptr->banstr, banid))
 	return -1;
 #else
-      if (MyClient(cptr) &&
-	  ((len > MAXBANLENGTH) || (++cnt >= MAXBANS) ||
-	   !match(ban->value.cp, banid) ||
-	   !match(banid, ban->value.cp)))
-	return -1;
+      if (MyClient(cptr))
+	{
+	  if((len > MAXBANLENGTH) || (++cnt >= MAXBANS))
+	    {
+	      sendto_one(cptr, err_str(ERR_BANLISTFULL),
+			 me.name, cptr->name,
+			 chptr->chname, banid);
+	      return -1;
+	    }
+	  if(!match(ban->value.cp, banid) ||
+	     !match(banid, ban->value.cp))
+	    return -1;
+	}
       else if (!mycmp(ban->value.cp, banid))
 	return -1;
 #endif

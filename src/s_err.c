@@ -23,7 +23,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.8 1998/07/09 23:41:12 db Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.9 1998/07/11 05:12:52 db Exp $";
 #endif
 
 typedef	struct	{
@@ -354,7 +354,7 @@ static	Numeric	numeric_errors[] = {
 /* 475 */	ERR_BADCHANNELKEY, ":%s 475 %s %s :Cannot join channel (+k)",
 /* 476 */	ERR_BADCHANMASK, ":%s 476 %s %s :Bad Channel Mask",
 /* 477 */	0, (char *)NULL,
-/* 478 */	0, (char *)NULL,
+/* 478 */	ERR_BANLISTFULL, ":%s 478 %s :Channel ban list is full",
 /* 479 */	0, (char *)NULL,
 /* 480 */	0, (char *)NULL,
 /* 481 */	ERR_NOPRIVILEGES,
