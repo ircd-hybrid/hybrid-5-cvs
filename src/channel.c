@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.1 1998/06/13 22:51:11 lusky Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.2 1998/09/19 05:03:17 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -949,6 +949,15 @@ static	int	set_mode(aClient *cptr,
 	    break;
 	  if (whatt == MODE_ADD)
 	    {
+	      /* Ignore colon at beginning of ban string
+	       * unfortunately,  I can't ignore all such strings
+	       * because otherwise the channel gets desynced.
+	       * but I can at least stop local clients from placing it
+	       * -Dianora
+	       */
+
+	      if(MyClient(sptr) && (*parv[0] == ':'))
+		break;
 	      lp = &chops[opcnt++];
 	      lp->value.cp = *parv;
 	      lp->flags = MODE_ADD|MODE_BAN;

@@ -64,6 +64,8 @@ char *infotext[] =
         "published by the Free Software Foundation; either version 1, or",
         "(at your option) any later version.",
         "",
+	"Send bug reports to ircd-hybrid@the-project.org",
+	"",
         "The following people have contributed to this release of hybrid",
         "in nick alphabetical order:",
         "",

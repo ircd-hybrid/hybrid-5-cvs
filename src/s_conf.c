@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.11.4.1 1998/06/13 22:51:12 lusky Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.11.4.2 1998/09/19 05:03:19 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -305,7 +305,7 @@ static IP_ENTRY *find_or_add_ip(unsigned long ip_in)
 	{
 	  sendto_ops("s_conf.c free_ip_entries was found NULL in find_or_add");
 	  sendto_ops("rehash_ip was done, this is an error.");
-	  sendto_ops("Please report to the hybrid team! ircd-hybrid@vol.com");
+	  sendto_ops("Please report to the hybrid team! ircd-hybrid@the-project.org");
 	  rehash_ip_hash();
 	  if(free_ip_entries == (IP_ENTRY *)NULL)
 	    outofmemory();
@@ -325,7 +325,7 @@ static IP_ENTRY *find_or_add_ip(unsigned long ip_in)
         {
           sendto_ops("s_conf.c free_ip_entries was found NULL in find_or_add");
           sendto_ops("rehash_ip was done, this is an error.");
-          sendto_ops("Please report to the hybrid team! ircd-hybrid@vol.com");
+          sendto_ops("Please report to the hybrid team! ircd-hybrid@the-project.org");
           rehash_ip_hash();
           if(free_ip_entries == (IP_ENTRY *)NULL)
             outofmemory();
@@ -393,7 +393,7 @@ void remove_one_ip(unsigned long ip_in)
         }
     }
   sendto_ops("s_conf.c couldn't find ip# in hash table in remove_one_ip()");
-  sendto_ops("Please report to the hybrid team! ircd-hybrid@vol.com");
+  sendto_ops("Please report to the hybrid team! ircd-hybrid@the-project.org");
   return;
 }
 
