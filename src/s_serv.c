@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.62 1998/07/13 01:31:07 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.63 1998/07/13 12:24:01 db Exp $";
 #endif
 
 
@@ -4286,18 +4286,16 @@ int m_unkline (aClient *cptr,aClient *sptr,int parc,char *parv[])
       clear_conf_list(&KList2);
       clear_conf_list(&KList3);
 
-      while((nread = dgets(in, buf, sizeof(buf)) ) > 0) 
+      while((nread = dgets(in, buff, sizeof(buff)) ) > 0) 
 	{
-	  buf[nread] = '\0';
+	  buff[nread] = '\0';
 
-	  if((buf[1] == ':') && ((buf[0] == 'k') || (buf[0] == 'K')))
+	  if((buff[1] == ':') && ((buff[0] == 'k') || (buff[0] == 'K')))
 	    {
 	      /* its a K: line */
 	      char *found_host;
 	      char *found_user;
 	      char *found_comment;
-
-	      strcpy(buff,buf);
 
 	      p = strchr(buff,'\n');
 	      if(p)
