@@ -24,7 +24,7 @@
 #include "h.h"
 
 #ifndef lint
-static char *rcs_version = "$Id: whowas.c,v 1.3.4.1 1998/12/23 23:56:53 lusky Exp $";
+static char *rcs_version = "$Id: whowas.c,v 1.3.4.2 1998/12/24 07:19:01 lusky Exp $";
 #endif
 
 /* externally defined functions */
@@ -172,37 +172,36 @@ int     m_whowas(aClient *cptr,
         }
     }
 
-  parv[1] = canonize(parv[1]);
   if (!MyConnect(sptr) && (max > 20))
     max = 20;
-  for (s = parv[1]; (nick = strtoken(&p, s, ",")); s = NULL)
+  p = strchr(parv[1],',');
+  if(p)
+    *p = '\0';
+  nick = parv[1];
+  temp = WHOWASHASH[hash_whowas_name(nick)];
+  found = 0;
+  for(;temp;temp=temp->next)
     {
-      temp = WHOWASHASH[hash_whowas_name(nick)];
-      found = 0;
-      for(;temp;temp=temp->next)
+      if (!mycmp(nick, temp->name))
 	{
-	  if (!mycmp(nick, temp->name))
-	    {
-	      sendto_one(sptr, rpl_str(RPL_WHOWASUSER),
-			 me.name, parv[0], temp->name,
-			 temp->username,
-			 temp->hostname,
-			 temp->realname);
-	      sendto_one(sptr, rpl_str(RPL_WHOISSERVER),
-			 me.name, parv[0], temp->name,
-			 temp->servername, myctime(temp->logoff));
-	      cur++;
-	      found++;
-	    }
-	  if (max > 0 && cur >= max)
-	    break;
-	}
-      if (!found)
-	sendto_one(sptr, err_str(ERR_WASNOSUCHNICK),
-		   me.name, parv[0], nick);
-      if (p)
-	p[-1] = ',';
+	  sendto_one(sptr, rpl_str(RPL_WHOWASUSER),
+                     me.name, parv[0], temp->name,
+                     temp->username,
+                     temp->hostname,
+                     temp->realname);
+          sendto_one(sptr, rpl_str(RPL_WHOISSERVER),
+                     me.name, parv[0], temp->name,
+                     temp->servername, myctime(temp->logoff));
+          cur++;
+          found++;
+        }
+      if (max > 0 && cur >= max)
+        break;
     }
+  if (!found)
+    sendto_one(sptr, err_str(ERR_WASNOSUCHNICK),
+               me.name, parv[0], nick);
+    
   sendto_one(sptr, rpl_str(RPL_ENDOFWHOWAS), me.name, parv[0], parv[1]);
   return 0;
 }

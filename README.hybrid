@@ -1,3 +1,9 @@
++hybrid-5.3p6 (12/24/1998)
+* NAMES now only works for a single target
+* WHOWAS now only works for a single target
+* For servers compiled with NO_CHANOPS_WHEN_SPLIT, the server now starts
+  up in the same state as if it was split--not allowing chanops.
+
 +hybrid-5.3p5 (12/23/1998)
 * NAMES and LIST are now local-only
 * remote WHOWAS is now floodcontrolled

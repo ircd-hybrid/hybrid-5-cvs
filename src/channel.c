@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.8 1998/12/24 00:26:22 lusky Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.9 1998/12/24 07:19:00 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -37,7 +37,7 @@ static char *rcs_version="$Id: channel.c,v 1.23.4.8 1998/12/24 00:26:22 lusky Ex
 extern fdlist serv_fdlist;
 
 int server_was_split=YES;
-time_t server_split_time;
+time_t server_split_time=0;
 int server_split_recovery_time = (MAX_SERVER_SPLIT_RECOVERY_TIME * 60);
 #define USE_ALLOW_OP
 #endif
@@ -2242,6 +2242,9 @@ int	m_list(aClient *cptr,
 **	parv[0] = sender prefix
 **	parv[1] = channel
 */
+/* maximum names para to show to opers when abuse occurs */
+#define TRUNCATED_NAMES 20
+
 int	m_names( aClient *cptr,
 		 aClient *sptr,
 		 int parc,
@@ -2253,6 +2256,9 @@ int	m_names( aClient *cptr,
   aChannel *ch2ptr = NULL;
   int	idx, flag, len, mlen;
   char	*s, *para = parc > 1 ? parv[1] : NULL;
+  int comma_count=0;
+  int char_count=0;
+
 
 /*  if (parc > 1 &&
       hunt_server(cptr, sptr, ":%s NAMES %s %s", 2, parc, parv))
@@ -2269,12 +2275,36 @@ int	m_names( aClient *cptr,
 
   if (!BadPtr(para))
     {
-      s = index(para, ',');
+      /* Here is the lamer detection code
+       * P.S. meta, GROW UP
+       * -Dianora 
+       */
+      for(s = para; *s; s++)
+        {
+          char_count++;
+          if(*s == ',')
+            comma_count++;
+          if(comma_count > 1)
+            {
+              if(char_count > TRUNCATED_NAMES)
+                para[TRUNCATED_NAMES] = '\0';
+              else
+                {
+                  s++;
+                  *s = '\0';
+                }
+              sendto_realops("/names abuser %s [%s]",
+                             para,
+                             get_client_name(sptr,FALSE));
+              sendto_one(sptr, err_str(ERR_TOOMANYTARGETS),
+                         me.name, sptr->name, "NAMES");
+              return 0;
+            }
+        }
+
+      s = strchr(para, ',');
       if (s)
-	{
-	  parv[1] = ++s;
-	  (void)m_names(cptr, sptr, parc, parv);
-	}
+        *s = '\0';
       clean_channelname((unsigned char *)para);
       ch2ptr = find_channel(para, (aChannel *)NULL);
     }
