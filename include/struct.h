@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.12 1998/01/29 03:36:53 db Exp $
+ * $Id: struct.h,v 1.13 1998/02/12 00:46:40 joant Exp $
  */
 
 #ifndef	__struct_include__
@@ -266,7 +266,7 @@ typedef struct	MotdItem aMotd;
 /*
  * flags2 macros.
  */
-#define IsRestricted(x)		((x)->flags2 &= FLAGS2_RESTRICTED)
+#define IsRestricted(x)		((x)->flags2 & FLAGS2_RESTRICTED)
 #define SetRestricted(x)	((x)->flags2 |= FLAGS2_RESTRICTED)
 
 /*
