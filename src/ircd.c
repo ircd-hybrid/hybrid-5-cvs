@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.27 1998/07/05 03:33:45 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.28 1998/07/05 03:44:34 db Exp $";
 #endif
 
 #include "struct.h"
@@ -519,6 +519,7 @@ static	time_t	check_pings(time_t currenttime)
 	      dying_clients[die_index] = cptr;
 	      dying_clients_reason[die_index++] = "reject held client";
 	      dying_clients[die_index] = (aClient *)NULL;
+	      continue;		/* and go examine next fd/cptr */
 	    }
 	}
 #endif
