@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.4 1997/10/07 19:22:32 mpearce Exp $
+ * $Id: struct.h,v 1.5 1997/11/28 01:58:45 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -420,6 +420,14 @@ struct Client
 #ifdef FLUD
   time_t fludblock;
   struct fludbot *fluders;
+#endif
+#ifdef ANTI_SPAMBOT
+  time_t last_join_time;   /* when this client last joined a channel */
+  time_t last_leave_time;  /* when this client last left a channel */
+  int	 join_leave_count; /* count of JOIN/LEAVE in less than 
+			      MIN_JOIN_LEAVE_TIME seconds */
+  int    oper_warn_count_down; /* warn opers of this possible spambot
+				  every time this gets to 0 */
 #endif
   char	buffer[BUFSIZE]; /* Incoming message buffer */
   short	lastsq;		/* # of 2k blocks when sendqueued called last*/

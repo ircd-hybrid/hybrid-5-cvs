@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.21 1997/11/27 07:45:42 brian Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.22 1997/11/28 01:58:47 db Exp $";
 #endif
 
 
@@ -1953,6 +1953,8 @@ int     m_wallops(aClient *cptr,
      #wallops is +i, some children have it locked up. SO whats the fripping
      point? unless every server just allows you to bypass the +i ban etc.
      -Dianora
+     Those "children" include MOP (pikers bot) and cdy (cerf) :-)
+     -Dianora
   */
 
   if (!IsServer(sptr) && MyConnect(sptr) && !IsAnOper(sptr))
@@ -1969,16 +1971,14 @@ int     m_wallops(aClient *cptr,
   */
 
   if(IsServer(cptr))
-    {
-      sendto_wallops_butone(cptr, sptr,
+    sendto_wallops_butone(cptr, sptr,
 			    ":%s WALLOPS :%s", parv[0], message);
-    }
   else
     {
-      sendto_serv_butone( NULL, ":%s WALLOPS :%s",
-			 parv[0], message);
       send_operwall(sptr, "WALLOPS", message);
+      sendto_serv_butone( NULL, ":%s WALLOPS :%s", parv[0], message);
     }
+
   return 0;
 }
 

@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.21 1997/11/17 05:05:56 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.22 1997/11/28 01:58:48 db Exp $";
 
 #endif
 
@@ -1524,7 +1524,17 @@ static	int	m_message(aClient *cptr,
     }
 
   if (MyConnect(sptr))
-    parv[1] = canonize(parv[1]);
+    {
+#ifdef ANTI_SPAMBOT
+#ifndef ANTI_SPAMBOT_WARN_ONLY
+      /* if its a spambot, just ignore it */
+      if(sptr->join_leave_count >= MAX_JOIN_LEAVE_COUNT)
+	return 0;
+#endif
+#endif
+      parv[1] = canonize(parv[1]);
+    }
+
   for (p = NULL, nick = strtoken(&p, parv[1], ","), i = 0; nick;
        nick = strtoken(&p, NULL, ",")) {
     /*

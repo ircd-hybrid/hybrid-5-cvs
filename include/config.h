@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.5 1997/11/17 05:05:50 db Exp $
+ * $Id: config.h,v 1.6 1997/11/28 01:58:43 db Exp $
  */
 
 #ifndef	__config_include__
@@ -773,6 +773,41 @@
  * well.
  */
 #define FLUD
+
+/* 
+ * ANTI_SPAMBOT
+ * if ANTI_SPAMBOT is defined try to discourage spambots
+ * The defaults =should= be fine for the timers/counters etc.
+ * but you can play with them. -Dianora
+ */
+#define ANTI_SPAMBOT
+
+/* ANTI_SPAMBOT parameters, don't touch these if you don't
+ * understand what is going on.
+ *
+ * if a client joins MAX_JOIN_LEAVE_COUNT channels in a row,
+ * but spends less than MIN_JOIN_LEAVE_TIME seconds
+ * on each one, flag it as a possible spambot.
+ * disable JOIN for it and PRIVMSG but give no indication to the client
+ * that this is happening.
+ * every time it tries to JOIN OPER_SPAM_COUNTDOWN times, flag
+ * all opers on local server.
+ * If a client doesn't LEAVE a channel for at least 2 minutes
+ * the join/leave counter is decremented each time a LEAVE is done
+ *
+ */
+#define MIN_JOIN_LEAVE_TIME  60
+#define MAX_JOIN_LEAVE_COUNT  5
+#define OPER_SPAM_COUNTDOWN   5 
+#define JOIN_LEAVE_COUNT_EXPIRE_TIME 120
+
+/*
+ * If ANTI_SPAMBOT_WARN_ONLY is #define'd 
+ * Warn opers about possible spambots only, do not disable
+ * JOIN and PRIVMSG if possible spambot is noticed
+ * Depends on your policies.
+ */
+#undef ANTI_SPAMBOT_WARN_ONLY
 
 #ifdef HUB
 #undef FLUD
