@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: s_err.h,v 1.3 1998/01/23 19:35:49 db Exp $
+ * $Id: s_err.h,v 1.4 1998/02/22 18:48:24 db Exp $
  *
  */
 
@@ -299,7 +299,7 @@ static	Numeric	numeric_replies[] = {
 /* 259 */	RPL_ADMINEMAIL, ":%s",
 		0, (char *)NULL,
 /* 261 */	RPL_TRACELOG, "File %s %d",
-/* 262 */	RPL_ENDOFTRACE, "End of TRACE",
+/* 262 */	RPL_ENDOFTRACE, "%s :End of TRACE",
 /* 263 */       RPL_LOAD2HI, ":Hold your horses... the server load is temporarily too heavy. Try again later, ok?",
 		0, (char *)NULL,
 /* 265 */	RPL_LOCALUSERS, ":Current local  users: %d  Max: %d",
