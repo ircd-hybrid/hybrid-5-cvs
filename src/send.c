@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)send.c	2.32 2/28/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: send.c,v 1.3 1997/11/14 07:03:52 db Exp $";
+static char *rcs_version = "$Id: send.c,v 1.4 1998/02/05 19:11:39 db Exp $";
 #endif
 
 #include "struct.h"
@@ -31,8 +31,7 @@ static char *rcs_version = "$Id: send.c,v 1.3 1997/11/14 07:03:52 db Exp $";
 #include "h.h"
 #include <stdio.h>
 #include "numeric.h"
-#include "fdlist.h"
-extern fdlist serv_fdlist;
+
 void sendto_fdlist();
 
 #ifdef	IRCII_KLUDGE
@@ -402,7 +401,6 @@ va_dcl
   va_start(vl);
 # endif
 
-/*	for (i = 0; i <= highest_fd; i++)*/
   for (i=serv_fdlist.entry[j=1] ;
        j<=serv_fdlist.last_entry ; i=serv_fdlist.entry[++j])
     {
@@ -621,7 +619,6 @@ va_dcl
 	fdlist send_fdlist;
 	Reg	int	i;
 	Reg	aClient	*cptr;
-	char	*mask;
 
 #ifdef	USE_VARARGS
 	va_start(vl);
@@ -631,11 +628,7 @@ va_dcl
 	    {
 		if (*chptr->chname == '&')
 			return;
-		if ( (mask = (char *)rindex(chptr->chname, ':')) )
-			mask++;
 	    }
-	else
-		mask = (char *)NULL;
 
 	/*for (i = 0; i <= highest_fd; i++)*/
 for (i=serv_fdlist.entry[j=1] ; j<=serv_fdlist.last_entry ; i=serv_fdlist.entry[++j])
@@ -643,9 +636,6 @@ for (i=serv_fdlist.entry[j=1] ; j<=serv_fdlist.last_entry ; i=serv_fdlist.entry[
 		if (!(cptr = local[i]))
 			continue;
 		if (cptr == from)
-			continue;
-		if (!BadPtr(mask) &&
-		    matches(mask, cptr->name))
 			continue;
 #ifdef	USE_VARARGS
 		sendto_one(cptr, format, vl);

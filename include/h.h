@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.5 1997/12/11 22:17:36 db Exp $
+ * $Id: h.h,v 1.6 1998/02/05 19:11:33 db Exp $
  *
  */
 
@@ -132,7 +132,7 @@ extern  void    add_gline(aConfItem *);
 
 extern	int	find_restrict (aClient *);
 extern	int	rehash (aClient *, aClient *, int);
-extern	int	initconf (int,char *);
+extern	int	initconf (int, int);
 
 extern  void    clear_scache_hash_table(void);
 extern  char    *find_or_add(char *);
