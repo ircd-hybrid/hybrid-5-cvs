@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)send.c	2.32 2/28/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: send.c,v 1.4 1998/02/05 19:11:39 db Exp $";
+static char *rcs_version = "$Id: send.c,v 1.5 1998/02/13 15:03:21 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1388,7 +1388,7 @@ va_dcl
 #endif
  
         /*
-        ** if we're runnign with TS_WARNINGS enabled and someone does
+        ** if we're running with TS_WARNINGS enabled and someone does
         ** something silly like (remotely) connecting a nonTS server,
         ** we'll get a ton of warnings, so we make sure we don't send
         ** more than 5 every 5 seconds.  -orabidoo

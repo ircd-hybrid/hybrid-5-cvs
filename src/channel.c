@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.21 1998/02/12 23:02:25 mpearce Exp $";
+static char *rcs_version="$Id: channel.c,v 1.22 1998/02/13 15:03:19 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1286,8 +1286,8 @@ void	clean_channelname(unsigned char *cn)
 }
 
 /*
-**  Get Channel block for i (and allocate a new channel
-**  block, if it didn't exists before).
+**  Get Channel block for chname (and allocate a new channel
+**  block, if it didn't exist before).
 */
 static	aChannel *get_channel(aClient *cptr,
 			      char *chname,

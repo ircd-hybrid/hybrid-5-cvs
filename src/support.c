@@ -20,7 +20,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)support.c	2.21 4/13/94 1990, 1991 Armin Gruner;\
 1992, 1993 Darren Reed";
-static char *rcs_version = "$Id: support.c,v 1.1 1997/09/29 15:35:28 db Exp $";
+static char *rcs_version = "$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $";
 #endif
 
 #include "struct.h"
@@ -30,10 +30,7 @@ static char *rcs_version = "$Id: support.c,v 1.1 1997/09/29 15:35:28 db Exp $";
 #define FOREVER for(;;)
 
 extern	int errno; /* ...seems that errno.h doesn't define this everywhere */
-#ifndef	CLIENT_COMPILE
 extern	void	outofmemory();
-#define	timeofday	time(NULL);
-#endif
 
 #if !defined( HAVE_STRTOKEN )
 /*
@@ -41,7 +38,7 @@ extern	void	outofmemory();
 **			of separators
 **			argv 9/90
 **
-**	$Id: support.c,v 1.1 1997/09/29 15:35:28 db Exp $
+**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
 */
 
 char *strtoken(save, str, fs)
@@ -95,7 +92,7 @@ char *str, *fs;
 **	strerror - return an appropriate system error string to a given errno
 **
 **		   argv 11/90
-**	$Id: support.c,v 1.1 1997/09/29 15:35:28 db Exp $
+**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
 */
 
 char *strerror(err_no)
@@ -128,7 +125,7 @@ int err_no;
 **			internet number (some ULTRIX don't have this)
 **			argv 11/90).
 **	inet_ntoa --	its broken on some Ultrix/Dynix too. -avalon
-**	$Id: support.c,v 1.1 1997/09/29 15:35:28 db Exp $
+**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
 */
 
 char	*inetntoa(in)
@@ -151,7 +148,7 @@ char	*in;
 /*
 **	inet_netof --	return the net portion of an internet number
 **			argv 11/90
-**	$Id: support.c,v 1.1 1997/09/29 15:35:28 db Exp $
+**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
 **
 */
 
