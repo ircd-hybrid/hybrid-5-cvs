@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.17.4.1 1998/05/13 00:30:42 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.17.4.2 2000/07/20 02:09:27 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -2643,10 +2643,10 @@ void	get_my_name(aClient *cptr,
 	  ** later for making the right one is used
 	  ** for connecting to other hosts.
 	  */
-	  if (!mycmp(me.name, tmp))
+	  if (!irccmp(me.name, tmp))
 	    break;
 	}
-      if (mycmp(me.name, tmp))
+      if (irccmp(me.name, tmp))
 	strncpyzt(name, hp->h_name, len);
       else
 	strncpyzt(name, tmp, len);

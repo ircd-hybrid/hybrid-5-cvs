@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.11.4.2 1998/09/19 05:03:19 lusky Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.11.4.3 2000/07/20 02:09:27 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -705,7 +705,7 @@ aConfItem *attach_confs(aClient *cptr,char *name,int statmask)
 	}
       else if ((tmp->status & statmask) && !IsIllegal(tmp) &&
 	       (tmp->status & (CONF_SERVER_MASK|CONF_HUB)) &&
-	       tmp->name && !mycmp(tmp->name, name))
+	       tmp->name && !irccmp(tmp->name, name))
 	{
 	  if (!attach_conf(cptr, tmp) && !first)
 	    first = tmp;
@@ -737,7 +737,7 @@ aConfItem *attach_confs_host(aClient *cptr,char *host,int statmask)
 	}
       else if ((tmp->status & statmask) && !IsIllegal(tmp) &&
 	       (tmp->status & CONF_SERVER_MASK) &&
-	       (tmp->host && mycmp(tmp->host, host) == 0))
+	       (tmp->host && irccmp(tmp->host, host) == 0))
 	{
 	  if (!attach_conf(cptr, tmp) && !first)
 	    first = tmp;
@@ -762,7 +762,7 @@ aConfItem *find_conf_exact(char *name,
   for (tmp = conf; tmp; tmp = tmp->next)
     {
       if (!(tmp->status & statmask) || !tmp->name || !tmp->host ||
-	  mycmp(tmp->name, name))
+	  irccmp(tmp->name, name))
 	continue;
       /*
       ** Accept if the *real* hostname (usually sockecthost)
@@ -818,7 +818,7 @@ aConfItem *find_conf(Link *lp,char *name,int statmask)
       tmp = lp->value.aconf;
       if ((tmp->status & statmask) &&
 	  (((tmp->status & (CONF_SERVER_MASK|CONF_HUB)) &&
-	    tmp->name && !mycmp(tmp->name, name)) ||
+	    tmp->name && !irccmp(tmp->name, name)) ||
 	   ((tmp->status & (CONF_SERVER_MASK|CONF_HUB)) == 0 &&
 	    tmp->name && !match(tmp->name, name))))
 	return tmp;
@@ -896,20 +896,20 @@ aConfItem *find_conf_entry(aConfItem *aconf, int mask)
       if ((BadPtr(bconf->host) && !BadPtr(aconf->host)) ||
 	  (BadPtr(aconf->host) && !BadPtr(bconf->host)))
 	continue;
-      if (!BadPtr(bconf->host) && mycmp(bconf->host, aconf->host))
+      if (!BadPtr(bconf->host) && irccmp(bconf->host, aconf->host))
 	continue;
 
       if ((BadPtr(bconf->passwd) && !BadPtr(aconf->passwd)) ||
 	  (BadPtr(aconf->passwd) && !BadPtr(bconf->passwd)))
 	continue;
       if (!BadPtr(bconf->passwd) &&
-	  mycmp(bconf->passwd, aconf->passwd))
+	  irccmp(bconf->passwd, aconf->passwd))
       continue;
 
 	  if ((BadPtr(bconf->name) && !BadPtr(aconf->name)) ||
 	      (BadPtr(aconf->name) && !BadPtr(bconf->name)))
 	  continue;
-	  if (!BadPtr(bconf->name) && mycmp(bconf->name, aconf->name))
+	  if (!BadPtr(bconf->name) && irccmp(bconf->name, aconf->name))
 	  continue;
 	  break;
 	  }

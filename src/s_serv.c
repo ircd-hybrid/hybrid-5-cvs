@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.12 1999/08/07 06:49:07 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.13 2000/07/20 02:09:27 lusky Exp $";
 #endif
 
 
@@ -269,7 +269,7 @@ int	m_squit(aClient *cptr,
 	  aconf = cptr->serv->nline;
 	  if (!aconf)
 	    break;
-	  if (!mycmp(server, my_name_for_link(me.name, aconf)))
+	  if (!irccmp(server, my_name_for_link(me.name, aconf)))
 	    server = cptr->name;
 	  break; /* WARNING is normal here */
           /* NOTREACHED */
@@ -783,7 +783,7 @@ int	m_server_estab(aClient *cptr)
   int	split, i;
 
   inpath = get_client_name(cptr,TRUE); /* "refresh" inpath with host */
-  split = mycmp(cptr->name, cptr->sockhost);
+  split = irccmp(cptr->name, cptr->sockhost);
   host = cptr->name;
 
   if (!(aconf = find_conf(cptr->confs, host, CONF_NOCONNECT_SERVER)))
@@ -967,7 +967,7 @@ int	m_server_estab(aClient *cptr)
 		      acptr->name) == 0)
 	    continue;
 	  split = (MyConnect(acptr) &&
-		   mycmp(acptr->name, acptr->sockhost));
+		   irccmp(acptr->name, acptr->sockhost));
 	  if (split)
 	    sendto_one(cptr, ":%s SERVER %s %d :[%s] %s",
 		       acptr->serv->up, acptr->name,
@@ -1506,7 +1506,7 @@ int	m_links(aClient *cptr,
   aClient *acptr;
   static  time_t last_links=0;
   char clean_mask[(2*HOSTLEN)+1];
-  char *s;
+  unsigned char *s;
   char *d;
   int  n;
   static time_t last_used=0L;
@@ -1547,14 +1547,15 @@ int	m_links(aClient *cptr,
 
   if(mask)	/* only necessary if there is a mask */
     {
-      s = mask;
+      s = (unsigned char *)mask;
       d = clean_mask;
       n = (2*HOSTLEN) - 2;
-      while(*s && n)
+      while(*s && (n>0))
         {
           if(*s < ' ') /* Is it a control character? */
             {
               *d++ = '^';
+              n--;
               *d++ = (*s + 0x40); /* turn it into a printable */
               s++;
               n--;
@@ -1736,7 +1737,7 @@ int	m_stats(aClient *cptr,
   if (parc > 2)
     {
       name = parv[2];
-      if (!mycmp(name, me.name))
+      if (!irccmp(name, me.name))
 	doall = 2;
       else if (matches(name, me.name) == 0)
 	doall = 1;
@@ -1774,7 +1775,7 @@ int	m_stats(aClient *cptr,
 	    continue;
 	  if (!doall && wilds && matches(name, acptr->name))
 	    continue;
-	  if (!(doall || wilds) && mycmp(name, acptr->name))
+	  if (!(doall || wilds) && irccmp(name, acptr->name))
 	    continue;
           if(IsAnOper(sptr))
 	    {
@@ -4557,7 +4558,7 @@ int	m_rehash(aClient *cptr,
 
   if(parc > 1)
     {
-      if(mycmp(parv[1],"DNS") == 0)
+      if(irccmp(parv[1],"DNS") == 0)
 	{
 	  sendto_one(sptr, rpl_str(RPL_REHASHING), me.name, parv[0], "DNS");
 	  flush_cache();	/* flush the dns cache */
@@ -4566,7 +4567,7 @@ int	m_rehash(aClient *cptr,
 		 parv[0]);
 	  return 0;
 	}
-      else if(mycmp(parv[1],"TKLINES") == 0)
+      else if(irccmp(parv[1],"TKLINES") == 0)
 	{
 	  sendto_one(sptr, rpl_str(RPL_REHASHING), me.name, parv[0], "temp klines");
 	  flush_temp_klines();
@@ -4574,7 +4575,7 @@ int	m_rehash(aClient *cptr,
 		 parv[0]);
 	  return 0;
 	}
-      else if(mycmp(parv[1],"GC") == 0)
+      else if(irccmp(parv[1],"GC") == 0)
 	{
 	  sendto_one(sptr, rpl_str(RPL_REHASHING), me.name, parv[0], "garbage collecting");
 	  block_garbage_collect();
@@ -4582,13 +4583,13 @@ int	m_rehash(aClient *cptr,
 		 parv[0]);
 	  return 0;
 	}
-      else if(mycmp(parv[1],"MOTD") == 0)
+      else if(irccmp(parv[1],"MOTD") == 0)
         {
 	  sendto_ops("%s is forcing re-reading of MOTD file",parv[0]);
           read_motd(MOTD);
 	  return(0);
         }
-      else if(mycmp(parv[1],"IP") == 0)
+      else if(irccmp(parv[1],"IP") == 0)
 	{
 	  sendto_one(sptr, rpl_str(RPL_REHASHING), me.name, parv[0], "ip hash");
 	  rehash_ip_hash();
@@ -4797,7 +4798,7 @@ int	m_trace(aClient *cptr,
 	continue;
       if (!doall && wilds && matches(tname, acptr->name))
 	continue;
-      if (!dow && mycmp(tname, acptr->name))
+      if (!dow && irccmp(tname, acptr->name))
 	continue;
       name = get_client_name(acptr,FALSE);
       class = get_client_class(acptr);

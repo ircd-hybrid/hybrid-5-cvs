@@ -5,7 +5,7 @@
 #include "h.h"
 
 #ifndef lint
-static char *rcs_version ="$Id: scache.c,v 1.1 1997/09/29 15:35:28 db Exp $";
+static char *rcs_version ="$Id: scache.c,v 1.1.1.1.4.1 2000/07/20 02:09:29 lusky Exp $";
 #endif
 
 static int hash(char *);	/* keep it hidden here */
@@ -70,7 +70,7 @@ char *find_or_add(char *name)
   ptr = scache_hash[hash_index = hash(name)];
   while(ptr)
     {
-      if(!mycmp(ptr->name, name))
+      if(!irccmp(ptr->name, name))
 	return(ptr->name);
       else
 	ptr = ptr->next;

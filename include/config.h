@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.21.4.7 1999/08/07 06:49:00 lusky Exp $
+ * $Id: config.h,v 1.21.4.8 2000/07/20 02:09:25 lusky Exp $
  */
 
 #ifndef	__config_include__
@@ -1007,6 +1007,10 @@
  */
 
 /* ------------------------- END CONFIGURATION SECTION -------------------- */
+#ifdef linux
+#undef USE_FAST_FD_ISSET
+#endif
+
 #ifdef APOLLO
 #define RESTARTING_SYSTEMCALLS
 #endif                            /* read/write are restarted after signals

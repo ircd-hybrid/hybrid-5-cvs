@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.12.4.2 1999/08/07 06:49:05 lusky Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.12.4.3 2000/07/20 02:09:27 lusky Exp $";
 #endif
 
 #include <sys/time.h>
@@ -262,7 +262,7 @@ char	*get_client_name(aClient *sptr,int showip)
 #endif
             break;
 	  default:
-	      if (mycmp(sptr->name, sptr->sockhost))
+	      if (irccmp(sptr->name, sptr->sockhost))
 #ifdef USERNAMES_IN_TRACE
 		(void)ircsprintf(nbuf, "%s[%s@%s]",
 				 sptr->name,

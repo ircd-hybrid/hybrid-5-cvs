@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.11 1999/08/07 06:49:04 lusky Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.12 2000/07/20 02:09:26 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -202,7 +202,7 @@ static	int	add_banid(aClient *cptr, aChannel *chptr, char *banid)
 	   !match(ban->value.banptr->banstr, banid) ||
 	   !match(banid,ban->value.banptr->banstr)))
 	return -1;
-      else if (!mycmp(ban->value.banptr->banstr, banid))
+      else if (!irccmp(ban->value.banptr->banstr, banid))
 	return -1;
 #else
       if (MyClient(cptr) &&
@@ -210,7 +210,7 @@ static	int	add_banid(aClient *cptr, aChannel *chptr, char *banid)
 	   !match(ban->value.cp, banid) ||
 	   !match(banid, ban->value.cp)))
 	return -1;
-      else if (!mycmp(ban->value.cp, banid))
+      else if (!irccmp(ban->value.cp, banid))
 	return -1;
 #endif
     }
@@ -271,9 +271,9 @@ static	int	del_banid(aChannel *chptr, char *banid)
 		return -1;
 	for (ban = &(chptr->banlist); *ban; ban = &((*ban)->next))
 #ifdef BAN_INFO
-                if (mycmp(banid, (*ban)->value.banptr->banstr)==0)
+                if (irccmp(banid, (*ban)->value.banptr->banstr)==0)
 #else
-	 	if (mycmp(banid, (*ban)->value.cp)==0)
+	 	if (irccmp(banid, (*ban)->value.cp)==0)
 #endif
 		    {
 			tmp = *ban;
@@ -912,7 +912,7 @@ static	int	set_mode(aClient *cptr,
 	    }
 	  else if (whatt == MODE_DEL)
 	    {
-	      if (isok && (mycmp(mode->key, *parv) == 0 ||
+	      if (isok && (irccmp(mode->key, *parv) == 0 ||
 			     IsServer(cptr)))
 		{
 		  lp = &chops[opcnt++];
@@ -1263,7 +1263,7 @@ static	int	can_join(aClient *sptr, aChannel *chptr, char *key)
 	return (ERR_INVITEONLYCHAN);
     }
   
-  if (*chptr->mode.key && (BadPtr(key) || mycmp(chptr->mode.key, key)))
+  if (*chptr->mode.key && (BadPtr(key) || irccmp(chptr->mode.key, key)))
     return (ERR_BADCHANNELKEY);
   
   if (chptr->mode.limit && chptr->users >= chptr->mode.limit)

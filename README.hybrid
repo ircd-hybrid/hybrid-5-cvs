@@ -1,4 +1,6 @@
-+hybrid-5.3p8 (8/6/1999)
++hybrid-5.3p8 (7/19/2000)
+* fixes to compile on Linux kernels 2.2.9 and higher
+* fix overflow in clean_string()
 * back ported NO_JOIN_ON_SPLIT_SIMPLE and SPLIT_PONG from -6
 * added split-mode notification
 

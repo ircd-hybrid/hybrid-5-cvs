@@ -20,7 +20,7 @@
 RM=@RM@
 
 # Default CFLAGS
-CFLAGS= -g -O2 -D"FD_SETSIZE=1024"
+CFLAGS= -g -O2
 #
 # What I used on FreeBSD 2.1.7 with kernel compiled for 4096 descriptors
 # the -D"FD_SETSIZE=4096" is only needed if sys/types.h has not been updated

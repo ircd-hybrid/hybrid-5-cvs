@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.42.4.6 1999/08/07 06:49:10 lusky Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.42.4.7 2000/07/20 02:09:28 lusky Exp $";
 
 #endif
 
@@ -389,7 +389,7 @@ char	*canonize(char *buffer)
 	{
 	  for (p2 = NULL, t = strtoken(&p2, cbuf, ","); t;
 	       t = strtoken(&p2, NULL, ","))
-	    if (!mycmp(s, t))
+	    if (!irccmp(s, t))
 	      break;
 	    else if (p2)
 	      p2[-1] = ',';
@@ -1342,8 +1342,8 @@ int	m_nick(aClient *cptr,
       else
 	{
 	  sameuser =  fromTS && (acptr->user) &&
-	    mycmp(acptr->user->username, parv[5]) == 0 &&
-	    mycmp(acptr->user->host, parv[6]) == 0;
+	    irccmp(acptr->user->username, parv[5]) == 0 &&
+	    irccmp(acptr->user->host, parv[6]) == 0;
 	  if ((sameuser && newts < acptr->tsinfo) ||
 	      (!sameuser && newts > acptr->tsinfo))
 	    return 0;
@@ -1404,9 +1404,9 @@ int	m_nick(aClient *cptr,
     }
   else
     {
-      sameuser = mycmp(acptr->user->username,
+      sameuser = irccmp(acptr->user->username,
 		       sptr->user->username) == 0 &&
-	mycmp(acptr->user->host, sptr->user->host) == 0;
+	irccmp(acptr->user->host, sptr->user->host) == 0;
       if ((sameuser && newts < acptr->tsinfo) ||
 	  (!sameuser && newts > acptr->tsinfo))
 	{
@@ -1511,7 +1511,7 @@ nickkilldone:
       ** on a channel, send note of change to all clients
       ** on that channel. Propagate notice to other servers.
       */
-      if (mycmp(parv[0], nick))
+      if (irccmp(parv[0], nick))
 	sptr->tsinfo = newts ? newts : (ts_val)timeofday;
 
       if(MyConnect(sptr) && IsRegisteredUser(sptr))
@@ -2815,7 +2815,7 @@ int	m_ping(aClient *cptr,
     acptr = find_server(origin, NULL);
   if (acptr && acptr != sptr)
     origin = cptr->name;
-  if (!BadPtr(destination) && mycmp(destination, me.name) != 0)
+  if (!BadPtr(destination) && irccmp(destination, me.name) != 0)
     {
       if ((acptr = find_server(destination, NULL)))
 	sendto_one(acptr,":%s PING %s :%s", parv[0],
@@ -2899,7 +2899,7 @@ int	m_pong(aClient *cptr,
      That being the case, we will route, but only for registered clients (a
      case can be made to allow them only from servers). -Shadowfax
   */
-  if (!BadPtr(destination) && mycmp(destination, me.name) != 0
+  if (!BadPtr(destination) && irccmp(destination, me.name) != 0
 		&& IsRegistered(sptr))
     {
       if ((acptr = find_client(destination, NULL)) ||
