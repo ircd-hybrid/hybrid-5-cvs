@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.7 1998/12/23 23:56:51 lusky Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.8 1998/12/24 00:26:22 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -2187,6 +2187,10 @@ int	m_list(aClient *cptr,
   aChannel *chptr;
   char	*name, *p = NULL;
 
+  /* throw away non local list requests that do get here -Dianora */
+  if(!MyConnect(sptr))
+    return 0;
+
   sendto_one(sptr, rpl_str(RPL_LISTSTART), me.name, parv[0]);
 
   if (parc < 2 || BadPtr(parv[1]))
@@ -2205,8 +2209,13 @@ int	m_list(aClient *cptr,
       return 0;
     }
 
+  /* who uses remote LIST?  this is in the wrong place for it
+     anyway --Rodder
+   */
+  /*
   if (hunt_server(cptr, sptr, ":%s LIST %s %s", 2, parc, parv))
     return 0;
+   */
 
   name = strtoken(&p, parv[1], ",");
 
