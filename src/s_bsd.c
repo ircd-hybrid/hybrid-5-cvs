@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.4 1997/11/17 05:05:53 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.5 1997/12/04 05:13:49 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -202,6 +202,11 @@ void	report_error(char *text,aClient *cptr)
   sendto_realops_lev(DEBUG_LEV,text, host, strerror(errtmp));
 #ifdef USE_SYSLOG
   syslog(LOG_WARNING, text, host, strerror(errtmp));
+  if (bootopt & BOOT_STDERR)
+  {
+    fprintf(stderr, text, host, strerror(errtmp));
+    fprintf(stderr, "\n");
+  }
 #endif
   return;
 }
@@ -503,11 +508,12 @@ void	init_sys()
       return;
     }
   (void)close(1);
-  if (!(bootopt & BOOT_DEBUG))
+  if (!(bootopt & BOOT_DEBUG) && !(bootopt & BOOT_STDERR))
     (void)close(2);
 
   if (((bootopt & BOOT_CONSOLE) || isatty(0)) &&
-      !(bootopt & (BOOT_INETD|BOOT_OPER)))
+      !(bootopt & (BOOT_INETD|BOOT_OPER)) &&
+      !(bootopt & BOOT_STDERR))
     {
       int pid;
       if( (pid = fork()) < 0)

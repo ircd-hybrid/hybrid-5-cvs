@@ -19,7 +19,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_auth.c	1.17 17 Oct 1993 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_auth.c,v 1.2 1997/10/01 23:51:43 cbehrens Exp $";
+static char *rcs_version = "$Id: s_auth.c,v 1.3 1997/12/04 05:13:48 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -60,6 +60,8 @@ extern struct sockaddr_in vserv;
 void	start_auth(aClient *cptr)
 {
   struct sockaddr_in	sock;
+  struct sockaddr_in	localaddr;
+  int			locallen;
 
   Debug((DEBUG_NOTICE,"start_auth(%x) fd %d status %d",
 	 cptr, cptr->fd, cptr->status));
@@ -85,15 +87,25 @@ void	start_auth(aClient *cptr)
   send(cptr->fd, REPORT_DO_ID, R_do_id, 0);
 #endif
   set_non_blocking(cptr->authfd, cptr);
-#ifdef VIRTUAL_HOST
-  if (bind(cptr->authfd, (struct sockaddr *)&vserv,
-	   sizeof(vserv)) == -1)
+
+  /* get the local address of the client and bind to that to
+   * make the auth request.  This used to be done only for
+   * ifdef VIRTTUAL_HOST, but needs to be done for all clients
+   * since the ident request must originate from that same address--
+   * and machines with multiple IP addresses are common now
+   */
+  locallen = sizeof(struct sockaddr_in);
+  bzero(&localaddr, locallen);
+  getsockname(cptr->fd, (struct sockaddr *)&localaddr, &locallen);
+  localaddr.sin_port = htons(0);
+
+  if (bind(cptr->authfd, (struct sockaddr *)&localaddr,
+	   sizeof(localaddr)) == -1)
     {
       report_error("binding auth stream socket %s:%s", cptr);
       (void)close(cptr->fd);
       return;
     }
-#endif
 
   bcopy((char *)&cptr->ip, (char *)&sock.sin_addr,
 	sizeof(struct in_addr));

@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.22 1997/11/28 01:58:48 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.23 1997/12/04 05:13:50 lusky Exp $";
 
 #endif
 
@@ -899,7 +899,7 @@ static	int	register_user(aClient *cptr,
 	       return exit_client(sptr, sptr, &me, "Ghosted Client");
 	     }
 	 }
-	      send_umode(NULL, sptr, 0, SEND_UMODES, ubuf);
+	send_umode(NULL, sptr, 0, SEND_UMODES, ubuf);
 	if (!*ubuf)
 	  {
 	    ubuf[0] = '+';
@@ -910,6 +910,9 @@ static	int	register_user(aClient *cptr,
 			   nick, sptr->hopcount+1, sptr->tsinfo, ubuf,
 			   user->username, user->host, user->server,
 			   sptr->info);
+	if (ubuf[1])
+		 send_umode_out(cptr, sptr, 0);
+
 	return 0;
     }
 

@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.5 1997/11/28 01:58:45 db Exp $
+ * $Id: struct.h,v 1.6 1997/12/04 05:13:44 lusky Exp $
  */
 
 #ifndef	__struct_include__
@@ -121,6 +121,7 @@ typedef struct	MotdItem aMotd;
 #define	BOOT_TTY	16
 #define	BOOT_OPER	32
 #define	BOOT_AUTODIE	64
+#define BOOT_STDERR	128
 #define	STAT_LOG	-6	/* logfile for -x */
 #define	STAT_MASTER	-5	/* Local ircd master before identification */
 #define	STAT_CONNECTING	-4
