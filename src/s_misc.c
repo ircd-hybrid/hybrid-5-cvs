@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.13 1998/06/13 23:21:23 lusky Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.14 1998/07/05 04:18:11 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -101,9 +101,9 @@ char	*date(time_t clock)
   if (minswest < 0)
     minswest = -minswest;
   
-  (void)ircsprintf(buf, "%s %s %d %04d -- %02d:%02d %c%02d:%02d",
+  (void)ircsprintf(buf, "%s %s %d %04d -- %02d:%02d:%02d %c%02d:%02d",
 		   weekdays[lt->tm_wday], months[lt->tm_mon],lt->tm_mday,
-		   lt->tm_year + 1900, lt->tm_hour, lt->tm_min,
+		   lt->tm_year + 1900, lt->tm_hour, lt->tm_min, lt->tm_sec,
 		   plus, minswest/60, minswest%60);
 
   return buf;
