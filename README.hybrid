@@ -1,7 +1,11 @@
 +hybrid-5.3p5 (12/23/1998)
-* NAMES is now local-only
+* NAMES and LIST are now local-only
 * remote WHOWAS is now floodcontrolled
 * Added seperate WHOIS_WAIT for floodcontrol of remote WHOIS (Rodder)
+* These commands are flood controlled: VERSION, INFO, LINKS, STATS, HELP,
+  LUSERS, ADMIN, MOTD, WHOIS (remote only), WHOWAS (remote only)
+* These functions are local-only for non-opers:
+  INFO, LINK, STATS (except 'p'), HELP
 
 +hybrid-5.3p4 (11/25/1998)
 * These commands are flood controlled: INFO, LINKS, STATS, HELP,
