@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.10 1998/01/18 18:24:12 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.11 1998/02/01 23:14:58 db Exp $";
 #endif
 
 #include "struct.h"
@@ -69,7 +69,11 @@ static char *rcs_version = "$Id: s_bsd.c,v 1.10 1998/01/18 18:24:12 db Exp $";
 #include "h.h"
 #include "fdlist.h"
 extern fdlist serv_fdlist;
+
+#ifndef NO_PRIORITY
 extern fdlist busycli_fdlist;
+#endif
+
 extern fdlist default_fdlist;
 #ifndef IN_LOOPBACKNET
 #define IN_LOOPBACKNET	0x7f
@@ -1039,17 +1043,26 @@ void	close_connection(aClient *cptr)
 	local[j] = NULL;
 	/* update server list */
 	if (IsServer(local[i])) {
+
+#ifndef NO_PRIORITY
 	  delfrom_fdlist(j,&busycli_fdlist);
+#endif
 	  delfrom_fdlist(j,&serv_fdlist);
+#ifndef NO_PRIORITY
 	  addto_fdlist(i,&busycli_fdlist);
+#endif
 	  addto_fdlist(i,&serv_fdlist);
 	}
 	/* update oper list */
 	if (IsAnOper(local[i]))
 	  {
-	    delfrom_fdlist(j, &busycli_fdlist);
+#ifndef NO_PRIORITY
+ 	    delfrom_fdlist(j, &busycli_fdlist);
+#endif
 	    delfrom_fdlist(j, &oper_fdlist);
-	    addto_fdlist(i, &busycli_fdlist);
+#ifndef NO_PRIORITY
+ 	    addto_fdlist(i, &busycli_fdlist);
+#endif
 	    addto_fdlist(i, &oper_fdlist);
 	  }
 	(void)close(j);

@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.8 1998/01/26 02:24:56 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.9 1998/02/01 23:14:59 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -558,7 +558,7 @@ static	void	exit_one_client(aClient *cptr,
   Reg	Link	*lp;
 
   /*
-  **  For a server or user quitting, propagage the information to
+  **  For a server or user quitting, propogate the information to
   **  other servers (except to the one where is came from (cptr))
   */
   if (IsMe(sptr))

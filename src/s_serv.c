@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.34 1998/01/26 02:24:57 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.35 1998/02/01 23:14:59 db Exp $";
 #endif
 
 
@@ -874,13 +874,17 @@ int	m_server_estab(aClient *cptr)
 #endif /* MAXBUFFERS */
   /* adds to fdlist */
   addto_fdlist(cptr->fd,&serv_fdlist);
+
+#ifndef NO_PRIORITY
   /* this causes the server to be marked as "busy" */
   check_fdlists(timeofday);
+#endif
+
   nextping = timeofday;
   sendto_ops("Link with %s established: %s", inpath, DoesTS(cptr) ?
 	     "TS link" : "Non-TS link!");
   (void)add_to_client_hash_table(cptr->name, cptr);
-  /* doesnt duplicate cptr->serv if allocted this struct already */
+  /* doesnt duplicate cptr->serv if allocated this struct already */
   (void)make_server(cptr);
   cptr->serv->up = me.name;
   /* add it to scache */
