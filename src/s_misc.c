@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.20 1998/07/15 00:25:41 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.21 1998/07/16 20:58:09 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -744,9 +744,21 @@ static	void	exit_one_client(aClient *cptr,
       */
       if (sptr->user)
 	{
-	  sendto_common_channels(sptr, ":%s QUIT :%s",
-				 sptr->name, comment);
-	  
+#ifdef ANTI_SPAM_EXIT_MESSAGE
+	  if(sptr->flags & FLAGS_KILLED)
+	    sendto_common_channels(sptr, ":%s QUIT :%s",
+				   sptr->name, comment);
+	  else
+	    {
+	      if( (sptr->firsttime + ANTI_SPAM_EXIT_MESSAGE_TIME) > NOW)
+		sendto_common_channels(sptr, ":%s QUIT :%s",
+				       sptr->name, "client quit");
+	      else
+		sendto_common_channels(sptr, ":%s QUIT :%s",
+				       sptr->name, comment);
+	    }
+#endif
+
 	  while ((lp = sptr->user->channel))
 	    remove_user_from_channel(sptr,lp->value.chptr);
 	  

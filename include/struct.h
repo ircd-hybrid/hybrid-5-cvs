@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.30 1998/07/16 14:55:32 db Exp $
+ * $Id: struct.h,v 1.31 1998/07/16 20:58:08 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -533,6 +533,11 @@ struct Client
 			      MIN_JOIN_LEAVE_TIME seconds */
   int    oper_warn_count_down; /* warn opers of this possible spambot
 				  every time this gets to 0 */
+#endif
+#ifdef ANTI_SPAMBOT_EXTRA
+  int	channel_privmsgs; /* Count how many times client privmsgs a channel*/
+  int	person_privmsgs;  /* Count how many times client privmsgs a person */
+  struct Client *last_client_messaged; /* who was privmsg'ed last time */
 #endif
   char	buffer[BUFSIZE]; /* Incoming message buffer */
   short	lastsq;		/* # of 2k blocks when sendqueued called last*/

@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.39 1998/07/16 18:17:03 db Exp $
+ * $Id: config.h,v 1.40 1998/07/16 20:58:06 db Exp $
  */
 
 #ifndef	__config_include__
@@ -858,6 +858,34 @@
  * Depends on your policies.
  */
 #undef ANTI_SPAMBOT_WARN_ONLY
+
+/* ANTI_SPAM_EXIT_MESSAGE
+ *
+ * If this is defined, do not allow the clients exit message to be
+ * sent to a channel if the client has been on for less than
+ * ANTI_SPAM_EXIT_MESSAGE_TIME.
+ * The idea is, some spambots exit with their spam, thus advertising
+ * this way.
+ * (idea due to ThaDragon, I just couldn't find =his= code)
+ * - Dianora
+ */
+#undef ANTI_SPAM_EXIT_MESSAGE
+/* 300 is five minutes, seems reasonable */
+#define ANTI_SPAM_EXIT_MESSAGE_TIME 300
+
+/* ANTI_SPAMBOT_EXTRA
+ * look for "http:" in gecos, flag as possible spambot
+ * look for "suspicious" privmsg to other client count
+ * other client count cannot be repeated more than once in a row
+ * messaging the same client over and over again will not trigger this
+ * messaging 4 clients over and over again =will=
+ * *sigh* THAT one is going to catch innocents.. *sorry* ;-(
+ * The idea is, a spambot using a relay, will not message a channel
+ * if ever.. but so do innocents.. ;-/ suggestions on improvements please...
+ * -Dianora
+ */
+#define ANTI_SPAMBOT_EXTRA
+#define SPAMBOT_PRIVMSG_POSSIBLE_SPAMBOT_COUNT	3
 
 #ifdef HUB
 #undef FLUD
