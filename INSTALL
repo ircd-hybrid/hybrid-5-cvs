@@ -35,6 +35,6 @@ support.  Try asking other ircd-hybrid admins on EFnet if you can't fix
 it yourself.  If you do fix anything, however, please send context
 diffs to ircd-hybrid@the-project.org so the fixes can be incorporated into
 the next release of ircd-hybrid.  If hybrid crashes on you, PLEASE CONTACT
-ircd-hybrid@vol.com ASAP with a backtrace of the core.  The hybrid team
+ircd-hybrid@the-project.org ASAP with a backtrace of the core.  The hybrid team
 can't fix bugs if no one tells us about them!
 

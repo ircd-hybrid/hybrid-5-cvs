@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.6 1998/11/07 02:04:10 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.7 1998/11/07 06:35:29 lusky Exp $";
 #endif
 
 
@@ -4703,19 +4703,18 @@ int	m_trace(aClient *cptr,
 
   if(!IsAnOper(sptr))
     {
-      /* reject non local requests */
-      if(!MyConnect(sptr))
-	return 0;
-
       if((last_used + MOTD_WAIT) > NOW)
 	return 0;
       else
 	last_used = NOW;
+      if (parv[1] && !index(parv[1],'.') && (index(parv[1], '*')
+          || index(parv[1], '?'))) /* bzzzt, no wildcard nicks for nonopers */
+        {
+          sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name,
+                     parv[0], parv[1]);
+          return 0;
+        }
     }
-
-  sendto_realops_lev(SPY_LEV, "TRACE requested by %s (%s@%s) [%s]",
-		     sptr->name, sptr->user->username, sptr->user->host,
-		     sptr->user->server);
 
   if (parc > 2)
     if (hunt_server(cptr, sptr, ":%s TRACE %s :%s",
@@ -4725,7 +4724,9 @@ int	m_trace(aClient *cptr,
   if (parc > 1)
     tname = parv[1];
   else
-    tname = me.name;
+    {
+      tname = me.name;
+    }
 
   switch (hunt_server(cptr, sptr, ":%s TRACE :%s", 1, parc, parv))
     {
@@ -4748,10 +4749,46 @@ int	m_trace(aClient *cptr,
       return 0;
     }
 
+  sendto_realops_lev(SPY_LEV, "TRACE requested by %s (%s@%s) [%s]",
+                     sptr->name, sptr->user->username, sptr->user->host,
+                     sptr->user->server);
+
   doall = (parv[1] && (parc > 1)) ? !matches(tname, me.name): TRUE;
   wilds = !parv[1] || index(tname, '*') || index(tname, '?');
   dow = wilds || doall;
-  
+
+  if(!IsAnOper(sptr) || !dow) /* non-oper traces must be full nicks */
+                              /* lets also do this for opers tracing nicks */
+    {
+      char      *name;
+      int       class;
+
+      acptr = hash_find_client(tname,(aClient *)NULL);
+      if(!acptr || !IsPerson(acptr)) 
+        {
+	  /* this should only be reached if the matching
+	     target is this server */
+	  sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name,
+		     parv[0], tname);
+          return 0;
+        }
+      name = get_client_name(acptr,FALSE);
+      class = get_client_class(acptr);
+      if (IsAnOper(acptr))
+        {
+          sendto_one(sptr, rpl_str(RPL_TRACEOPERATOR),
+                     me.name, parv[0], class, name);
+        }
+      else
+        {
+          sendto_one(sptr,rpl_str(RPL_TRACEUSER),
+                     me.name, parv[0], class, name);
+        }
+      sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name,
+		 parv[0], tname);
+      return 0;
+    }
+
   if (dow && lifesux && !IsOper(sptr))
     {
       sendto_one(sptr,rpl_str(RPL_LOAD2HI),me.name,parv[0]);
@@ -4883,14 +4920,14 @@ int	m_trace(aClient *cptr,
 		 me.name, parv[0], 0, link_s[me.fd],
 		 link_u[me.fd], me.name, "*", "*", me.name);
       sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name,
-		 parv[0],tname);
+		 parv[0], tname);
       return 0;
     }
   for (cltmp = FirstClass(); doall && cltmp; cltmp = NextClass(cltmp))
     if (Links(cltmp) > 0)
       sendto_one(sptr, rpl_str(RPL_TRACECLASS), me.name,
 		 parv[0], Class(cltmp), Links(cltmp));
-  sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name, parv[0],tname);
+  sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name, parv[0], tname);
   return 0;
 }
 
