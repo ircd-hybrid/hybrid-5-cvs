@@ -1,3 +1,4 @@
+#define OLD_CHECKPINGS
 /************************************************************************
  *   IRC - Internet Relay Chat, src/ircd.c
  *   Copyright (C) 1990 Jarkko Oikarinen and
@@ -21,7 +22,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.23.4.1 1998/05/07 01:32:23 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.23.4.2 1998/05/12 13:21:20 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -349,6 +350,273 @@ static	time_t	try_connections(time_t currenttime)
   return (next);
 }
 
+#ifdef OLD_CHECKPINGS
+static	time_t	check_pings(time_t currenttime)
+{		
+  Reg	aClient	*cptr;
+  aConfItem *aconf = (aConfItem *)NULL;
+  Reg	int	killflag, dkillflag;
+#ifdef GLINES
+  int	gkillflag;
+#endif
+  int	ping = 0, i, rflag = 0;
+  time_t	oldest = 0, timeout;
+  
+  for (i = 0; i <= highest_fd; i++)
+    {
+      if (!(cptr = local[i]) || IsMe(cptr) || IsLog(cptr))
+	continue;
+
+      /*
+      ** Note: No need to notify opers here. It's
+      ** already done when "FLAGS_DEADSOCKET" is set.
+      */
+      if (cptr->flags & FLAGS_DEADSOCKET)
+	{
+	  (void)exit_client(cptr, cptr, &me, (cptr->flags & FLAGS_SENDQEX) ?
+			    "SendQ exceeded" : "Dead socket");
+	  i = 0;
+	  continue;
+	}
+      
+      if (rehashed)
+	{
+	  if(dline_in_progress)
+	    {
+	      killflag = NO;
+	      dkillflag = NO;
+#ifdef GLINES
+	      gkillflag = NO;
+#endif
+	      if(IsPerson(cptr))
+		{
+		  if( (aconf = find_dkill(cptr)) )	/* if there is a returned */
+		    dkillflag = 1;		/* aConfItem.. then kill it */
+		}
+	    }
+	  else
+	    {
+	      killflag = NO;
+	      dkillflag = NO;
+#ifdef GLINES
+	      gkillflag = NO;
+#endif
+	      if(IsPerson(cptr))
+		{
+#ifdef GLINES
+		  if( (aconf = find_gkill(cptr)) )
+		    gkillflag = YES;
+		  else
+#endif
+		  if( (aconf = find_kill(cptr)) )	/* if there is a returned */
+		    killflag = YES;		/* aConfItem.. then kill it */
+		}
+	    }
+	}
+      else
+	{
+	  killflag = NO;
+	  dkillflag = NO;
+#ifdef GLINES
+	  gkillflag = NO;
+#endif
+	}
+#ifdef R_LINES_OFTEN
+      rflag = IsPerson(cptr) ? find_restrict(cptr) : 0;
+#endif
+      /*
+      ** Added a bit of code here to differentiate
+      ** between K and D-lines. -ThemBones
+      */
+#ifdef GLINES
+      if ((!dkillflag) && (!killflag) && (!gkillflag))
+	ping = get_client_ping(cptr);
+#else
+      if ((!dkillflag) && (!killflag))
+	ping = get_client_ping(cptr);
+#endif
+      else
+	{
+	  char *reason;
+
+#ifdef GLINES
+	  if(gkillflag)
+	    {
+	      sendto_ops("G-line active for %s",
+			 get_client_name(cptr, FALSE));
+#ifdef K_COMMENT_ONLY
+	      reason = aconf->passwd ? aconf->passwd : "G-lined";
+#else
+	      reason = (BadPtr(aconf->passwd) || !is_comment(aconf->passwd)) ?
+		"K-lined" : aconf->passwd;
+#endif
+	    }
+	  else
+#endif
+	  if(killflag)
+	    {
+	      sendto_ops("K-line active for %s",
+			 get_client_name(cptr, FALSE));
+#ifdef K_COMMENT_ONLY
+	      reason = aconf->passwd ? aconf->passwd : "K-lined";
+#else
+	      reason = (BadPtr(aconf->passwd) || !is_comment(aconf->passwd)) ?
+		"K-lined" : aconf->passwd;
+#endif
+	    }
+	  else /* its a D line */
+	    {
+	      sendto_ops("D-line active for %s",
+			 get_client_name(cptr, FALSE));
+	      reason = aconf->passwd ? aconf->passwd : "D-lined";
+	    }
+
+	  sendto_one(cptr, err_str(ERR_YOUREBANNEDCREEP),
+		     me.name, cptr->name, reason);
+
+#ifdef GLINES
+	  if(gkillflag)
+	    {
+#ifdef KLINE_WITH_REASON
+	      (void)exit_client(cptr, cptr, &me,reason);
+#else
+	      (void)exit_client(cptr, cptr, &me,"you have been G-lined");
+#endif
+	    }
+	  else
+#endif
+	  if(killflag)
+	    {
+#ifdef KLINE_WITH_REASON
+	      (void)exit_client(cptr, cptr, &me,reason);
+#else
+	      (void)exit_client(cptr, cptr, &me,"you have been K-lined");
+#endif
+	    }
+	  else
+	    {
+#ifdef KLINE_WITH_REASON
+	      (void)exit_client(cptr, cptr, &me, reason);
+#else
+	      (void)exit_client(cptr, cptr, &me,"you have been D-lined");
+#endif
+	    }
+	  i = 0;	/* start over from ground zero :-( */
+	  continue;
+	}
+      if (!IsRegistered(cptr))
+	ping = CONNECTTIMEOUT;
+      /*
+       * Ok, so goto's are ugly and can be avoided here but this code
+       * is already indented enough so I think its justified. -avalon
+       */
+      if (!rflag &&
+	  (ping >= currenttime - cptr->lasttime))
+	goto ping_timeout;
+
+      /*
+       * If the server hasnt talked to us in 2*ping seconds
+       * and it has a ping time, then close its connection.
+       * If the client is a user and a KILL line was found
+       * to be active, close this connection too.
+       */
+      if (((currenttime - cptr->lasttime) >= (2 * ping) &&
+	   (cptr->flags & FLAGS_PINGSENT)) ||
+	  ((!IsRegistered(cptr) && (currenttime - cptr->since) >= ping)) ||
+	  (rflag && !IsUnknown(cptr)) )
+	{
+	  if (!IsRegistered(cptr) &&
+	      (DoingDNS(cptr) || DoingAuth(cptr)))
+	    {
+	      if (cptr->authfd >= 0)
+		{
+		  (void)close(cptr->authfd);
+		  cptr->authfd = -1;
+		  cptr->count = 0;
+		  *cptr->buffer = '\0';
+		}
+#ifdef SHOW_HEADERS
+	      if (DoingDNS(cptr))
+		send(cptr->fd, REPORT_FAIL_DNS, R_fail_dns, 0);
+	      else
+		send(cptr->fd, REPORT_FAIL_ID, R_fail_id, 0);
+#endif
+	      Debug((DEBUG_NOTICE,"DNS/AUTH timeout %s",
+		     get_client_name(cptr,TRUE)));
+	      del_queries((char *)cptr);
+	      ClearAuth(cptr);
+	      ClearDNS(cptr);
+	      SetAccess(cptr);
+	      cptr->since = currenttime;
+	      continue;
+	    }
+	  if (IsServer(cptr) || IsConnecting(cptr) ||
+	      IsHandshake(cptr))
+	    {
+	      sendto_ops("No response from %s, closing link",
+			 get_client_name(cptr, FALSE));
+	    }
+	  /*
+	   * this is used for KILL lines with time restrictions
+	   * on them - send a messgae to the user being killed
+	   * first.
+	   * *** Moved up above  -taner ***
+	   */
+	  
+#if defined(R_LINES) && defined(R_LINES_OFTEN)
+	  if (IsPerson(cptr) && rflag)
+	    sendto_ops("Restricting %s, closing link.",
+		       get_client_name(cptr,FALSE));
+#endif
+	  (void)exit_client(cptr, cptr, &me,"Ping timeout");
+
+	  /*
+	   * need to start loop over because the close can
+	   * affect the ordering of the local[] array.- avalon
+	   */
+	  i = 0;
+	  continue;
+	}
+      else if ((cptr->flags & FLAGS_PINGSENT) == 0)
+	{
+	  /*
+	   * if we havent PINGed the connection and we havent
+	   * heard from it in a while, PING it to make sure
+	   * it is still alive.
+	   */
+	  cptr->flags |= FLAGS_PINGSENT;
+	  /* not nice but does the job */
+	  cptr->lasttime = currenttime - ping;
+	  sendto_one(cptr, "PING :%s", me.name);
+	}
+ping_timeout:
+      timeout = cptr->lasttime + ping;
+      while (timeout <= currenttime)
+	timeout += ping;
+      if (timeout < oldest || !oldest)
+	oldest = timeout;
+      /*
+       * Check UNKNOWN connections - if they have been in this state
+       * for > 100s, close them.
+       */
+      if (IsUnknown(cptr))
+	if (cptr->firsttime ? ((timeofday - cptr->firsttime) > 100) : 0)
+	  {
+	    (void)exit_client(cptr, cptr, &me, "Connection Timed Out");
+	  }
+    }
+  rehashed = 0;
+  dline_in_progress = 0;
+
+  if (!oldest || oldest < currenttime)
+    oldest = currenttime + PINGFREQUENCY;
+  Debug((DEBUG_NOTICE,"Next check_ping() call at: %s, %d %d %d",
+	 myctime(oldest), ping, oldest, currenttime));
+  
+  return (oldest);
+}
+
+#else /* OLD_CHECKPINGS */
 
 /*
  * I re-wrote check_pings a tad
@@ -740,6 +1008,7 @@ static	time_t	check_pings(time_t currenttime)
 	 myctime(oldest), ping, oldest, currenttime));
   return (oldest);
 }
+#endif /* OLD_CHECKPINGS */
 
 /*
 ** bad_command
