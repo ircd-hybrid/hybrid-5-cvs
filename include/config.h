@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.11 1997/12/08 05:26:16 lusky Exp $
+ * $Id: config.h,v 1.12 1997/12/17 21:02:32 db Exp $
  */
 
 #ifndef	__config_include__
@@ -358,8 +358,8 @@
 #define STATS_NOTICE
 
 /* LINKS_NOTICE - See a notice when a user does a /links
+ * its always defined now
  */
-#define LINKS_NOTICE
 
 /* LINK_WAIT - minimum seconds between use of LINKS
  * Allow a links request only every LINK_WAIT seconds to
