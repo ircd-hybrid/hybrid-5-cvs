@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.7 1998/11/07 06:35:29 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.8 1998/11/12 02:04:46 lusky Exp $";
 #endif
 
 
@@ -223,10 +223,6 @@ int	m_version(aClient *cptr,
 
   if(!IsAnOper(sptr))
     {
-      /* reject non local requests */
-      if(!MyConnect(sptr))
-	return 0;
-
       if((last_used + MOTD_WAIT) > NOW)
 	return 0;
       else
