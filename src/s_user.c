@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.29 1998/01/19 19:11:01 brian Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.30 1998/01/20 06:47:49 brian Exp $";
 
 #endif
 
@@ -419,6 +419,9 @@ static	int	register_user(aClient *cptr,
 #ifdef EXTRA_BOT_NOTICES
   char	botgecos[127];
 #endif
+#ifdef ANTI_SPAMBOT
+  char  spamchar = '\0';
+#endif
   user->last = timeofday;
   parv[0] = sptr->name;
   parv[1] = parv[2] = NULL;
@@ -459,6 +462,13 @@ static	int	register_user(aClient *cptr,
 	    
 	  } else
 	    return exit_client(cptr, sptr, &me, "Socket Error");
+
+#ifdef ANTI_SPAMBOT
+      /* Check for single char in user->host -ThemBones */
+      if (*(user->host + 1) == '\0')
+         spamchar = *user->host;
+#endif
+
 #ifdef BOTCHECK
       /*
        * We need to save this now, before we clobber it
@@ -611,6 +621,18 @@ static	int	register_user(aClient *cptr,
       return exit_client(cptr, sptr, &me,
 			 "Sorry, server is full - try later");
     }
+
+#ifdef ANTI_SPAMBOT
+  /* Reject single char user-given user->host's */
+  if (spamchar != '\0')
+  {
+    sendto_realops_lev(REJ_LEV,"Rejecting possible Spambot: %s (Single char user-given userhost: %c)",
+		       get_client_name(sptr,FALSE), spamchar);
+    ircstp->is_ref++;
+    return exit_client(cptr, sptr, sptr, "Spambot detected, rejected.");
+  }
+#endif
+
 #ifdef BOTCHECK
   /* Check bot type... */
   switch (isbot) {
