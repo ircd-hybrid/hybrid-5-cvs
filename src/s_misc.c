@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.14 1998/07/05 04:18:11 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.15 1998/07/09 03:39:47 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -379,8 +379,13 @@ char	*comment	/* Reason for the exit */
   char	comment1[HOSTLEN + HOSTLEN + 2];
   if (MyConnect(sptr))
     {
+#ifdef LIMIT_UH
+      if(sptr->flags & FLAGS_IPHASH)
+        remove_one_ip(sptr);
+#else
       if(sptr->flags & FLAGS_IPHASH)
         remove_one_ip(sptr->ip.s_addr);
+#endif
       if (IsAnOper(sptr))
 	{
 	  delfrom_fdlist(sptr->fd, &oper_fdlist);

@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.13 1998/07/08 17:31:56 db Exp $
+ * $Id: h.h,v 1.14 1998/07/09 03:39:42 db Exp $
  *
  */
 
@@ -334,7 +334,11 @@ extern	void	count_memory (aClient *, char *);
 #endif
 
 /* iphash code */
+#ifdef LIMIT_UH
+void remove_one_ip(aClient *);
+#else
 void remove_one_ip(unsigned long);
+#endif
 void clear_ip_hash_table(void);
 
 #ifdef FLUD

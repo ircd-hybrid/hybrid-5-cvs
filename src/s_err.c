@@ -23,7 +23,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.6 1998/07/08 06:35:41 db Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.7 1998/07/09 03:39:46 db Exp $";
 #endif
 
 typedef	struct	{
@@ -33,6 +33,9 @@ typedef	struct	{
 
 static	char	numbuff[512];
 
+#ifdef CUSTOM_ERR
+#include "s_err.h"
+#else
 static	Numeric	local_replies[] = {
 /* 000 */	0, (char *)NULL,
 /* 001 */	RPL_WELCOME, ":%s 001 %s :Welcome to the Internet Relay Network %s",
@@ -381,6 +384,7 @@ static	Numeric	numeric_errors[] = {
 /* 504 LAST */	ERR_LAST_ERR_MSG, ":%s 504 %s :Last Error Message",
 		0, (char *)NULL
 };
+#endif /* CUSTOM_ERR */
 
 char	*err_str(int numeric)
 {
