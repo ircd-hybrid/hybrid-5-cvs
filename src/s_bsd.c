@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.16 1998/02/11 21:51:57 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.17 1998/02/12 21:37:25 mpearce Exp $";
 #endif
 
 #include "struct.h"
@@ -1671,7 +1671,12 @@ int read_packet(aClient *cptr, int msg_ready)
       nfds = select(MAXCONNECTIONS, read_set, write_set,
 		    0, &wait);
 #endif
-      timeofday = time(NULL);
+      if((timeofday = time(NULL)) == -1)
+        {
+          syslog(LOG_WARNING, "Clock Failure (%d), TS can be corrupted", errno);
+          sendto_ops("Clock Failure (%d), TS can be corrupted", errno);
+        }   
+
       if (nfds == -1 && errno == EINTR)
 	{	
 	  return -1;
