@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.16 1997/10/13 00:21:30 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.17 1997/10/13 21:27:41 db Exp $";
 
 #endif
 
@@ -961,27 +961,20 @@ int	m_nick(aClient *cptr,
       /*
        * We got the wrong number of params. Someone is trying
        * to trick us. Kill it. -ThemBones
+       * As discussed with ThemBones, not much point to this code now
+       * sending a whack of global kills would also be more annoying
+       * then its worth, just note the problem, and continue
+       * -Dianora
        */
       sendto_realops("BAD NICK: %s[%s@%s] on %s (from %s)", parv[1],
 		     (parc >= 6) ? parv[5] : "-",
 		     (parc >= 7) ? parv[6] : "-",
 		     (parc >= 8) ? parv[7] : "-", parv[0]);
       
-      if(MyConnect(sptr))
-        {
-          ircstp->is_kill++;
-          sendto_one(sptr, ":%s KILL %s :Invalid hostname", me.name, parv[1]);
-          sptr->flags |= FLAGS_KILLED;
-          return exit_client(sptr, sptr, &me,
-            "Invalid hostname");
-        }
-/* for an user not on this server pulling this stunt, we could send
-   a global kill */
-    }
-	  
+     }
+
   if ((parc >= 7) && (!strchr(parv[6], '.')))
     {
-
       /*
        * Ok, we got the right number of params, but there
        * isn't a single dot in the hostname, which is suspicious.
@@ -989,19 +982,7 @@ int	m_nick(aClient *cptr,
        */
       sendto_realops("BAD HOSTNAME: %s[%s@%s] on %s (from %s)",
 		     parv[0], parv[5], parv[6], parv[7], parv[0]);
-      
-      if(MyConnect(sptr))
-        {
-          ircstp->is_kill++;
-          sendto_one(sptr, ":%s KILL %s :Invalid hostname", me.name, parv[1]);
-          sptr->flags |= FLAGS_KILLED;
-          return exit_client(sptr, sptr, &me,
-            "Invalid hostname");
-        }
-/* for an user not on this server pulling this stunt, we could send
-   a global kill */
     }
-
 
   fromTS = (parc > 6);
   
