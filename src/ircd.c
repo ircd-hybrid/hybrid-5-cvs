@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.30 1998/07/08 17:31:59 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.31 1998/07/10 07:38:23 db Exp $";
 #endif
 
 #include "struct.h"
@@ -74,6 +74,15 @@ struct tm	*motd_tm;
 fdlist serv_fdlist;
 fdlist oper_fdlist;
 fdlist listen_fdlist;
+
+#ifdef USE_LINKLIST
+/* LINKLIST */
+/* client pointer lists -Dianora */ 
+  
+aClient *local_cptr_list=(aClient *)NULL;
+aClient *oper_cptr_list=(aClient *)NULL;
+aClient *serv_cptr_list=(aClient *)NULL;
+#endif
 
 #ifndef NO_PRIORITY
 fdlist busycli_fdlist;	/* high-priority clients */

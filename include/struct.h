@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.22 1998/07/08 06:35:40 db Exp $
+ * $Id: struct.h,v 1.23 1998/07/10 07:38:21 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -442,6 +442,15 @@ struct	Server
 struct Client
 {
   struct	Client *next,*prev, *hnext;
+
+#ifdef USE_LINKLIST
+/* LINKLIST */
+
+  struct        Client *next_local_client;      /* keep track of these */
+  struct        Client *next_server_client;
+  struct        Client *next_oper_client;
+#endif
+
   anUser	*user;		/* ...defined, if this is a User */
   aServer	*serv;		/* ...defined, if this is a server */
   aWhowas 	*whowas;	/* Pointers to whowas structs */
