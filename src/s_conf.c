@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.2 1997/10/05 19:09:12 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.3 1997/10/19 19:04:50 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1166,9 +1166,8 @@ int 	initconf(int opt, char *conf_file)
 		for (s = tmp; (*s = *(s+1)); s++)
 		  ;
 	    }
-/*	  else if (*tmp == '#')
+	  else if (*tmp == '#')
 	    *tmp = '\0';
-	    */
 	}
       if (!*line || line[0] == '#' || line[0] == '\n' ||
 	  line[0] == ' ' || line[0] == '\t')

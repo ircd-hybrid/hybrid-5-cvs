@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.4 1997/10/12 18:00:09 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.5 1997/10/19 19:04:49 db Exp $";
 #endif
 
 #include "struct.h"
@@ -960,7 +960,7 @@ static	int	set_mode(aClient *cptr,
 		     me.name, cptr->name, "MODE +l");
 	  break;
 	case 'i' : /* falls through for default case */
-	  if (whatt == MODE_DEL)
+	  if ((whatt == MODE_DEL) && ischop)
 	    while ( (lp = chptr->invites) )
 	      del_invite(lp->value.cptr, chptr);
 	default:
