@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.10 1997/12/18 02:15:54 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.11 1998/01/09 18:15:53 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1568,7 +1568,8 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
 	      return 0;
 	    }
 #ifdef ANTI_SPAMBOT 	  /* Dianora */
-          successful_join_count++;
+          if(flags == 0)	/* if channel doesn't exist, don't penalize */
+            successful_join_count++;
           if( sptr->join_leave_count >= spam_num)
             { 
               /* Its already known as a possible spambot */
