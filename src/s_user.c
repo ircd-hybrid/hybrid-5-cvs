@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.5 1997/10/06 17:31:49 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.6 1997/10/06 19:39:16 mpearce Exp $";
 
 #endif
 
@@ -3523,6 +3523,7 @@ int check_for_flud(aClient *fluder,	/* fluder, client being fluded */
   if(!blocking && (count > flud_num))
     {
       blocking = 1;   
+      ircstp->is_flud++;
       
       /* if we are going to say anything to the fludee, now is the
       ** time to mention it to them. */
