@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.2 1997/10/06 05:36:10 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.3 1997/10/06 19:36:56 mpearce Exp $";
 #endif
 
 #include <sys/time.h>
@@ -763,6 +763,10 @@ void	tstats(aClient *cptr,char *name)
 	     sp->is_ckr, sp->is_cbr, sp->is_skr, sp->is_sbr);
   sendto_one(cptr, ":%s %d %s :time connected %u %u",
 	     me.name, RPL_STATSDEBUG, name, sp->is_cti, sp->is_sti);
+#ifdef FLUD
+  sendto_one(cptr, ":%s %d %s :CTCP Floods Blocked %u",
+             me.name, RPL_STATSDEBUG, name, sp->is_flud);
+#endif /* FLUD */
 }
 
 
