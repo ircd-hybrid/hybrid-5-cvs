@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.4 1997/10/07 19:22:36 mpearce Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.5 1997/12/10 22:35:26 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -400,7 +400,7 @@ char	*comment	/* Reason for the exit */
 	  on_for = timeofday - sptr->firsttime;
 # if defined(USE_SYSLOG) && defined(SYSLOG_USERS)
 	  if (IsPerson(sptr))
-	    syslog(LOG_LOCAL3|LOG_NOTICE, "%s (%3d:%02d:%02d): %s!%s@%s %d/%d\n",
+	    syslog(LOG_NOTICE, "%s (%3d:%02d:%02d): %s!%s@%s %d/%d\n",
 		   myctime(sptr->firsttime),
 		   on_for / 3600, (on_for % 3600)/60,
 		   on_for % 60, sptr->name,

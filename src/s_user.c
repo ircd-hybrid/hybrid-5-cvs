@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.24 1997/12/07 23:06:05 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.25 1997/12/10 22:35:28 db Exp $";
 
 #endif
 
@@ -2270,9 +2270,7 @@ int	m_quit(aClient *cptr,
   !strncmp(comment, "Killed", 6))
   comment = parv[0];
 */
-#ifdef CLIENT_NOTICES
   sptr->flags |= FLAGS_NORMALEX;
-#endif
   if (strlen(comment) > (size_t) TOPICLEN)
     comment[TOPICLEN] = '\0';
   return IsServer(sptr) ? 0 : exit_client(cptr, sptr, sptr, comment);

@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.6 1997/12/04 05:13:44 lusky Exp $
+ * $Id: struct.h,v 1.7 1997/12/10 22:35:23 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -50,13 +50,13 @@
 #include <sys/time.h>
 #endif
 
-#define REPORT_DO_DNS	"NOTICE AUTH :Looking up your hostname...\n"
-#define REPORT_FIN_DNS	"NOTICE AUTH :Found your hostname\n"
-#define REPORT_FIN_DNSC	"NOTICE AUTH :Found your hostname, cached\n"
-#define REPORT_FAIL_DNS	"NOTICE AUTH :Couldn't look up your hostname\n"
-#define REPORT_DO_ID	"NOTICE AUTH :Checking Ident\n"
-#define REPORT_FIN_ID	"NOTICE AUTH :Got Ident response\n"
-#define REPORT_FAIL_ID	"NOTICE AUTH :No Ident response\n"
+#define REPORT_DO_DNS	"NOTICE AUTH :*** Looking up your hostname...\n"
+#define REPORT_FIN_DNS	"NOTICE AUTH :*** Found your hostname\n"
+#define REPORT_FIN_DNSC	"NOTICE AUTH :*** Found your hostname, cached\n"
+#define REPORT_FAIL_DNS	"NOTICE AUTH :*** Couldn't look up your hostname\n"
+#define REPORT_DO_ID	"NOTICE AUTH :*** Checking Ident\n"
+#define REPORT_FIN_ID	"NOTICE AUTH :*** Got Ident response\n"
+#define REPORT_FAIL_ID	"NOTICE AUTH :*** No Ident response\n"
 
 #include "hash.h"
 

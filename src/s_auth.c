@@ -19,7 +19,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_auth.c	1.17 17 Oct 1993 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_auth.c,v 1.4 1997/12/07 22:03:29 lusky Exp $";
+static char *rcs_version = "$Id: s_auth.c,v 1.5 1997/12/10 22:35:25 db Exp $";
 #endif
 
 #include "struct.h"
@@ -157,7 +157,7 @@ void	send_authports(aClient *cptr)
       getpeername(cptr->fd, (struct sockaddr *)&them, &tlen))
     {
 #ifdef	USE_SYSLOG
-      syslog(LOG_ERR, "auth get{sock,peer}name error for %s:%m",
+      syslog(LOG_DEBUG, "auth get{sock,peer}name error for %s:%m",
 	     get_client_name(cptr, TRUE));
 #endif
       authsenderr(cptr);

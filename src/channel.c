@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.8 1997/12/07 23:51:06 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.9 1997/12/10 22:35:24 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1500,7 +1500,7 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
 	    {
 	      if(sptr->join_leave_count >= spam_num)
 		{
-		  sendto_ops("User %s (%s@%s) is a possible spambot",
+		  sendto_realops("User %s (%s@%s) is a possible spambot",
 			     sptr->name,
 			     sptr->user->username, sptr->user->host);
 		  sptr->oper_warn_count_down = OPER_SPAM_COUNTDOWN;
@@ -1567,7 +1567,7 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
 
 	      if(sptr->oper_warn_count_down == 0)
 		{
-		  sendto_ops("User %s (%s@%s) is a possible spambot",
+		  sendto_realops("User %s (%s@%s) is a possible spambot",
 			     sptr->name,
 			     sptr->user->username, sptr->user->host);
 		  sptr->oper_warn_count_down = OPER_SPAM_COUNTDOWN;
@@ -1685,7 +1685,7 @@ int	m_part(aClient *cptr,
 	{
 	  if(sptr->join_leave_count >= spam_num)
 	    {
-	      sendto_ops("User %s (%s@%s) is a possible spambot",
+	      sendto_realops("User %s (%s@%s) is a possible spambot",
 			 sptr->name,
 			 sptr->user->username, sptr->user->host);
 	      sptr->oper_warn_count_down = OPER_SPAM_COUNTDOWN;

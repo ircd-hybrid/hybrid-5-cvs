@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.25 1997/12/08 05:26:20 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.26 1997/12/10 22:35:27 db Exp $";
 #endif
 
 
@@ -2914,7 +2914,7 @@ int     m_gline(aClient *cptr,
       if ( parc < 3 )
 	{
 	  sendto_one(sptr, err_str(ERR_NEEDMOREPARAMS),
-		     me.name, parv[0], "KLINE");
+		     me.name, parv[0], "GLINE");
 	  return 0;
 	}
       
