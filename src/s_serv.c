@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.35 1998/02/01 23:14:59 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.36 1998/02/03 15:49:13 db Exp $";
 #endif
 
 
@@ -3421,6 +3421,9 @@ int     m_kline(aClient *cptr,
       if (!(acptr = find_chasing(sptr, argv, NULL)))
 	return 0;
 
+      if(!acptr->user)
+	return 0;
+
       if (IsServer(acptr))
 	{
 	  sendto_one(sptr,
@@ -4193,6 +4196,9 @@ int     m_dline(aClient *cptr,
 	  if(!isdigit(*p))
 	    {
 	      if (!(acptr = find_chasing(sptr, parv[1], NULL)))
+		return 0;
+
+	      if(!acptr->user)
 		return 0;
 
 	      if (IsServer(acptr))

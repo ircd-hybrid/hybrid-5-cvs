@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)list.c	2.22 15 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: list.c,v 1.2 1997/10/06 22:23:22 mpearce Exp $";
+static char *rcs_version = "$Id: list.c,v 1.3 1998/02/03 15:49:12 db Exp $";
 #endif
 
 #include "struct.h"
@@ -36,7 +36,8 @@ static char *rcs_version = "$Id: list.c,v 1.2 1997/10/06 22:23:22 mpearce Exp $"
 
 
 /*
-re-written to use jolo's block allocator routines. very nicely done jolo
+re-written to use Wohali (joant@cadence.com)
+block allocator routines. very nicely done Wohali
 
 -Dianora
 
