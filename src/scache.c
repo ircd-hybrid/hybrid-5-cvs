@@ -5,7 +5,7 @@
 #include "h.h"
 
 #ifndef lint
-static char *rcs_version ="$Id: scache.c,v 1.2 1998/09/15 19:57:00 db Exp $";
+static char *rcs_version ="$Id: scache.c,v 1.3 1998/09/17 14:03:10 db Exp $";
 #endif
 
 static int hash(char *);	/* keep it hidden here */

@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_debug.c	2.28 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *version = "$Id: s_debug.c,v 1.10 1998/09/17 06:36:53 db Exp $";
+static char *version = "$Id: s_debug.c,v 1.11 1998/09/17 14:03:05 db Exp $";
 #endif
 
 #include "struct.h"
@@ -485,7 +485,7 @@ void	count_memory(aClient *cptr,char *nick)
 
   sendto_one(cptr, ":%s %d %s :TOTAL: %d sbrk(0)-etext: %u",
 	     me.name, RPL_STATSDEBUG, nick, tot,
-	     (u_long)sbrk((size_t)0)-(u_long)sbrk0);
+	     (u_int)sbrk((size_t)0)-(u_int)sbrk0);
 
   return;
 }

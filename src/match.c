@@ -21,7 +21,7 @@
 static  char sccsid[] = "%W% %G% (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: match.c,v 1.2 1998/09/15 19:56:45 db Exp $";
+static char *rcs_version = "$Id: match.c,v 1.3 1998/09/17 14:02:57 db Exp $";
 #endif
 
 #include "struct.h"

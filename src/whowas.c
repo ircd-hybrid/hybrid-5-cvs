@@ -24,7 +24,7 @@
 #include "h.h"
 
 #ifndef lint
-static char *rcs_version = "$Id: whowas.c,v 1.4 1998/09/15 19:57:02 db Exp $";
+static char *rcs_version = "$Id: whowas.c,v 1.5 1998/09/17 14:03:12 db Exp $";
 #endif
 
 /* externally defined functions */

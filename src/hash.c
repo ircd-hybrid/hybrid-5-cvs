@@ -20,7 +20,7 @@
 #ifndef lint
 static char sccsid[] = "@(#)hash.c	2.10 03 Jul 1993 (C) 1991 Darren Reed";
 
-static char *rcs_version = "$Id: hash.c,v 1.4 1998/09/15 19:56:41 db Exp $";
+static char *rcs_version = "$Id: hash.c,v 1.5 1998/09/17 14:02:54 db Exp $";
 #endif
 
 #include "struct.h"

@@ -8,7 +8,7 @@
 /* ************************************************************************ */
 
 #ifndef lint
-static char *rcs_version = "$Id: blalloc.c,v 1.6 1998/09/15 19:56:37 db Exp $";
+static char *rcs_version = "$Id: blalloc.c,v 1.7 1998/09/17 14:02:50 db Exp $";
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -296,7 +296,7 @@ int BlockHeapFree(BlockHeap *bh, void *ptr)
 	      syslog(LOG_DEBUG,"blalloc.c bit already clear in map!");
 #endif
 	      sendto_ops("blalloc.c bit already clear in map!");
-	      sendto_ops("Please report to the hybrid team! ircd-hybrid@the-project.org");
+	      sendto_ops("Please report to the hybrid team! ircd-hybrid@vol.com");
 	    }
 	  else
 	    {

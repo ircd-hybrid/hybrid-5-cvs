@@ -23,7 +23,7 @@
 static  char sccsid[] = "@(#)s_numeric.c	2.12 07 Aug 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_numeric.c,v 1.2 1998/09/15 19:56:57 db Exp $";
+static char *rcs_version = "$Id: s_numeric.c,v 1.3 1998/09/17 14:03:07 db Exp $";
 
 #endif
 

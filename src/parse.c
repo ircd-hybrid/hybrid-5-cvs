@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)parse.c	2.30 17 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: parse.c,v 1.6 1998/09/15 19:56:48 db Exp $";
+static char *rcs_version = "$Id: parse.c,v 1.7 1998/09/17 14:02:59 db Exp $";
 
 #endif
 #include "struct.h"
