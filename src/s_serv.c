@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.56 1998/07/10 21:31:26 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.57 1998/07/11 03:05:26 db Exp $";
 #endif
 
 
@@ -1967,7 +1967,11 @@ int	m_stats(aClient *cptr,
 
     case 'B' : case 'b' :
 #ifdef B_LINES_OPER_ONLY
-      if (!IsAnOper(sptr)) break;
+      if (!IsAnOper(sptr))
+	{
+	  sendto_one(sptr, err_str(ERR_NOPRIVILEGES), me.name, parv[0]);
+	  break;
+	}
 #endif
       report_conf_links(sptr, &BList1, RPL_STATSBLINE, 'B');
       report_conf_links(sptr, &BList2, RPL_STATSBLINE, 'B');
@@ -1975,13 +1979,21 @@ int	m_stats(aClient *cptr,
       break;
 
     case 'D': case 'd':
-      if (!IsAnOper(sptr)) break;
+      if (!IsAnOper(sptr))
+	{
+	  sendto_one(sptr, err_str(ERR_NOPRIVILEGES), me.name, parv[0]);
+	  break;
+	}
       report_dline_hash(sptr, RPL_STATSDLINE);
       break;
 
     case 'E' : case 'e' :
 #ifdef E_LINES_OPER_ONLY
-      if (!IsAnOper(sptr)) break;
+      if (!IsAnOper(sptr))
+	{
+	  sendto_one(sptr, err_str(ERR_NOPRIVILEGES), me.name, parv[0]);
+	  break;
+	}
 #endif
       report_conf_links(sptr, &EList1, RPL_STATSELINE, 'E');
       report_conf_links(sptr, &EList2, RPL_STATSELINE, 'E');
@@ -1990,7 +2002,11 @@ int	m_stats(aClient *cptr,
 
     case 'F' : case 'f' :
 #ifdef F_LINES_OPER_ONLY
-      if (!IsAnOper(sptr)) break;
+      if (!IsAnOper(sptr))
+	{
+	  sendto_one(sptr, err_str(ERR_NOPRIVILEGES), me.name, parv[0]);
+	  break;
+	}
 #endif
       report_conf_links(sptr, &FList1, RPL_STATSFLINE, 'F');
       report_conf_links(sptr, &FList2, RPL_STATSFLINE, 'F');

@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.24 1998/07/10 19:57:59 db Exp $
+ * $Id: struct.h,v 1.25 1998/07/11 03:05:23 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -99,6 +99,8 @@ typedef struct	MotdItem aMotd;
 #define	MAXRECIPIENTS 	20
 #define	MAXBANS		25
 #define	MAXBANLENGTH	1024
+
+#define OPERWALL_LEN    400		/* can be truncated on other servers */
 
 #define MOTDLINELEN	90
 

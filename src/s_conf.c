@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.18 1998/07/09 23:41:11 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.19 1998/07/11 03:05:25 db Exp $";
 #endif
 
 #include "struct.h"
@@ -614,21 +614,28 @@ void count_ip_hash(int *number_ips_stored,u_long *mem_ips_stored)
 }
 
 /*
-dhash_stats()
+iphash_stats()
 
 inputs		- 
 output		-
 side effects
 */
 
-void iphash_stats(aClient *cptr, aClient *sptr,int parc, char *parv[])
+void iphash_stats(aClient *cptr, aClient *sptr,int parc, char *parv[],int out)
 {
   IP_ENTRY *ip_hash_ptr;
   int i;
   int collision_count;
+  char result_buf[256];
 
-  sendto_one(sptr,":%s NOTICE %s :*** hash stats for iphash",
-	     me.name,cptr->name);
+  if(out < 0)
+    sendto_one(sptr,":%s NOTICE %s :*** hash stats for iphash",
+	       me.name,cptr->name);
+  else
+    {
+      (void)sprintf(result_buf,"*** hash stats for iphash\n");
+      (void)write(out,result_buf,strlen(result_buf));
+    }
 
   for(i = 0; i < IP_HASH_SIZE ;i++)
     {
@@ -641,8 +648,19 @@ void iphash_stats(aClient *cptr, aClient *sptr,int parc, char *parv[])
 	  ip_hash_ptr = ip_hash_ptr->next;
 	}
       if(collision_count)
-        sendto_one(sptr,":%s NOTICE %s :Entry %d (0x%X) Collisions %d",
-		 me.name,cptr->name,i,i,collision_count);
+	{
+	  if(out < 0)
+	    {
+	      sendto_one(sptr,":%s NOTICE %s :Entry %d (0x%X) Collisions %d",
+			 me.name,cptr->name,i,i,collision_count);
+	    }
+	  else
+	    {
+	      (void)sprintf(result_buf,"Entry %d (0x%X) Collisions %d\n",
+			    i,i,collision_count);
+	      (void)write(out,result_buf,strlen(result_buf));
+	    }
+	}
     }
 }
 
@@ -2975,15 +2993,22 @@ output		-
 side effects
 */
 
-void dhash_stats(aClient *cptr, aClient *sptr,int parc, char *parv[])
+void dhash_stats(aClient *cptr, aClient *sptr,int parc, char *parv[],int out)
 {
   aConfItem *tmp;
   int i;
   DLINE_ENTRY *p;
   int collision_count;
+  char result_buf[256];
 
-  sendto_one(sptr,":%s NOTICE %s :*** hash stats for dhash",
-	     me.name,cptr->name);
+  if(out < 0)
+    sendto_one(sptr,":%s NOTICE %s :*** hash stats for dhash",
+	       me.name,cptr->name);
+  else
+    {
+      (void)sprintf(result_buf,"*** hash stats for dhash\n");
+      (void)write(out,result_buf,strlen(result_buf));
+    }
 
   for(i = 0; i < DLINE_HASH_SIZE; i++)
     {
@@ -3003,8 +3028,17 @@ void dhash_stats(aClient *cptr, aClient *sptr,int parc, char *parv[])
 	  p = p->next;
 	}
       if(collision_count)
-        sendto_one(sptr,":%s NOTICE %s :Entry %d (0x%X) Collisions %d",
-		 me.name,cptr->name,i,i,collision_count);
+	{
+	  if(out < 0)
+	    sendto_one(sptr,":%s NOTICE %s :Entry %d (0x%X) Collisions %d",
+		       me.name,cptr->name,i,i,collision_count);
+	  else
+	    {
+	      (void)sprintf(result_buf,"Entry %d (0x%X) Collisions %d\n",
+			    i,i,collision_count);
+	      (void)write(out,result_buf,strlen(result_buf));
+	    }
+	}
     }
 }
 
