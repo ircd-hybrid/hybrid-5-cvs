@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.78 1998/07/16 20:58:10 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.79 1998/07/17 01:24:09 db Exp $";
 #endif
 
 
@@ -5302,7 +5302,20 @@ int	m_motd(aClient *cptr,
 {
   static time_t last_motd=0;
 
-  if( ( (last_motd + MOTD_WAIT) < NOW) || IsAnOper(sptr) )
+  if(IsAnOper(sptr))	
+    {
+      /* Don't penalize non opers by setting last_motd here */
+
+      if (hunt_server(cptr, sptr, ":%s MOTD :%s", 1,parc,parv)!=HUNTED_ISME)
+	return 0;
+
+      sendto_realops_lev(SPY_LEV, "motd requested by %s (%s@%s) [%s]",
+			 sptr->name, sptr->user->username, sptr->user->host,
+			 sptr->user->server);
+
+      return(send_motd(cptr,sptr,parc,parv));
+    }
+  else if( ( (last_motd + MOTD_WAIT) < NOW))
     {
       last_motd = NOW;
 

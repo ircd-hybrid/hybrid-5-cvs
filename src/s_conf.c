@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.32 1998/07/16 14:55:34 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.33 1998/07/17 01:24:07 db Exp $";
 #endif
 
 #include "struct.h"
@@ -3483,8 +3483,8 @@ int get_oper_privs(int int_privs,char *privs)
 	int_privs |= CONF_OPER_REMOTE;	/* squit/connect etc. */
       else if(*privs == 'r')
 	int_privs &= ~CONF_OPER_REMOTE;	/* squit/connect etc. */
-      else if(*privs == 'T')
-	int_privs |= CONF_OPER_TCM;
+      else if(*privs == 'N')
+	int_privs |= CONF_OPER_N;
 #ifdef GLINES
       else if(*privs == 'G')
 	int_privs |= CONF_OPER_GLINE;
@@ -3552,11 +3552,11 @@ char *oper_privs(aClient *cptr,int port)
   else
     *privs_ptr++ = 'g';
 
-  if(port & CONF_OPER_TCM)
+  if(port & CONF_OPER_N)
     {
       if(cptr)
-	SetOpertcm(cptr);
-      *privs_ptr++ = 'T';
+	SetOperN(cptr);
+      *privs_ptr++ = 'N';
     }
 
   *privs_ptr = '\0';
