@@ -28,6 +28,16 @@ base_HPATH=`basename $HPATH`;
 #   leave KPATH undefined if you want klines in main conf file
 #   HPATH is the opers help file, seen by opers on /quote help
 
+# make directory if its not there
+if [ ! -d $DPATH ]; then
+  mkdir -p $DPATH
+fi
+
+if [ ! -d $DPATH ]; then
+  echo "ERROR Could not create $DPATH";
+  exit;
+fi
+
 # install ircd, save old one as ircd.old
 
 if [ $base_SPATH = $SPATH ] ; then
