@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.2 1997/10/01 23:51:44 cbehrens Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.3 1997/10/06 05:36:10 db Exp $";
 #endif
 
 #include "struct.h"
@@ -612,8 +612,7 @@ int	check_client(aClient *cptr)
   if (check_init(cptr, sockname))
     return -2;
 
-  if (!IsUnixSocket(cptr))
-    hp = cptr->hostp;
+  hp = cptr->hostp;
   /*
    * Verify that the host to ip mapping is correct both ways and that
    * the ip#(s) for the socket is listed for the host.
@@ -643,7 +642,7 @@ int	check_client(aClient *cptr)
   Debug((DEBUG_DNS, "ch_cl: access ok: %s[%s]",
 	 cptr->name, sockname));
 
-  if (inet_netof(cptr->ip) == IN_LOOPBACKNET || IsUnixSocket(cptr) ||
+  if (inet_netof(cptr->ip) == IN_LOOPBACKNET || 
       inet_netof(cptr->ip) == inet_netof(mysk.sin_addr))
     {
       ircstp->is_loc++;
@@ -704,7 +703,7 @@ int	check_server_init(aClient *cptr)
   ** real name, then check with it as the host. Use gethostbyname()
   ** to check for servername as hostname.
   */
-  if (!IsUnixSocket(cptr) && !cptr->hostp)
+  if (!cptr->hostp)
     {
       Reg	aConfItem *aconf;
 
@@ -868,11 +867,10 @@ int	check_server(aClient *cptr,
   (void)attach_conf(cptr, c_conf);
   (void)attach_confs(cptr, name, CONF_HUB|CONF_LEAF);
   
-  if ((c_conf->ipnum.s_addr == -1) && !IsUnixSocket(cptr))
+  if ((c_conf->ipnum.s_addr == -1))
     bcopy((char *)&cptr->ip, (char *)&c_conf->ipnum,
 	  sizeof(struct in_addr));
-  if (!IsUnixSocket(cptr))
-    get_sockhost(cptr, c_conf->host);
+  get_sockhost(cptr, c_conf->host);
   
   Debug((DEBUG_DNS,"sv_cl: access ok: %s[%s]",
 	 name, cptr->sockhost));

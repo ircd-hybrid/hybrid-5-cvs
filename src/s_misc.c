@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.1 1997/09/29 15:35:28 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.2 1997/10/06 05:36:10 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -283,8 +283,6 @@ char  *get_client_host(aClient *cptr)
     return cptr->name;
   if (!cptr->hostp)
     return get_client_name(cptr, FALSE);
-  if (IsUnixSocket(cptr))
-    (void) ircsprintf(nbuf, "%s[%s]", cptr->name, me.name);
   else
     (void)ircsprintf(nbuf, "%s[%-.*s@%-.*s]",
 		     cptr->name, USERLEN,
@@ -464,11 +462,11 @@ char	*comment	/* Reason for the exit */
 	    {
 	      if (cptr != NULL && sptr != cptr)
 		sendto_one(sptr, "ERROR :Closing Link: %s %s (%s)",
-			   IsUnixSocket(sptr) ? me.sockhost : sptr->sockhost,
+			   sptr->sockhost,
 			   sptr->name, comment);
 	      else
 		sendto_one(sptr, "ERROR :Closing Link: %s (%s)",
-			   IsUnixSocket(sptr) ? me.sockhost : sptr->sockhost,
+			   sptr->sockhost,
 			   comment);
 	    }
 	  /*

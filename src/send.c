@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)send.c	2.32 2/28/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: send.c,v 1.1 1997/09/29 15:35:28 db Exp $";
+static char *rcs_version = "$Id: send.c,v 1.2 1997/10/06 05:36:14 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1009,10 +1009,7 @@ void    send_operwall(aClient *from, char *message)
   else if (*user->host && MyConnect(from))
     {
       (void)strcat(sender, "@");
-      if (IsUnixSocket(from))
-	(void)strcat(sender, user->host);
-      else
-	(void)strcat(sender, from->sockhost);
+      (void)strcat(sender, from->sockhost);
     }
   for (i=oper_fdlist.entry[j=1];j<=oper_fdlist.last_entry;
        i=oper_fdlist.entry[++j])
@@ -1118,10 +1115,7 @@ va_dcl
 	  if (!flag && MyConnect(from) && *user->host)
 	    {
 	      (void)strcat(sender, "@");
-	      if (IsUnixSocket(from))
-		(void)strcat(sender, user->host);
-	      else
-		(void)strcat(sender, from->sockhost);
+	      (void)strcat(sender, from->sockhost);
 	    }
 	  par = sender;
 	}
