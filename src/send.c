@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)send.c	2.32 2/28/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: send.c,v 1.10 1998/07/12 19:41:09 db Exp $";
+static char *rcs_version = "$Id: send.c,v 1.11 1998/07/14 04:47:25 db Exp $";
 #endif
 
 #include "struct.h"
@@ -943,7 +943,7 @@ va_dcl
   va_start(vl);
 #endif
 #ifdef USE_LINKLIST
-  for(cptr = oper_cptr_list; cptr; cptr = cptr->next_oper_client)
+  for(cptr = local_cptr_list; cptr; cptr = cptr->next_local_client)
     if(SendServNotice(cptr))
 #else
   for (i = 0; i <= highest_fd; i++)
@@ -1160,6 +1160,9 @@ va_dcl
 #else
   par = p1;
 #endif
+  /* DEBUG */
+Debug((DEBUG_DEBUG,"sendto_prefix_one to %x from %x",to,from));
+
 /* Optimize by checking if (from && to) before everything */
   if (to && from)
     {

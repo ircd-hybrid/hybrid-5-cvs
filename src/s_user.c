@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.57 1998/07/13 02:04:39 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.58 1998/07/14 04:47:22 db Exp $";
 
 #endif
 
@@ -948,17 +948,8 @@ static	int	register_user(aClient *cptr,
 
     while(*p)
       {
-	if( (*p > 127) || (*p < ' '))
-	  {
-	    sendto_realops_lev(REJ_LEV,"Invalid username: %s (%s@%s)",
-			       nick, user->username, user->host);
-	    ircstp->is_ref++;
-	    (void)ircsprintf(tmpstr2, "Invalid username [%s]",
-			     user->username);
-	    return exit_client(cptr, sptr, &me, tmpstr2);
-	  }
-
-	if((*p == '*') || (*p == '?') || (*p == '!'))
+	if( (*p > 127) || (*p <= ' ') || 
+	    (*p == '*') || (*p == '?') || (*p == '!'))
 	  {
 	    sendto_realops_lev(REJ_LEV,"Invalid username: %s (%s@%s)",
 			       nick, user->username, user->host);
