@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.14 1998/02/08 20:58:33 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.15 1998/02/09 00:39:26 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -1131,8 +1131,19 @@ time_t io_loop(time_t delay)
   static time_t	lasttime	= 0;
   static long	lastrecvK	= 0;
   static int	lrv		= 0;
+  time_t lasttimeofday;
 
+  lasttimeofday = timeofday;
   timeofday = time(NULL);
+
+  if (timeofday < lasttimeofday)
+  {
+  	(void)ircsprintf(to_send,
+		"System clock is running backwards - (%d < %d)",
+		timeofday, lasttimeofday);
+	report_error(to_send, &me);
+  }
+
   NOW = timeofday;
 
   /*
