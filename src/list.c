@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)list.c	2.22 15 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: list.c,v 1.5 1998/02/09 03:47:50 lusky Exp $";
+static char *rcs_version = "$Id: list.c,v 1.6 1998/02/10 18:05:01 db Exp $";
 #endif
 
 #include "struct.h"
@@ -293,7 +293,6 @@ void	free_user(anUser *user, aClient *cptr)
 		 user->username, user->host, user,
 		 user->invited, user->channel, user->joined,
 		 user->refcnt);
-
 
       if(BlockHeapFree(free_anUsers,user))
 	{

@@ -8,7 +8,7 @@
 /* ************************************************************************ */
 
 #ifndef lint
-static char *rcs_version = "$Id: blalloc.c,v 1.3 1998/02/09 03:47:48 lusky Exp $";
+static char *rcs_version = "$Id: blalloc.c,v 1.4 1998/02/10 18:05:00 db Exp $";
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -220,12 +220,13 @@ void *BlockHeapAlloc (BlockHeap *bh)
 		   walker->freeElems--;  bh->freeElems--;
 		                                   /* And return the pointer */
 
-		   /* Address arithemtic is always ca-ca -Dianora */
-		   /* have to make sure the the bit pattern for the
-		      base address is converted into the same nubmer of
-		      bit in an integer type, that has at least
-		      sizeof(unsigned long) at least == sizeof(void *)
-		      */
+		   /* Address arithemtic is always ca-ca 
+		    * have to make sure the the bit pattern for the
+		    * base address is converted into the same number of
+		    * bits in an integer type, that has at least
+		    * sizeof(unsigned long) at least == sizeof(void *)
+		    * -Dianora 
+		    */
 
 		   return ( (void *) (
 			    (unsigned long)walker->elems + 
@@ -287,7 +288,7 @@ int BlockHeapFree(BlockHeap *bh, void *ptr)
 	  bitmask = 1L << (ctr % (sizeof(long) * 8));
 	  ctr = ctr / (sizeof(long) * 8);
 	  /* Flip the right allocation bit */
-	  if( (walker->allocMap[ctr] & ~bitmask) == 0 )
+	  if( (walker->allocMap[ctr] & bitmask) == 0 )
 	    {
 #if defined(USE_SYSLOG) && defined(SYSLOG_BLOCK_ALLOCATOR)
 	      syslog(LOG_DEBUG,"blalloc.c bit already clear in map!");
