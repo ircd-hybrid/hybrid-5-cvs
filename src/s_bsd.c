@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.2 1997/10/01 23:51:44 cbehrens Exp $";
 #endif
 
 #include "struct.h"
@@ -76,7 +76,6 @@ typedef struct pollfd pollfd_t;
 extern fdlist serv_fdlist;
 extern fdlist busycli_fdlist;
 extern fdlist default_fdlist;
-extern fdlist ident_fdlist;
 #ifndef IN_LOOPBACKNET
 #define IN_LOOPBACKNET	0x7f
 #endif

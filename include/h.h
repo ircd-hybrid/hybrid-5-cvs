@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.1 1997/09/29 15:35:22 db Exp $
+ * $Id: h.h,v 1.2 1997/10/01 23:51:42 cbehrens Exp $
  *
  */
 
@@ -63,7 +63,6 @@ extern lifesux;
 extern fdlist serv_fdlist;
 extern fdlist busycli_fdlist;
 extern fdlist default_fdlist;
-extern fdlist ident_fdlist;
 extern fdlist oper_fdlist;
 extern	int	MAXCLIENTS;
 extern	struct	Counter	Count;
