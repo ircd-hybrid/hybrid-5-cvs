@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.8 1998/11/12 02:04:46 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.9 1998/11/12 03:00:46 lusky Exp $";
 #endif
 
 
@@ -211,13 +211,6 @@ int	m_version(aClient *cptr,
 		  char *parv[])
 {
   extern char serveropts[];
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
 
@@ -230,14 +223,22 @@ int	m_version(aClient *cptr,
     }
 
   if(IsAnOper(sptr))
-     {
-       if (hunt_server(cptr,sptr,":%s VERSION :%s",1,parc,parv)==HUNTED_ISME)
-	 sendto_one(sptr, rpl_str(RPL_VERSION), me.name,
-		    parv[0], version, debugmode, me.name, serveropts);
-     }
-   else
-     sendto_one(sptr, rpl_str(RPL_VERSION), me.name,
-		parv[0], version, debugmode, me.name, serveropts);
+  if (hunt_server(cptr,sptr,":%s VERSION :%s",1,parc,parv)==HUNTED_ISME)
+    {
+      if(!IsAnOper(sptr))
+        {
+          if((last_used + MOTD_WAIT) > NOW)
+            {
+              return 0;
+            }
+          else
+            {
+              last_used = NOW;
+            }
+        }
+      sendto_one(sptr, rpl_str(RPL_VERSION), me.name,
+		 parv[0], version, debugmode, me.name, serveropts);
+    }
   return 0;
 }
 
@@ -1049,42 +1050,36 @@ int	m_info(aClient *cptr,
 {
   char **text = infotext;
   char outstr[241];
-
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
 
-  if(!IsAnOper(sptr))
-    {
-      /* reject non local requests */
-      if(!MyConnect(sptr))
-	return 0;
-
-      if((last_used + MOTD_WAIT) > NOW)
-	return 0;
-      else
-	last_used = NOW;
-    }
-
-  sendto_realops_lev(SPY_LEV, "INFO requested by %s (%s@%s) [%s]",
-		     sptr->name, sptr->user->username, sptr->user->host,
-		     sptr->user->server);
-
   if (hunt_server(cptr,sptr,":%s INFO :%s",1,parc,parv) == HUNTED_ISME)
     {
+      sendto_realops_lev(SPY_LEV, "INFO requested by %s (%s@%s) [%s]",
+                         sptr->name, sptr->user->username, sptr->user->host,
+                         sptr->user->server);
+      if(!IsAnOper(sptr))
+        {
+        /* reject non local requests */
+          if(!MyConnect(sptr))
+            return 0;
+          if((last_used + MOTD_WAIT) > NOW)
+            {
+              return 0;
+            }
+          else
+            {
+              last_used = NOW;
+            }
+        }
+
       while (*text)
 	sendto_one(sptr, rpl_str(RPL_INFO),
 		   me.name, parv[0], *text++);
       
       sendto_one(sptr, rpl_str(RPL_INFO), me.name, parv[0], "");
 
-      if (IsAnOper(sptr))
+      if (IsAnOper(sptr) && MyConnect(sptr))
       {
 #ifdef ANTI_NICK_FLOOD
         strcpy(outstr,"ANTI_NICK_FLOOD=1");
@@ -1515,28 +1510,8 @@ int	m_links(aClient *cptr,
   char *s;
   char *d;
   int  n;
-
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
-
-  if(!IsAnOper(sptr))
-    {
-      /* reject non local requests */
-      if(!MyConnect(sptr))
-	return 0;
-
-      if((last_used + MOTD_WAIT) > NOW)
-	return 0;
-      else
-	last_used = NOW;
-    }
 
   if (parc > 2)
     {
@@ -1547,6 +1522,23 @@ int	m_links(aClient *cptr,
     }
   else
     mask = parc < 2 ? NULL : parv[1];
+
+  if(!IsAnOper(sptr))
+    {
+      /* reject non local requests */
+      if(!MyConnect(sptr))
+        return 0;
+
+      if((last_used + MOTD_WAIT) > NOW)
+        {
+          return 0;
+        }
+      else
+        {
+          last_used = NOW;
+        }
+    }
+
 
 /*
   *sigh* Before the kiddies find this new and exciting way of 
@@ -1717,15 +1709,11 @@ int	m_stats(aClient *cptr,
   Reg	int	i;
   int	doall = 0, wilds = 0;
   char	*name;
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
+
+  if (hunt_server(cptr,sptr,":%s STATS %s :%s",2,parc,parv)!=HUNTED_ISME)
+    return 0;
 
   if(!IsAnOper(sptr))
     {
@@ -1733,17 +1721,18 @@ int	m_stats(aClient *cptr,
        * but in this case allow stats p
        */
       if( !((stat == 'p') || (stat == 'P')) &&
-	  !MyConnect(sptr))
-	return 0;
+          !MyConnect(sptr))
+        return 0;
 
       if((last_used + MOTD_WAIT) > NOW)
-	return 0;
+        {
+          return 0;
+        }
       else
-	last_used = NOW;
+        {
+          last_used = NOW;
+        }
     }
-
-  if (hunt_server(cptr,sptr,":%s STATS %s :%s",2,parc,parv)!=HUNTED_ISME)
-    return 0;
 
   if (parc > 2)
     {
@@ -2061,23 +2050,12 @@ int	m_help(aClient *cptr,
 {
   int i;
   register aMotd *helpfile_ptr;
-
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
 
   if(!IsAnOper(sptr))
     {
-      /* reject non local requests */
-      if(!MyConnect(sptr))
-	return 0;
-
+      /* HELP is always local */
       if((last_used + MOTD_WAIT) > NOW)
 	return 0;
       else
@@ -2106,61 +2084,67 @@ int	m_help(aClient *cptr,
 }
 
 /*
- * parv[0] = sender
- * parv[1] = host/server mask.
- * parv[2] = server to query
- * 
- */
-int	 m_lusers(aClient *cptr,
-		  aClient *sptr,
-		  int parc,
-		  char *parv[])
-{
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
-  static time_t last_used=0L;
-  static int last_count=0;
-
-  if(!IsAnOper(sptr))
-    {
-      if((last_used + MOTD_WAIT) > NOW)
-	return 0;
-      else
-	last_used = NOW;
-    }
-  send_lusers(cptr,sptr,parc,parv);
-}
-
-/*
- * parv[0] = sender
- * parv[1] = host/server mask.
- * parv[2] = server to query
+ * m_lusers
+ *	parv[0] = sender
+ *	parv[1] = host/server mask.
+ *	parv[2] = server to query
  * 
  * 199970918 JRL hacked to ignore parv[1] completely and require parc > 3
  * to cause a force
  */
-int	 send_lusers(aClient *cptr,
-		  aClient *sptr,
-		  int parc,
-		  char *parv[])
+int      m_lusers(aClient *cptr,
+                  aClient *sptr,
+                  int parc,  
+                  char *parv[])
 {
+  static time_t last_used=0L;
+  static int last_count=0;
+
+  if (parc > 2)
+    {
+      if(hunt_server(cptr, sptr, ":%s LUSERS %s :%s", 2, parc, parv)
+         != HUNTED_ISME)
+        {
+          return 0;
+        }
+    }
+
+  if(!IsAnOper(sptr))
+    {
+      if((last_used + MOTD_WAIT) > NOW)
+        {
+          return 0;
+        }
+      else
+        {
+          last_used = NOW;
+        }
+    }
+
+  return send_lusers(cptr,sptr,parc,parv);
+}
+
+/*
+ * send_lusers
+ *	parv[0] = sender
+ *	parv[1] = host/server mask.
+ *	parv[2] = server to query
+ */
+int	 send_lusers(aClient *cptr,
+	      	     aClient *sptr,
+		     int parc,
+		     char *parv[])
+{
+
 #define LUSERS_CACHE_TIME 180
   static long last_time=0;
   static int	s_count = 0, c_count = 0, u_count = 0, i_count = 0;
   static int	o_count = 0, m_client = 0, m_server = 0;
   int forced;
   aClient *acptr;
+  static time_t last_used=0L;
+  static int last_count=0;
 
-  if (parc > 2)
-    if(hunt_server(cptr, sptr, ":%s LUSERS %s :%s", 2, parc, parv)
-       != HUNTED_ISME)
-      return 0;
-/*  forced = (parc >= 2); */
   forced = (IsAnOper(sptr) && (parc > 3));
 
 /* (void)collapse(parv[1]); */
@@ -2605,13 +2589,6 @@ int	m_admin(aClient *cptr,
 		char *parv[])
 {
   aConfItem *aconf;
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
 
@@ -2625,6 +2602,19 @@ int	m_admin(aClient *cptr,
 
   if (hunt_server(cptr,sptr,":%s ADMIN :%s",1,parc,parv) != HUNTED_ISME)
     return 0;
+
+  if(!IsAnOper(sptr))
+    {
+      if((last_used + MOTD_WAIT) > NOW)
+        {
+          return 0;
+        }
+      else
+        {
+          last_used = NOW;
+        }
+    }
+
   if (IsPerson(sptr))
     sendto_realops_lev(SPY_LEV, "ADMIN requested by %s (%s@%s) [%s]", sptr->name,
 		       sptr->user->username, sptr->user->host, sptr->user->server);
@@ -4686,31 +4676,8 @@ int	m_trace(aClient *cptr,
   char	*tname;
   int	doall, link_s[MAXCONNECTIONS], link_u[MAXCONNECTIONS];
   int	cnt = 0, wilds, dow;
-  
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
-
-  if(!IsAnOper(sptr))
-    {
-      if((last_used + MOTD_WAIT) > NOW)
-	return 0;
-      else
-	last_used = NOW;
-      if (parv[1] && !index(parv[1],'.') && (index(parv[1], '*')
-          || index(parv[1], '?'))) /* bzzzt, no wildcard nicks for nonopers */
-        {
-          sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name,
-                     parv[0], parv[1]);
-          return 0;
-        }
-    }
 
   if (parc > 2)
     if (hunt_server(cptr, sptr, ":%s TRACE %s :%s",
@@ -4743,6 +4710,25 @@ int	m_trace(aClient *cptr,
       break;
     default:
       return 0;
+    }
+
+  if(!IsAnOper(sptr))
+    {
+      if((last_used + MOTD_WAIT) > NOW)
+        {
+          return 0;
+        }
+      else
+        {
+          last_used = NOW;
+        }
+      if (parv[1] && !index(parv[1],'.') && (index(parv[1], '*')
+          || index(parv[1], '?'))) /* bzzzt, no wildcard nicks for nonopers */
+        {
+          sendto_one(sptr, rpl_str(RPL_ENDOFTRACE),me.name,
+                     parv[0], parv[1]);
+          return 0;
+        }
     }
 
   sendto_realops_lev(SPY_LEV, "TRACE requested by %s (%s@%s) [%s]",
@@ -4937,13 +4923,6 @@ int	m_motd(aClient *cptr,
 	       int parc,
 	       char *parv[])
 {
-  /* anti flooding code,
-   * I did have this in parse.c with a table lookup
-   * but I think this will be less inefficient doing it in each
-   * function that absolutely needs it
-   * -Dianora
-   */
-
   static time_t last_used=0L;
   static int last_count=0;
 
