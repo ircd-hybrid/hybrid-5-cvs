@@ -8,7 +8,8 @@
 * non-opers can now /trace nickname properly (Rodder)
 * These commands are flood controlled: VERSION, INFO, LINKS, STATS, HELP,
   LUSERS, ADMIN, TRACE, MOTD
-* These functions are local-only: INFO, LINK, STATS (except 'p'), HELP
+* These functions are local-only for non-opers:
+  INFO, LINK, STATS (except 'p'), HELP
 
 +hybrid-5.3p2 (9/19/98)
 * fixed obscure ban bug (Dianora)
