@@ -1,14 +1,14 @@
 /* ************************************************************************ */
 /*                                                                          */
 /* File:   blalloc.c                                                        */
-/* Owner:  Wohali (Joan Touzet)
+/* Owner:  Wohali (Joan Touzet)						    */
 /*                                                                          */
 /*         Hacked up for use in ircd by Dianora                             */
 /*                                                                          */
 /* ************************************************************************ */
 
 #ifndef lint
-static char *rcs_version = "$Id: blalloc.c,v 1.2 1998/02/08 20:58:32 db Exp $";
+static char *rcs_version = "$Id: blalloc.c,v 1.3 1998/02/09 03:47:48 lusky Exp $";
 #endif
 
 /* ------------------------------------------------------------------------ */

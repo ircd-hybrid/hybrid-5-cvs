@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.15 1998/02/09 00:39:26 lusky Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.16 1998/02/09 03:47:49 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -36,6 +36,7 @@ static char *rcs_version="$Id: ircd.c,v 1.15 1998/02/09 00:39:26 lusky Exp $";
 #include <pwd.h>
 #include <signal.h>
 #include <fcntl.h>
+#include "inet.h"
 #include "h.h"
 
 #include "dich_conf.h"
@@ -646,7 +647,7 @@ ping_timeout:
    * -Dianora
    */
 
-  for(die_index = 0; cptr = dying_clients[die_index]; die_index++)
+  for(die_index = 0; (cptr = dying_clients[die_index]) ; die_index++)
     {
       if(cptr->flags & FLAGS_DEADSOCKET)
 	{
@@ -1127,7 +1128,6 @@ normal user.\n");
 time_t io_loop(time_t delay)
 {
   static	char	to_send[200];
-  time_t nextfdlistcheck=0;
   static time_t	lasttime	= 0;
   static long	lastrecvK	= 0;
   static int	lrv		= 0;

@@ -19,7 +19,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)chkconf.c	1.7 27 Oct 1993 (C) 1993 Darren Reed";
-static char *rcs_version = "$Id: chkconf.c,v 1.1 1997/09/29 15:35:28 db Exp $";
+static char *rcs_version = "$Id: chkconf.c,v 1.2 1998/02/09 03:47:57 lusky Exp $";
 #endif
 
 #define FOREVER for(;;)
@@ -57,7 +57,7 @@ static char *rcs_version = "$Id: chkconf.c,v 1.1 1997/09/29 15:35:28 db Exp $";
 static	void	new_class();
 static  char	*ckgetfield(char *);
 static	int	ckinitconf(int);
-static	int	openconf();
+static	int	ckopenconf();
 static	aClass	*get_class();
 
 static	int	numclasses = 0, *classarr = (int *)NULL;
@@ -83,13 +83,13 @@ int main(int argc,char *argv[])
 }
 
 /*
- * openconf
+ * ckopenconf
  *
  * returns -1 on any error or else the fd opened from which to read the
  * configuration file from.  This may either be th4 file direct or one end
  * of a pipe from m4.
  */
-static	int	openconf()
+static	int	ckopenconf()
 {
 #ifdef	M4_PREPROC
   int	pi[2];
@@ -141,7 +141,7 @@ static int 	ckinitconf(int opt)
   aConfItem conf, *aconf = &conf;
 
   (void)fprintf(stderr, "initconf(): ircd.conf = %s\n", configfile);
-  if ((fd = openconf()) == -1)
+  if ((fd = ckopenconf()) == -1)
     {
 #ifdef	M4_PREPROC
       (void)wait(0);

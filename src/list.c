@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)list.c	2.22 15 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: list.c,v 1.4 1998/02/08 20:58:33 db Exp $";
+static char *rcs_version = "$Id: list.c,v 1.5 1998/02/09 03:47:50 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -31,6 +31,7 @@ static char *rcs_version = "$Id: list.c,v 1.4 1998/02/08 20:58:33 db Exp $";
 #include "numeric.h"
 #include "blalloc.h"
 
+extern int BlockHeapGarbageCollect(BlockHeap *);
 
 /* locally defined functions */
 

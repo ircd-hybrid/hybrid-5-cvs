@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.10 1998/02/05 19:23:35 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.11 1998/02/09 03:47:53 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -1843,11 +1843,14 @@ void report_matching_host_klines(aClient *cptr,char *host)
   char *pass;
   char *name = (char *)NULL;
   char *found_host = (char *)NULL;
-  int  port;
   aConfItem *tmp;
   aConfList *list;
   static char null[] = "<NULL>";
   char rev[HOSTLEN+1];	/* why waste 2 function calls for this ? - Dianora */
+
+#ifndef K_COMMENT_ONLY
+  int  port;
+#endif
 
   if (strlen(host) > (size_t) HOSTLEN ||
       (name ? strlen(name) : 0) > (size_t) HOSTLEN)
