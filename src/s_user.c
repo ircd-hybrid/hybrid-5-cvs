@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.18 1997/10/14 22:29:13 mpearce Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.19 1997/10/16 21:15:10 db Exp $";
 
 #endif
 
@@ -2485,7 +2485,10 @@ int	m_away(aClient *cptr,
 	  MyFree(away);
 	  sptr->user->away = NULL;
 	}
-      sendto_serv_butone(cptr, ":%s AWAY", parv[0]);
+/* some lamers scripts continually do a /away, hence making a lot of
+   unnecessary traffic. *sigh* so... as comstud has done, I've
+   commented out this sendto_serv_butone() call -Dianora */
+/*      sendto_serv_butone(cptr, ":%s AWAY", parv[0]); */
       if (MyConnect(sptr))
 	sendto_one(sptr, rpl_str(RPL_UNAWAY),
 		   me.name, parv[0]);
@@ -2496,7 +2499,10 @@ int	m_away(aClient *cptr,
   
   if (strlen(awy2) > (size_t) TOPICLEN)
     awy2[TOPICLEN] = '\0';
-  sendto_serv_butone(cptr, ":%s AWAY :%s", parv[0], awy2);
+/* some lamers scripts continually do a /away, hence making a lot of
+   unnecessary traffic. *sigh* so... as comstud has done, I've
+   commented out this sendto_serv_butone() call -Dianora */
+/*  sendto_serv_butone(cptr, ":%s AWAY :%s", parv[0], awy2); */
 
   if (away)
     away = (char *)MyRealloc(away, strlen(awy2)+1);
