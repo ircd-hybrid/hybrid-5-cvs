@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h.dist,v 1.18 1998/02/09 00:39:22 lusky Exp $
+ * $Id: config.h.dist,v 1.19 1998/02/11 21:51:52 db Exp $
  */
 
 #ifndef	__config_include__
@@ -549,6 +549,19 @@
  * reading m4 output as the server's ircd.conf file.
  */
 #undef	M4_PREPROC
+
+/* USE_REJECT_HOLD
+ * clients that reconnect but are k-lined will have their connections
+ * "held" for REJECT_HOLD_TIME seconds, they cannot PRIVMSG. The idea
+ * is to keep a reconnecting client from forcing the ircd to re-scan
+ * dich_conf. There is one possible serious hitch with this...
+ * If it is a mass cloner, your attacker can "REJECT_HOLD" a number
+ * of local fd's on your server. Against normal bots this code will
+ * be a "win", against mass cloners, it could lose.
+ */
+
+#undef USE_REJECT_HOLD
+#define REJECT_HOLD_TIME 60
 
 /* USE_SYSLOG - log errors and such to syslog()
  * If you wish to have the server send 'vital' messages about server

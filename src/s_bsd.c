@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.15 1998/02/09 03:47:50 lusky Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.16 1998/02/11 21:51:57 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1381,6 +1381,7 @@ int read_packet(aClient *cptr, int msg_ready)
 	  !(IsPerson(cptr) && DBufLength(&cptr->recvQ) > 6090))
       {
 	errno = 0;
+
 #if defined(MAXBUFFERS) && !defined(SEQUENT)
 	if (IsPerson(cptr))
 	  length = recv(cptr->fd, readbuf, 8192*sizeof(char), 0);
@@ -1389,6 +1390,24 @@ int read_packet(aClient *cptr, int msg_ready)
 #else
 	length = recv(cptr->fd, readbuf, sizeof(readbuf), 0);
 #endif
+
+#ifdef USE_REJECT_HOLD
+
+	/* If client has been marked as rejected i.e. it is a client
+	 * that is trying to connect again after a k-line,
+	 * pretend to read it but don't actually.
+	 * -Dianora
+	 */
+
+	if(cptr->flags & FLAGS_REJECT_HOLD)
+	  {
+	    if( (cptr->firsttime + REJECT_HOLD_TIME) > timeofday)
+	      exit_client(cptr, cptr, cptr, "reject held client");
+	    else
+	      return 1;
+	  }
+#endif
+
 	cptr->lasttime = timeofday;
 	if (cptr->lasttime > cptr->since)
 	  cptr->since = cptr->lasttime;
