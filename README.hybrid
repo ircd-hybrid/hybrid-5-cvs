@@ -1,3 +1,10 @@
++hybrid-5.3p1 (9/19/98)
+fixed obscure ban bug (Dianora)
+corrected CONFIG_H_LEVEL (Rodder)
+reworked stats flooding code (Dianora)
+removed extraneous files from tree (Rodder)
+updated contact email addresses to the-project.org (Rodder)
+
 +hybrid-5.3 (6/13/98)
 added NO_CHANOPS_WHEN_SPLIT code back in (Rodder/Dianora)
 fixed SEPARATE_QUOTE_KLINES_BY_DATE so it compiles (Rodder)
@@ -183,7 +190,7 @@ fixed DEBUGMODE (Dianora)
 +hybrid-2 (4/12/97):
 This is ircd2.8/th.v5a.3 with the WHO, WHOWAS, and IsMember() code
 from Comstud's irc2.8.21CSr29.  Please send email to Jon Lusky
-<irc@vol.com> if you find problems with it.
+<ircd-hybrid@the-project.org> if you find problems with it.
 
 Relevant excerpt from irc2.8.21+CSr29/README.CS:
 3) /whowas code totally rewritten.  This code is better than Avalon's
