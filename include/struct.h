@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.17 1998/05/25 12:37:00 db Exp $
+ * $Id: struct.h,v 1.18 1998/06/13 23:21:19 lusky Exp $
  */
 
 #ifndef	__struct_include__
@@ -768,6 +768,14 @@ extern unsigned long tsdms;
 #define TMNO
 #define TMPRINT
 #endif
+
+/* allow 5 minutes after server rejoins the network before allowing
+   chanops new channels */
+
+#ifdef NO_CHANOPS_WHEN_SPLIT
+#define MAX_SERVER_SPLIT_RECOVERY_TIME 5
+#endif
+
 
 #ifdef FLUD
 struct fludbot {

@@ -7,12 +7,12 @@
 #include <time.h>
 
 #ifndef lint
-static char *rcs_version = "$Id: mkpasswd.c,v 1.1 1997/09/29 15:35:29 db Exp $";
+static char *rcs_version = "$Id: mkpasswd.c,v 1.2 1998/06/13 23:21:26 lusky Exp $";
 #endif
 
 extern char *getpass();
 extern char *crypt();
-extern long random();
+/* extern long random(); */
 /* extern int srandom(unsigned); */
 
 int main(argc, argv)
