@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.24 1998/07/13 02:54:00 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.25 1998/07/14 17:16:08 db Exp $";
 #endif
 
 #include "struct.h"
@@ -606,6 +606,40 @@ void count_ip_hash(int *number_ips_stored,u_long *mem_ips_stored)
              sizeof(IP_ENTRY);
 
           ip_hash_ptr = ip_hash_ptr->next;
+        }
+    }
+}
+
+/*
+ * count_dline_hash
+ *
+ * inputs	- pointer to counter of number of dlines hashed 
+ *		- pointer to memory used for dline hash
+ * output	- returned via pointers input
+ * side effects	- NONE
+ *
+ * number of dlined #'s is counted up, plus the amount of memory
+ * used in the hash.
+ */
+
+void count_dline_hash(int *number_dlines_stored,u_long *mem_dlines_stored)
+{
+  DLINE_ENTRY *dline_hash_ptr;
+  int i;
+
+  *number_dlines_stored = 0;
+  *mem_dlines_stored = 0;
+
+  for(i = 0; i < DLINE_HASH_SIZE ;i++)
+    {
+      dline_hash_ptr = dline_hash_table[i];
+      while(dline_hash_ptr)
+        {
+          *number_dlines_stored = *number_dlines_stored + 1;
+          *mem_dlines_stored = *mem_dlines_stored +
+             sizeof(DLINE_ENTRY);
+
+          dline_hash_ptr = dline_hash_ptr->next;
         }
     }
 }

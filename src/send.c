@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)send.c	2.32 2/28/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: send.c,v 1.12 1998/07/14 15:10:59 db Exp $";
+static char *rcs_version = "$Id: send.c,v 1.13 1998/07/14 17:16:10 db Exp $";
 #endif
 
 #include "struct.h"
@@ -442,7 +442,7 @@ va_dcl
 /*
  * sendto_common_channels()
  *
- * Sends a message to all people (inclusing user) on local server who are
+ * Sends a message to all people (excluding user) on local server who are
  * in same channel with user.
  */
 # ifndef	USE_VARARGS
@@ -1180,7 +1180,9 @@ Debug((DEBUG_DEBUG,"sendto_prefix_one to %x from %x",to,from));
 	      (void)ircsprintf(temp, pattern, par, p2, p3,
 			       p4, p5, p6, p7, p8);
 #endif
-	      sendto_ops("Send message (%s) to %s[%s] dropped from %s(Fake Dir)", temp,
+	      sendto_ops(
+		"Send message (%s) to %s[%s] dropped from %s(Fake Dir)",
+			 temp,
 			 to->name, to->from->name, from->name);
 	      return;
 	    }
