@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.17 1998/07/09 03:39:44 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.18 1998/07/09 23:41:11 db Exp $";
 #endif
 
 #include "struct.h"
@@ -512,7 +512,7 @@ void remove_one_ip(unsigned long ip_in)
 	    {
 	      if(cur_link->value.cptr == cptr)
 		{
-		  if(prev_link == ptr->ptr_clients_on_this_ip)
+		  if(prev_link == cur_link)
 		    {
 		      ptr->ptr_clients_on_this_ip = cur_link->next;
 		      free_link(cur_link);

@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.50 1998/07/08 17:32:02 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.51 1998/07/09 23:41:14 db Exp $";
 #endif
 
 
@@ -4789,8 +4789,8 @@ int	m_trace(aClient *cptr,
 			   parv[0], class, name);
 	      else
 		sendto_one(sptr,rpl_str(RPL_TRACEUSER),
-			   me.name, parv[0],
-			   class, name);
+			   me.name, parv[0], class, name,
+			   (acptr->user)?(timeofday - acptr->user->last):0);
 	      cnt++;
 	    }
 	  break;

@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.15 1998/07/09 03:39:47 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.16 1998/07/09 23:41:13 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -396,7 +396,8 @@ char	*comment	/* Reason for the exit */
 	  Count.myserver--;
 	  delfrom_fdlist(sptr->fd, &serv_fdlist);
 #ifdef NO_CHANOPS_WHEN_SPLIT
-	  if(serv_fdlist.entry[1] <= serv_fdlist.last_entry)
+	  /*	  if(serv_fdlist.entry[1] <= serv_fdlist.last_entry) */
+	  if(Count.myserver == 0)
 	    {
 	      server_was_split = YES;
 	      server_split_time = NOW;
