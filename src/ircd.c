@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.21 1998/02/20 18:27:00 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.22 1998/02/24 23:34:10 db Exp $";
 #endif
 
 #include "struct.h"
@@ -615,15 +615,19 @@ static	time_t	check_pings(time_t currenttime)
 
       if (IsRegistered(cptr) && ((cptr->flags & FLAGS_PINGSENT) == 0))
 	{
-	  /*
-	   * if we havent PINGed the connection and we havent
-	   * heard from it in a while, PING it to make sure
-	   * it is still alive.
-	   */
-	  cptr->flags |= FLAGS_PINGSENT;
-	  /* not nice but does the job */
-	  cptr->lasttime = currenttime - ping;
-	  sendto_one(cptr, "PING :%s", me.name);
+
+	  if( ping < currenttime - cptr->lasttime)
+	    {
+	      /*
+	       * if we havent PINGed the connection and we havent
+	       * heard from it in a while, PING it to make sure
+	       * it is still alive.
+	       */
+	      cptr->flags |= FLAGS_PINGSENT;
+	      /* not nice but does the job */
+	      cptr->lasttime = currenttime - ping;
+	      sendto_one(cptr, "PING :%s", me.name);
+	    }
 	}
 
       if(IsUnknown(cptr))
