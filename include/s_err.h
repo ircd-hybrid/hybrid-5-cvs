@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: s_err.h,v 1.9 1998/07/15 13:20:29 db Exp $
+ * $Id: s_err.h,v 1.10 1998/07/16 14:55:32 db Exp $
  *
  */
 
@@ -268,7 +268,7 @@ static	char *	replies[] = {
 /* 239 */	(char *)NULL,
 /* 240 */	(char *)NULL,
 /* 241 RPL_STATSLLINE, */	":%s 241 %s %c %s * %s %d %d",
-/* 242 RPL_STATSUPTIME,*/	":%s 242 %s :Server Up %d days, %d:%02d:%02d",
+/* 242 RPL_STATSUPTIME,*/	":%s 242 %s :Dianora hasn't messed with the server code now in %d days, %d:%02d:%02d",
 /* 243 RPL_STATSOLINE, */	":%s 243 %s %c %s * %s %s %d",
 /* 244 RPL_STATSHLINE, */	":%s 244 %s %c %s * %s %d %d", 
 /* 245 RPL_STATSSLINE, */	":%s 245 %s %c %s * %s %d %d", 

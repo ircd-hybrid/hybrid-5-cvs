@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.20 1998/07/15 23:06:16 db Exp $
+ * $Id: h.h,v 1.21 1998/07/16 14:55:31 db Exp $
  *
  */
 
@@ -132,9 +132,9 @@ extern  void	flush_temp_klines(void);
 extern  void    report_temp_klines(aClient *);
 
 #ifdef  GLINES
-extern  void	flush_glines(void);
-extern  void	report_glines(aClient *);
-extern  void    add_gline(aConfItem *);
+extern  void	flush_glines(void);		/* defined in s_conf.c */
+extern  void	report_glines(aClient *);	/* defined in s_conf.c */
+extern  void    add_gline(aConfItem *);		/* defined in s_conf.c */
 #endif
 
 extern	int	find_restrict (aClient *);
