@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)send.c	2.32 2/28/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: send.c,v 1.2 1997/10/06 05:36:14 db Exp $";
+static char *rcs_version = "$Id: send.c,v 1.3 1997/11/14 07:03:52 db Exp $";
 #endif
 
 #include "struct.h"
@@ -983,7 +983,7 @@ va_dcl
 **
 */
 
-void    send_operwall(aClient *from, char *message)
+void    send_operwall(aClient *from, char *type_message,char *message)
 {
   register int i, j;
   char sender[NICKLEN+USERLEN+HOSTLEN+5];
@@ -1018,7 +1018,7 @@ void    send_operwall(aClient *from, char *message)
 	continue;
       if (!IsAnOper(acptr) || !SendOperwall(acptr))
 	continue; /* should be oper, might as well check */
-      sendto_one(acptr, ":%s WALLOPS :%s", sender, message);
+      sendto_one(acptr, ":%s WALLOPS :%s - %s", sender, type_message, message);
     }
 }
 

@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.2 1997/10/01 23:51:42 cbehrens Exp $
+ * $Id: h.h,v 1.3 1997/11/14 07:03:48 db Exp $
  *
  */
 
@@ -197,7 +197,7 @@ extern	int	send_queued (aClient *);
 extern  void	sendto_ops_lev();		/* defined in send.c */
 extern  void	sendto_realops_lev();		/* defined in send.c */
 extern  void	sendto_realops();		/* defined in send.c */
-extern  void	send_operwall();		/* defined in send.c */
+extern  void	send_operwall(aClient *,char *,char *);	/* defined in send.c */
 extern  void	sendto_wallops_butone();	/* defined in send.c */
 extern  int     match(char *,char *);		/* defined in match.c */
 extern	char    *collapse(char *);		/* match.c */

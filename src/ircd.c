@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.5 1997/10/07 23:27:13 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.6 1997/11/14 07:03:50 db Exp $";
 #endif
 
 #include "struct.h"
@@ -200,7 +200,8 @@ void	restart(char *mesg)
   was_here = YES;
 
 #ifdef	USE_SYSLOG
-  (void)syslog(LOG_WARNING, "Restarting Server because: %s",mesg);
+  (void)syslog(LOG_WARNING, "Restarting Server because: %s, sbrk(0)-etext: %d",
+     mesg,(u_int)sbrk((size_t)0)-(u_int)sbrk0);
 #endif
   server_reboot();
 }
@@ -225,7 +226,9 @@ void	server_reboot()
 {
   Reg	int	i;
   
-  sendto_ops("Aieeeee!!!  Restarting server...");
+  sendto_ops("Aieeeee!!!  Restarting server... sbrk(0)-etext: %d",
+	(u_int)sbrk((size_t)0)-(u_int)sbrk0);
+
   Debug((DEBUG_NOTICE,"Restarting server..."));
   flush_connections(me.fd);
 

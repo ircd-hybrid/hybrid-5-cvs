@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.3 1997/10/06 23:04:47 mpearce Exp $
+ * $Id: config.h,v 1.4 1997/11/14 07:03:46 db Exp $
  */
 
 #ifndef	__config_include__
@@ -260,6 +260,10 @@
  * (nor do I really care) I have not looked at his code. - Dianora
  */
 #define GLINES
+
+/*
+*/
+#define LOCOPS
 
 /* GLINE_TIME - local expire time for GLINES
  * As configured here, a GLINE will last 12 hours
