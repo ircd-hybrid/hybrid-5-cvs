@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.3 1998/09/23 18:46:38 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.4 1998/09/23 20:25:52 db Exp $";
 #endif
 
 #include "struct.h"
@@ -2026,6 +2026,9 @@ int	m_topic(aClient *cptr,
     }
 
   name = strtoken(&p, parv[1], ",");
+
+  if(!name)
+    return 0;
 
   if (parc > 1 && IsChannelName(name))
     {
