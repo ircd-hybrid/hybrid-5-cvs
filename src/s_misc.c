@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.7 1998/01/25 16:22:53 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.8 1998/01/26 02:24:56 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -53,8 +53,8 @@ static char *rcs_version = "$Id: s_misc.c,v 1.7 1998/01/25 16:22:53 db Exp $";
 extern fdlist serv_fdlist;
 
 #ifdef NO_CHANOPS_WHEN_SPLIT
-int server_was_split=NO;
-time_t server_split_time;
+extern int server_was_split;
+extern time_t server_split_time;
 #endif
 
 static	void	exit_one_client (aClient *,aClient *,aClient *,char *);
