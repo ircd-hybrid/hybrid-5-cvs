@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.20 1998/07/05 03:33:45 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.21 1998/07/07 03:43:06 db Exp $";
 #endif
 
 #include "struct.h"
@@ -122,9 +122,6 @@ static	char	readbuf[8192];
 # endif
 #endif
 
-
-/* externally defined functions */
-extern find_dline(char *);		/* defined in s_conf.c */
 
 /*
 ** add_local_domain()
@@ -1784,7 +1781,7 @@ int read_packet(aClient *cptr, int msg_ready)
 		    (char *)inetntoa((char *)&addr.sin_addr),
 		    sizeof(host));
 
-	  if (find_dline(host))
+	  if (find_dline(addr.sin_addr))
 	    {
 	      ircstp->is_ref++;
 	      (void)close(fd);
@@ -2261,7 +2258,7 @@ int	read_message(time_t delay, fdlist *listp)
 		    (char *)inetntoa((char *)&addr.sin_addr),
 		    sizeof(host));
 
-	  if (find_dline(host))
+	  if (find_dline(addr.sin_addr))
 	    {
 	      ircstp->is_ref++;
 	      (void)close(newfd);

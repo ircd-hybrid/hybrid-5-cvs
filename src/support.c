@@ -20,7 +20,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)support.c	2.21 4/13/94 1990, 1991 Armin Gruner;\
 1992, 1993 Darren Reed";
-static char *rcs_version = "$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $";
+static char *rcs_version = "$Id: support.c,v 1.3 1998/07/07 03:43:10 db Exp $";
 #endif
 
 #include "struct.h"
@@ -38,7 +38,7 @@ extern	void	outofmemory();
 **			of separators
 **			argv 9/90
 **
-**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
+**	$Id: support.c,v 1.3 1998/07/07 03:43:10 db Exp $
 */
 
 char *strtoken(save, str, fs)
@@ -92,11 +92,10 @@ char *str, *fs;
 **	strerror - return an appropriate system error string to a given errno
 **
 **		   argv 11/90
-**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
+**	$Id: support.c,v 1.3 1998/07/07 03:43:10 db Exp $
 */
 
-char *strerror(err_no)
-int err_no;
+char *strerror(int err_no)
 {
 #if !defined(__FreeBSD__) && !defined(__NetBSD__)
 	extern	char	*sys_errlist[];	 /* Sigh... hopefully on all systems */
@@ -125,11 +124,10 @@ int err_no;
 **			internet number (some ULTRIX don't have this)
 **			argv 11/90).
 **	inet_ntoa --	its broken on some Ultrix/Dynix too. -avalon
-**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
+**	$Id: support.c,v 1.3 1998/07/07 03:43:10 db Exp $
 */
 
-char	*inetntoa(in)
-char	*in;
+char	*inetntoa(char *in)
 {
 	static	char	buf[16];
 	Reg	u_char	*s = (u_char *)in;
@@ -148,7 +146,7 @@ char	*in;
 /*
 **	inet_netof --	return the net portion of an internet number
 **			argv 11/90
-**	$Id: support.c,v 1.2 1998/02/13 15:03:22 db Exp $
+**	$Id: support.c,v 1.3 1998/07/07 03:43:10 db Exp $
 **
 */
 

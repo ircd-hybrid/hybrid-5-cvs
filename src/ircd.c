@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.28 1998/07/05 03:44:34 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.29 1998/07/07 03:43:05 db Exp $";
 #endif
 
 #include "struct.h"
@@ -49,8 +49,6 @@ aConfList	KList3 = { 0, NULL };	/* what we can't sort */
 aConfList	BList1 = { 0, NULL };	/* ordered */
 aConfList	BList2 = { 0, NULL };	/* ordered, reversed */
 aConfList	BList3 = { 0, NULL };	/* what we can't sort */
-
-aConfList	DList1 = { 0, NULL };	/* ordered */
 
 aConfList       EList1 = { 0, NULL };   /* ordered */
 aConfList       EList2 = { 0, NULL };   /* ordered, reversed */
@@ -964,6 +962,7 @@ normal user.\n");
   clear_channel_hash_table();
   clear_scache_hash_table();	/* server cache name table */
   clear_ip_hash_table();	/* client host ip hash table */
+  clear_dline_hash_table();
   initlists();
   initclass();
   initwhowas();

@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.20 1998/07/06 02:53:39 db Exp $
+ * $Id: struct.h,v 1.21 1998/07/07 03:43:04 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -397,6 +397,10 @@ struct	ConfItem
 #define IsNeedIdentd(x)         ((x)->flags & CONF_FLAGS_NEED_IDENTD)
 #define IsPassIdentd(x)         ((x)->flags & CONF_FLAGS_PASS_IDENTD)
 #define IsNoMatchIp(x)          ((x)->flags & CONF_FLAGS_NOMATCH_IP)
+
+#ifdef LITTLE_I_LINES
+#define IsLittleI(x)		((x)->flags & CONF_FLAGS_LITTLE_I_LINE)
+#endif
 
 /*
  * Client structures
