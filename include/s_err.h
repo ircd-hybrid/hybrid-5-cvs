@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: s_err.h,v 1.1 1997/09/29 15:35:23 db Exp $
+ * $Id: s_err.h,v 1.2 1997/11/17 05:05:52 db Exp $
  *
  */
 
@@ -147,7 +147,7 @@ static	Numeric	numeric_replies[] = {
 /* 314 */	RPL_WHOWASUSER, "%s %s %s * :%s",
 /* 315 */	RPL_ENDOFWHO, "%s :End of /WHO list.",
 /* 316 */	RPL_WHOISCHANOP, (char *)NULL,
-/* 317 */	RPL_WHOISIDLE, "%s %ld :seconds idle",
+/* 317 */	RPL_WHOISIDLE, "%s %ld %ld :seconds idle, signon time",
 /* 318 */	RPL_ENDOFWHOIS, "%s :End of /WHOIS list.",
 /* 319 */	RPL_WHOISCHANNELS, "%s :%s",
 		0, (char *)NULL,

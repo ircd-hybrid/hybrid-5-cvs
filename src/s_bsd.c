@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.3 1997/10/06 05:36:10 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.4 1997/11/17 05:05:53 db Exp $";
 #endif
 
 #include "struct.h"
@@ -2550,7 +2550,11 @@ void	get_my_name(aClient *cptr,
 {
   static	char tmp[HOSTLEN+1];
   struct	hostent	*hp;
-  extern int	gethostname(char *, int);
+/* The following conflicts with both AIX and linux prototypes
+   oh well, we can put up with the errors from other systems
+   -Dianora 
+*/
+/*  extern int	gethostname(char *, int); */
 
   char	*cname = cptr->name;
 

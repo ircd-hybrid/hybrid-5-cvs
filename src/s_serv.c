@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.19 1997/11/14 07:03:51 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.20 1997/11/17 05:05:54 db Exp $";
 #endif
 
 
@@ -1982,7 +1982,6 @@ int     m_wallops(aClient *cptr,
   return 0;
 }
 
-#ifdef LOCOPS
 /*
 ** m_locops (write to *all* local opers currently online)
 **      parv[0] = sender prefix
@@ -2011,7 +2010,6 @@ int     m_locops(aClient *cptr,
     }
   send_operwall(sptr, "LOCOPS", message);
 }
-#endif
 
 /* raped from csr30 */
 

@@ -23,7 +23,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.2 1997/11/17 05:05:54 db Exp $";
 #endif
 
 typedef	struct	{
@@ -176,7 +176,7 @@ static	Numeric	numeric_replies[] = {
 /* 314 */	RPL_WHOWASUSER, "%s %s %s * :%s",
 /* 315 */	RPL_ENDOFWHO, "%s :End of /WHO list.",
 /* 316 */	RPL_WHOISCHANOP, (char *)NULL,
-/* 317 */	RPL_WHOISIDLE, "%s %ld :seconds idle",
+/* 317 */	RPL_WHOISIDLE, "%s %ld %ld :seconds idle, signon time",
 /* 318 */	RPL_ENDOFWHOIS, "%s :End of /WHOIS list.",
 /* 319 */	RPL_WHOISCHANNELS, "%s :%s",
 		0, (char *)NULL,

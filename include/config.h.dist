@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h.dist,v 1.4 1997/11/14 07:03:47 db Exp $
+ * $Id: config.h.dist,v 1.5 1997/11/17 05:05:50 db Exp $
  */
 
 #ifndef	__config_include__
@@ -254,14 +254,6 @@
  * Define this if you don't want local opers using /QUOTE KLINE.
  */
 #undef NO_LOCAL_KLINE
-
-/* LOCOPS - mimics a bit the behaviour of dalnets /quote LOCOPS
- * i.e. /quote locops :message  will send a message only to all 
- * local operators on your server. Personally I think its useful
- * and the code was practically free anyway.
- * but if you really don't want it, undef the following line. -Dianora
-*/
-#define LOCOPS
 
 /* GLINES - global Kline-like bans
  * Define this if you want GLINE support
