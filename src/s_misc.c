@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.11 1998/02/12 14:15:29 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.12 1998/02/19 18:29:12 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -635,16 +635,15 @@ static	void	exit_one_client(aClient *cptr,
 /*
  * This is really odd - oh well, it just generates noise... -Taner
  *
- * *blah* debug info never is noise -Dianora
- *
+ *      sendto_realops("%#x !in tab %s[%s]", sptr, sptr->name,
+ *	     sptr->from ? sptr->from->sockhost : "??host");
+ *      sendto_realops("from = %#x", sptr->from);
+ *      sendto_realops("next = %#x", sptr->next);
+ *      sendto_realops("prev = %#x", sptr->prev);
+ *      sendto_realops("fd = %d  status = %d", sptr->fd, sptr->status);
+ *      sendto_realops("user = %#x", sptr->user);
  */
-      sendto_realops("%#x !in tab %s[%s]", sptr, sptr->name,
-		     sptr->from ? sptr->from->sockhost : "??host");
-      sendto_realops("from = %#x", sptr->from);
-      sendto_realops("next = %#x", sptr->next);
-      sendto_realops("prev = %#x", sptr->prev);
-      sendto_realops("fd = %d  status = %d", sptr->fd, sptr->status);
-      sendto_realops("user = %#x", sptr->user);
+
       Debug((DEBUG_ERROR, "%#x !in tab %s[%s] %#x %#x %#x %d %d %#x",
 	     sptr, sptr->name,
 	     sptr->from ? sptr->from->sockhost : "??host",
