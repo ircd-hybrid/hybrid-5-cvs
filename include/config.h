@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.1 1997/09/29 15:35:22 db Exp $
+ * $Id: config.h,v 1.2 1997/10/05 19:09:09 db Exp $
  */
 
 #ifndef	__config_include__
@@ -107,6 +107,15 @@
  * If you do not wish to use this feature, leave LOCKFILE #undef 
  */
 #define LOCKFILE "/tmp/ircd.conf.lock"
+
+/* SEPARATE_QUOTE_KLINES_BY_DATE
+ * If you define this, then klines will be read and written
+ * to a separate kline file according to date. You =must= then run
+ * a daily/nightly script to consolidate your klines, or the previous
+ * days klines are lost. If you define this, LOCKFILE on kline file
+ * makes no sense
+ */
+#undef SEPARATE_QUOTE_KLINES_BY_DATE
 
 /* UNKLINE - /quote unkline - remove klines on the fly
  * if you choose to support this, an oper can do a /quote UNKLINE

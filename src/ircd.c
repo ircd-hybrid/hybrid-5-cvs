@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.2 1997/10/01 23:51:43 cbehrens Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.3 1997/10/05 19:09:11 db Exp $";
 #endif
 
 #include "struct.h"
@@ -915,6 +915,24 @@ normal user.\n");
 		   configfile);
       exit(-1);
     }
+/* comstuds SEPARATE_QUOTE_KLINES_BY_DATE code */
+#ifdef SEPARATE_QUOTE_KLINES_BY_DATE
+  {
+    struct tm *tmptr;
+    char timebuffer[20], filename[200];
+
+    tmptr = localtime(&NOW);
+    (void)strftime(timebuffer, 20, "%y%m%d", tmptr);
+    ircsprintf(filename, "%s.%s", klinefile, timebuffer);
+    if(initconf(0,filename) == -1)
+      {
+	Debug((DEBUG_ERROR,"Failed reading kline file %s",
+	       filename));
+	(void)printf("Couldn't open kline file %s\n",
+		     filename);
+      }
+  }
+#else
 #ifdef KPATH
   if (initconf(bootopt,klinefile) == -1)
     {
@@ -923,6 +941,7 @@ normal user.\n");
       (void)printf("Couldn't open kline file %s\n",
 		   klinefile);
     }
+#endif
 #endif
   if (!(bootopt & BOOT_INETD))
     {
@@ -1009,14 +1028,14 @@ time_t io_loop(time_t delay)
 	    {
 /* In the original +th code Taner had
 
-              LCF << 1;
+              LCF << 1;  / * add hysteresis * /
 
    which does nothing...
    so, the hybrid team changed it to
 
 	      LCF <<= 1;  / * add hysteresis * /
 
-   suddenly, there were reports of clients myseteriously just dropping
+   suddenly, there were reports of clients mysteriously just dropping
    off... Neither rodder or I can see why it makes a difference, but
    lets try it this way...
 
