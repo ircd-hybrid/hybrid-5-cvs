@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.28 1998/01/19 19:06:40 brian Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.29 1998/01/19 19:11:01 brian Exp $";
 
 #endif
 
@@ -3419,6 +3419,9 @@ botwarn(char *host,
 		       nick, user, realhost);
   if (!strcmp(host,"null"))
     sendto_realops_lev(CCONN_LEV,"Possible ComBot: %s (%s@%s) [B-lined]",
+		       nick, user, realhost);
+  if (!strcmp(host,"x"))
+    sendto_realops_lev(CCONN_LEV,"Possible SpamBot: %s (%s@%s) [B-lined]",
 		       nick, user, realhost);
 #ifdef CHECK_FOR_ANNOYOJNK
   if (!strcmp(host,"."))
