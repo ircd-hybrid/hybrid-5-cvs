@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.72 1998/09/15 19:56:59 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.73 1998/09/17 06:36:57 db Exp $";
 
 #endif
 
@@ -614,7 +614,7 @@ static	int	register_user(aClient *cptr,
       }
 
       aconf = sptr->confs->value.aconf;
-      if (sptr->flags & FLAGS_DOID && !(sptr->flags & FLAGS_GOTID))
+      if ((sptr->flags & FLAGS_DOID) && !(sptr->flags & FLAGS_GOTID))
 	{
 	  /* because username may point to user->username */
 	  char	temp[USERLEN+1];
@@ -630,14 +630,14 @@ static	int	register_user(aClient *cptr,
 		     me.name,cptr->name);
 /* end identd hack */
 #endif
-	  if(IsNeedIdentd(aconf))
+	  if(aconf && IsNeedIdentd(aconf))
 	    {
 	      ircstp->is_ref++;
 	      sendto_one(sptr, ":%s NOTICE %s :*** Notice -- You need to install identd to use this server",
 			 me.name, cptr->name);
 	      return exit_client(cptr, sptr, &me, "Install identd");
 	    }
-	  if(IsNoTilde(aconf))
+	  if(aconf && IsNoTilde(aconf))
 	    {
 	      strncpyzt(user->username, username, USERLEN+1);
 	    }

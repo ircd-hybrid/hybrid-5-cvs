@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.27 1998/09/15 19:56:56 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.28 1998/09/17 06:36:54 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -906,6 +906,7 @@ void serv_info(aClient *cptr,char *name)
   int	j, fd;
   long	sendK, receiveK, uptime;
   aClient	*acptr;
+  char nbuf[HOSTLEN * 2 + USERLEN + 5];
 
   sendK = receiveK = 0;
   j = 1;
@@ -914,15 +915,30 @@ void serv_info(aClient *cptr,char *name)
     {
       sendK += acptr->sendK;
       receiveK += acptr->receiveK;
-      sendto_one(cptr, Lformat, me.name, RPL_STATSLINKINFO,
-		 name, get_client_name(acptr, TRUE),
-		 (int)DBufLength(&acptr->sendQ),
-		 (int)acptr->sendM, (int)acptr->sendK,
-		 (int)acptr->receiveM, (int)acptr->receiveK,
-		 timeofday - acptr->firsttime,
-		 timeofday - acptr->since,
-		 IsServer(acptr) ? (DoesTS(acptr) ?
-				    "TS" : "NoTS") : "-");
+      /* There are no more non TS servers on this network, so that test
+       * removed. Also, do not allow non opers to see the IP's of servers
+       * on stats ?
+       */
+      if(IsAnOper(cptr))
+	sendto_one(cptr, Lformat, me.name, RPL_STATSLINKINFO,
+		   name, get_client_name(acptr, TRUE),
+		   (int)DBufLength(&acptr->sendQ),
+		   (int)acptr->sendM, (int)acptr->sendK,
+		   (int)acptr->receiveM, (int)acptr->receiveK,
+		   timeofday - acptr->firsttime,
+		   timeofday - acptr->since,
+		   IsServer(acptr) ? "TS" : "-" );
+      else
+	{
+	  sendto_one(cptr, Lformat, me.name, RPL_STATSLINKINFO,
+		     name, get_client_name(acptr, HIDEME),
+		     (int)DBufLength(&acptr->sendQ),
+		     (int)acptr->sendM, (int)acptr->sendK,
+		     (int)acptr->receiveM, (int)acptr->receiveK,
+		     timeofday - acptr->firsttime,
+		     timeofday - acptr->since,
+		     IsServer(acptr) ? "TS" : "-" );
+	}
       j++;
     }
 

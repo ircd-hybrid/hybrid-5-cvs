@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.42 1998/09/15 19:56:30 db Exp $
+ * $Id: config.h,v 1.43 1998/09/17 06:36:48 db Exp $
  */
 
 #ifndef	__config_include__
@@ -385,19 +385,17 @@
  * its always defined now
  */
 
-/* LINK_WAIT - minimum seconds between use of LINKS
- * Allow a links request only every LINK_WAIT seconds to
- * discourage link lookers. IMO its still legit for "normal" non-opers
- * to do /links but not too often -Dianora
- */
-#define LINK_WAIT 10
-
-/* MOTD_WAIT - minimum seconds between use of MOTD
- * Allow a motd request only every MOTD_WAIT seconds to
- * discourage motd flooders
+/* MOTD_WAIT - minimum seconds between use of MOTD, INFO, HELP, LINKS
+ * before max use count is reset 
  * -Dianora
  */
 #define MOTD_WAIT 10
+
+/* MOTD_MAX
+ * max use count before delay above comes into effect
+ */
+
+#define MOTD_MAX 3
 
 /* EXTRA_BOT_NOTICES - Have the server send extra bot notices?
  */

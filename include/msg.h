@@ -17,7 +17,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: msg.h,v 1.5 1998/07/16 18:17:05 db Exp $
+ * $Id: msg.h,v 1.6 1998/09/17 06:36:49 db Exp $
  */
 
 #ifndef	__msg_include__
@@ -270,7 +270,7 @@ struct Message msgtab[] = {
   { MSG_OPERWALL, m_operwall,0, MAXPARA, 1, 0, 0, 0L },
   { MSG_CLOSE,   m_close,    0, MAXPARA, 1, 0, 0, 0L },
   { MSG_KLINE,   m_kline,    0, MAXPARA, 1, 0, 0, 0L },
-#ifdef UNKLINE
+#ifdef UNKLINE 
   { MSG_UNKLINE, m_unkline,  0, MAXPARA, 1, 0, 0, 0L },
 #endif
   { MSG_DLINE,   m_dline,    0, MAXPARA, 1, 0, 0, 0L },
@@ -288,7 +288,7 @@ struct Message msgtab[] = {
 #endif
   { MSG_HTM,	m_htm,	     0, MAXPARA, 1, 0, 0, 0L },
   { MSG_SET,	m_set,	     0, MAXPARA, 1, 0, 0, 0L },
-  { (char *) 0, (int (*)()) 0 , 0, 0,    0, 0, 0, 0L}
+  { (char *) 0, (int (*)()) 0 , 0, 0,    0, 0, 0, 0L }
 };
 
 MESSAGE_TREE *msg_tree_root;

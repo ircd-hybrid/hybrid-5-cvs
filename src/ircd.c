@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.39 1998/09/15 19:56:43 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.40 1998/09/17 06:36:51 db Exp $";
 #endif
 
 #include "struct.h"
@@ -199,7 +199,7 @@ void	restart(char *mesg)
 
 #ifdef	USE_SYSLOG
   (void)syslog(LOG_WARNING, "Restarting Server because: %s, sbrk(0)-etext: %d",
-     mesg,(u_int)sbrk((size_t)0)-(u_int)sbrk0);
+     mesg,(u_long)sbrk((size_t)0)-(u_long)sbrk0);
 #endif
   server_reboot();
 }
@@ -225,7 +225,7 @@ void	server_reboot()
   Reg	int	i;
   
   sendto_ops("Aieeeee!!!  Restarting server... sbrk(0)-etext: %d",
-	(u_int)sbrk((size_t)0)-(u_int)sbrk0);
+	(u_long)sbrk((size_t)0)-(u_long)sbrk0);
 
   Debug((DEBUG_NOTICE,"Restarting server..."));
   flush_connections(me.fd);
@@ -1410,7 +1410,7 @@ static	void	open_debugfile()
       (void)strcpy(cptr->sockhost, me.sockhost);
 
       (void)printf("isatty = %d ttyname = %#x\n",
-		   isatty(2), (u_int)ttyname(2));
+		   isatty(2), (u_long)ttyname(2));
       if (!(bootopt & BOOT_TTY)) /* leave debugging output on fd 2 */
 	{
 	  (void)truncate(LOGFILE, 0);
