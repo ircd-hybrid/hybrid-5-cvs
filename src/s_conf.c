@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.4 1997/11/03 05:33:19 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.5 1997/12/06 18:29:29 db Exp $";
 #endif
 
 #include "struct.h"
@@ -612,10 +612,20 @@ int	attach_conf(aClient *cptr,aConfItem *aconf)
      -Dianora
   */
 
+  /* If OLD_Y_LIMIT is defined the code goes back to the old way
+     I lines used to work, i.e. number of clients per I line
+     not total in Y
+     -Dianora
+  */
+#ifdef OLD_Y_LIMIT
+  if ((aconf->status & (CONF_LOCOP | CONF_OPERATOR | CONF_CLIENT)) &&
+    aconf->clients >= ConfMaxLinks(aconf) && ConfMaxLinks(aconf) > 0)
+#else
   if ( (aconf->status & (CONF_LOCOP | CONF_OPERATOR ) ) == 0 )
     {
       if ((aconf->status & CONF_CLIENT) &&
 	  ConfLinks(aconf) >= ConfMaxLinks(aconf) && ConfMaxLinks(aconf) > 0)
+#endif
 	{
 	  if (!find_fline(cptr))
 	    {
@@ -628,7 +638,9 @@ int	attach_conf(aClient *cptr,aConfItem *aconf)
 		   56, 0);
 	    }
 	}
+#ifndef OLD_Y_LIMIT
     }
+#endif
 
   lp = make_link();
   lp->next = cptr->confs;
