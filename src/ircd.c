@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.22 1998/02/24 23:34:10 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.23 1998/04/24 20:16:41 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -770,7 +770,7 @@ static	int	bad_command()
 /* Changed by Taner Halicioglu (taner@CERF.NET) */
 
 #define LOADCFREQ 5	/* every 5s */
-#define LOADRECV 18	/* 18k/s */
+#define LOADRECV 40	/* 40k/s */
 
 int lifesux = 1;
 int LRV = LOADRECV;
