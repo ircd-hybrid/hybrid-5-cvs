@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)parse.c	2.30 17 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: parse.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static char *rcs_version = "$Id: parse.c,v 1.2 1997/10/07 02:46:12 cbehrens Exp $";
 
 #endif
 #include "struct.h"
@@ -483,11 +483,10 @@ static struct Message *do_msg_tree(MESSAGE_TREE *mtree, char *prefix,
       if (!mptr[1].cmd || (lp && strncmp(mptr[1].cmd, prefix, lp)))
 	{
 	  /* non ambiguous -> make a final case */
-	  mtree->final = MyMalloc(1+strlen(mptr->cmd)-lp);
+	  mtree->final = mptr->cmd + lp;
 	  mtree->msg = mptr;
 	  for (c=0; c<=25; c++)
 	    mtree->pointers[c] = NULL;
-	  strcpy(mtree->final, &mptr->cmd[lp]);
 	  return mptr+1;
 	}
       else
