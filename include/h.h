@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.4 1997/12/07 22:03:27 lusky Exp $
+ * $Id: h.h,v 1.5 1997/12/11 22:17:36 db Exp $
  *
  */
 
@@ -333,3 +333,8 @@ void	free_fluders();
 void	free_fludees();
 #define MyFludConnect(x)	(((x)->fd >= 0) || ((x)->fd == -2))
 #endif /* FLUD */
+
+#ifdef ANTI_SPAMBOT
+#define MIN_SPAM_NUM 5
+#define MIN_SPAM_TIME 60
+#endif
