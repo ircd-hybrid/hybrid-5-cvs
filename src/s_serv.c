@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.28 1997/12/17 21:02:34 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.29 1997/12/18 12:50:03 db Exp $";
 #endif
 
 
@@ -2320,14 +2320,6 @@ int     m_wallops(aClient *cptr,
      bleh. why the fripp INVENT a new lame message type?
      -Dianora
   */
-
-  if(sptr->user)
-    {
-      sendto_ops("sptr->user->username=[%s]",sptr->user->username);
-    }
-  sendto_ops("sptr->name=[%s]",sptr->name);
-  sendto_ops("cptr->name=[%s]",cptr->name);
-
 
   if(!IsServer(sptr))
     {
