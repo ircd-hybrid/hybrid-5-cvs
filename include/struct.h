@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.3 1997/10/06 19:35:47 mpearce Exp $
+ * $Id: struct.h,v 1.4 1997/10/07 19:22:32 mpearce Exp $
  */
 
 #ifndef	__struct_include__
@@ -493,6 +493,9 @@ struct	stats {
 #ifdef FLUD
 	unsigned int	is_flud;	/* users/channels flood protected */
 #endif /* FLUD */
+#ifdef ANTI_IP_SPOOF
+	unsigned int	is_ipspoof;	/* IP Spoofers Caught */
+#endif /* ANTI_IP_SPOOF */
 };
 
 /* mode structure for channels */

@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.3 1997/10/05 19:09:11 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.4 1997/10/07 19:22:33 mpearce Exp $";
 #endif
 
 #include "struct.h"
@@ -558,6 +558,10 @@ static	time_t	check_pings(time_t currenttime)
 	    sendto_ops("Restricting %s, closing link.",
 		       get_client_name(cptr,FALSE));
 #endif
+#ifdef ANTI_IP_SPOOF
+	  if(!IsRegistered(cptr) && (cptr->name[0]) && (cptr->user))
+	    ircstp->is_ipspoof++;
+#endif /* ANTI_IP_SPOOF */
 	  (void)exit_client(cptr, cptr, &me,"Ping timeout");
 
 	  /*

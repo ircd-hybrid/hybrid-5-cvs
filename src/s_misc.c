@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.3 1997/10/06 19:36:56 mpearce Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.4 1997/10/07 19:22:36 mpearce Exp $";
 #endif
 
 #include <sys/time.h>
@@ -767,6 +767,10 @@ void	tstats(aClient *cptr,char *name)
   sendto_one(cptr, ":%s %d %s :CTCP Floods Blocked %u",
              me.name, RPL_STATSDEBUG, name, sp->is_flud);
 #endif /* FLUD */
+#ifdef ANTI_IP_SPOOF
+  sendto_one(cptr, ":%s %d %s :IP Spoofers %u",
+             me.name, RPL_STATSDEBUG, name, sp->is_ipspoof);
+#endif /* ANTI_IP_SPOOF */
 }
 
 

@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.8 1997/10/07 00:34:56 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.9 1997/10/07 19:22:37 mpearce Exp $";
 
 #endif
 
@@ -2619,8 +2619,10 @@ int	m_pong(aClient *cptr,
 	      
 		  (void)add_to_client_hash_table(sptr->name, sptr);
 		}
-	      else
+	      else {
+                ircstp->is_ipspoof++;
 		return exit_client(cptr,sptr,&me,"Wrong random PONG response");
+              }
 	    }
 	}
       return 0;
