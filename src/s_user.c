@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.68 1998/07/17 01:24:11 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.69 1998/07/17 01:32:52 db Exp $";
 
 #endif
 
@@ -2718,19 +2718,19 @@ int	m_quit(aClient *cptr,
   if(!IsServer(sptr))
     {
 #ifdef ANTI_SPAMBOT_EXTRA
-	  /* catch the "one shot" spambots, they appear
-	   * to message a client, then exit. We can't do anything
-	   * to them since they are now exiting, but at least
-	   * we know about them now
-	   * -Dianora
-	   */
-	  if( sptr->person_privmsgs && !sptr->channel_privmsgs)
-	    {
-	      sendto_realops("Possible spambot exiting %s [%s@%s] : privmsgs to clients %d privmsgs to channels %d",
-			     sptr->name, sptr->user->username,
-			     sptr->user->host,
-			     sptr->person_privmsgs,sptr->channel_privmsgs);
-	    }
+      /* catch the "one shot" spambots, they appear
+       * to message a client, then exit. We can't do anything
+       * to them since they are now exiting, but at least
+       * we know about them now
+       * -Dianora
+       */
+      if( MyConnect(sptr) && sptr->person_privmsgs && !sptr->channel_privmsgs)
+	{
+	  sendto_realops("Possible spambot exiting %s [%s@%s] : privmsgs to clients %d privmsgs to channels %d",
+			 sptr->name, sptr->user->username,
+			 sptr->user->host,
+			 sptr->person_privmsgs,sptr->channel_privmsgs);
+	}
 #endif
 #ifdef ANTI_SPAM_EXIT_MESSAGE
       if((sptr->firsttime + ANTI_SPAM_EXIT_MESSAGE_TIME) > NOW)
