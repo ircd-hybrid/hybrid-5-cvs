@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.65 1998/07/16 20:58:11 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.66 1998/07/16 21:05:10 db Exp $";
 
 #endif
 
@@ -1928,7 +1928,7 @@ static	int	m_message(aClient *cptr,
 	    > SPAMBOT_PRIVMSG_POSSIBLE_SPAMBOT_COUNT)
 	  {
 	    sendto_realops("Possible spambot %s [%s@%s] : privmsgs to clients %d privmsgs to channels %d",
-			   nick, sptr->user->username,
+			   sptr->name, sptr->user->username,
 			   sptr->user->host,
 			   sptr->person_privmsgs,sptr->channel_privmsgs);
 	    /* and report it if happens again */
@@ -1973,7 +1973,7 @@ static	int	m_message(aClient *cptr,
 	    > SPAMBOT_PRIVMSG_POSSIBLE_SPAMBOT_COUNT)
 	  {
 	    sendto_realops("Possible spambot %s [%s@%s] : privmsgs to clients %d privmsgs to channels %d",
-			   nick, sptr->user->username,
+			   sptr->name, sptr->user->username,
 			   sptr->user->host,
 			   sptr->person_privmsgs,sptr->channel_privmsgs);
 	    /* and report it if happens again */
