@@ -1,4 +1,5 @@
 +hybrid-5.3p3 (11/16/98)
+* fixed +k handling (Dianora)
 * fixed a dns problem (kalt)
 * fixed m_topic (Dianora)
 * fixed m_motd oper notice in the wrong place (Dianora)

@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23.4.5 1998/11/07 02:04:08 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.6 1998/11/17 04:57:10 db Exp $";
 #endif
 
 #include "struct.h"
@@ -868,10 +868,6 @@ static	int	set_mode(aClient *cptr,
 	      {
                 if(MyClient(sptr))
 		  {
-		    ircstp->is_kill++;
-		    sendto_one(sptr,
-                    ":%s KILL %s :Trying to abuse +k bug", me.name, sptr->name);
-		    sptr->flags |= FLAGS_KILLED;
                     return exit_client(sptr, sptr, &me,
                                   "Trying to abuse +k bug");
  		  }
