@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.6 1997/10/06 02:52:54 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.7 1997/10/06 22:32:26 db Exp $";
 #endif
 
 
@@ -2440,7 +2440,9 @@ int     m_gline(aClient *cptr,
 	  if (!*host)		/* duh. no host found, assume its '*' host */
 	    host = "*";
 
-	  strncpyzt(tempuser, user, USERLEN+1);	/* allow for '*' */
+/* strncpyzt is broken for this case -Dianora */
+	  strncpy(tempuser, user, USERLEN+1);	/* allow for '*' */
+	  tempuser[USERLEN+1] = '\0';
 	  strncpyzt(temphost, host, HOSTLEN);
 	  user = tempuser;
 	  host = temphost;
@@ -2850,7 +2852,9 @@ int     m_kline(aClient *cptr,
 
       if (!*host)		/* duh. no host found, assume its '*' host */
 	host = "*";
-      strncpyzt(tempuser, user, USERLEN+1); /* allow for '*' in front */
+/* strncpyzt is broken for this case -Dianora */
+      strncpy(tempuser, user, USERLEN+1); /* allow for '*' in front */
+      tempuser[USERLEN+1] = '\0';
       strncpyzt(temphost, host, HOSTLEN);
       user = tempuser;
       host = temphost;
