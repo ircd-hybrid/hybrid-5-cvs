@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.34 1998/07/13 18:48:42 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.35 1998/07/15 00:25:38 db Exp $";
 #endif
 
 #include "struct.h"
@@ -417,11 +417,10 @@ static	time_t	check_pings(time_t currenttime)
    * -Dianora
    */
 
-  for (i = 0; i <= highest_fd; i++)
+   for (i = 0; i <= highest_fd; i++)
     {
       if (!(cptr = local[i]) || IsMe(cptr) || IsLog(cptr))
 	continue;		/* and go examine next fd/cptr */
-
       /*
       ** Note: No need to notify opers here. It's
       ** already done when "FLAGS_DEADSOCKET" is set.

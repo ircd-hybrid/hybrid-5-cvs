@@ -27,7 +27,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.10 1998/07/12 05:07:01 db Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.11 1998/07/15 00:25:40 db Exp $";
 #endif
 
 static	char	numbuff[512];
@@ -619,9 +619,6 @@ char	*rpl_str(int numeric)
 
   nptr = replies[numeric];
   
-  Debug((DEBUG_NUM, "rpl_str: numeric %d nptr %x",
-	 numeric, nptr ));
-
   if (!nptr)
     {
       (void)ircsprintf(numbuff,

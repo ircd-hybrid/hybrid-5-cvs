@@ -24,7 +24,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_misc.c	2.39 27 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_misc.c,v 1.19 1998/07/14 15:10:58 db Exp $";
+static char *rcs_version = "$Id: s_misc.c,v 1.20 1998/07/15 00:25:41 db Exp $";
 #endif
 
 #include <sys/time.h>
@@ -117,6 +117,7 @@ char	*date(time_t clock)
   return buf;
 }
 
+
 /*
 
 */
@@ -139,6 +140,26 @@ char    *smalldate(time_t clock)
   
   return buf;
 }
+
+
+#if defined(GLINES) || defined(SEPARATE_QUOTE_KLINES_BY_DATE)
+/*
+ * small_file_date
+ * Make a small YYMMDD formatted string suitable for a
+ * dated file stamp. 
+ */
+char    *small_file_date(time_t clock)
+{
+  static  char    timebuffer[MAX_DATE_STRING];
+  struct tm *tmptr;
+
+  if (!clock)
+    time(&clock);
+  tmptr = localtime(&clock);
+  strftime(timebuffer, MAX_DATE_STRING, "%y%m%d", tmptr);
+  return timebuffer;
+}
+#endif
 
 /**
  ** myctime()
