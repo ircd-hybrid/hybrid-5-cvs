@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.31 1998/07/10 07:38:20 db Exp $
+ * $Id: config.h,v 1.32 1998/07/10 19:57:56 db Exp $
  */
 
 #ifndef	__config_include__
@@ -1019,6 +1019,8 @@ error CLIENT_FLOOD undefined.
 
 #define DEBUG_LINKLIST
 #define USE_LINKLIST
+
+#define REPORT_DLINE_TO_USER
 
 #define CONFIG_H_LEVEL_5_2
 

@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.23 1998/07/10 07:38:21 db Exp $
+ * $Id: struct.h,v 1.24 1998/07/10 19:57:59 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -57,6 +57,8 @@
 #define REPORT_DO_ID	"NOTICE AUTH :*** Checking Ident\n"
 #define REPORT_FIN_ID	"NOTICE AUTH :*** Got Ident response\n"
 #define REPORT_FAIL_ID	"NOTICE AUTH :*** No Ident response\n"
+
+#define REPORT_DLINED   "NOTICE DLINE :*** You have been D-lined\n"
 
 #include "hash.h"
 
