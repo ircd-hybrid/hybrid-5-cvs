@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.8 1997/12/07 22:03:28 lusky Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.9 1998/01/06 04:48:16 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -966,7 +966,7 @@ normal user.\n");
       if ((aconf->passwd[0] != '\0') && (aconf->passwd[0] != '*'))
 	vaddr = inet_addr(aconf->passwd);
       else
-        vaddr = NULL;
+        vaddr = (u_long) NULL;
 
       if (inetport(&me, star, portnum, vaddr))
       {

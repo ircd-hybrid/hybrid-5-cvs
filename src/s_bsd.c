@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_bsd.c	2.78 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: s_bsd.c,v 1.8 1997/12/10 22:35:26 db Exp $";
+static char *rcs_version = "$Id: s_bsd.c,v 1.9 1998/01/06 04:48:17 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -345,7 +345,7 @@ int	add_listener(aConfItem *aconf)
   if ((aconf->passwd[0] != '\0') && (aconf->passwd[0] != '*'))
       vaddr = inet_addr(aconf->passwd);
   else
-      vaddr = NULL;
+      vaddr = (u_long) NULL;
 
   if (inetport(cptr, aconf->host, aconf->port, vaddr))
       cptr->fd = -2;
