@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)list.c	2.22 15 Oct 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version = "$Id: list.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static char *rcs_version = "$Id: list.c,v 1.2 1997/10/06 22:23:22 mpearce Exp $";
 #endif
 
 #include "struct.h"
@@ -65,13 +65,17 @@ void	outofmemory();
 int	numclients = 0;
 
 /* for jolo's block allocator */
-static BlockHeap *free_local_aClients;
-static BlockHeap *free_Links;
-static BlockHeap *free_remote_aClients;
-static BlockHeap *free_anUsers;
+BlockHeap *free_local_aClients;
+BlockHeap *free_Links;
+BlockHeap *free_remote_aClients;
+BlockHeap *free_anUsers;
+#ifdef FLUD
+BlockHeap *free_fludbots;
+#endif /* FLUD */
 
 void	initlists()
 {
+  /* Might want to bump up LINK_PREALLOCATE if FLUD is defined */
   free_Links = BlockHeapCreate((size_t)sizeof(Link),LINK_PREALLOCATE);
 
   /* start off with CLIENTS_PREALLOCATE for now... on typical
@@ -89,6 +93,12 @@ void	initlists()
 
   free_anUsers = BlockHeapCreate((size_t)sizeof(anUser),
 				 CLIENTS_PREALLOCATE+MAXCONNECTIONS);
+
+#ifdef FLUD
+  /* fludbot structs are used to track CTCP Flooders */
+  free_fludbots = BlockHeapCreate((size_t)sizeof(struct fludbot),
+				MAXCONNECTIONS);
+#endif /* FLUD */
 }
 
 /*
@@ -495,4 +505,7 @@ void block_garbage_collect()
   BlockHeapGarbageCollect(free_local_aClients);
   BlockHeapGarbageCollect(free_remote_aClients);
   BlockHeapGarbageCollect(free_anUsers);
+#ifdef FLUD
+  BlockHeapGarbageCollect(free_fludbots);
+#endif /* FLUD */
 }
