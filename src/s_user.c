@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.52 1998/07/10 07:38:27 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.53 1998/07/10 07:50:31 db Exp $";
 
 #endif
 
@@ -3558,6 +3558,13 @@ void	send_umode_out(aClient *cptr,
 
   send_umode(NULL, sptr, old, SEND_UMODES, buf);
 
+#ifdef USE_LINKLIST
+
+  for(acptr = serv_cptr_list; acptr; acptr = acptr->next_server_client)
+    if((acptr != cptr) && (acptr != sptr) && (*buf))
+     sendto_one(acptr, ":%s MODE %s :%s",
+		sptr->name, sptr->name, buf);
+#else
   /*
    * Cycling through serv_fdlist here should be MUCH faster than
    * looping through every client looking for servers. -ThemBones
@@ -3568,8 +3575,9 @@ void	send_umode_out(aClient *cptr,
 	(acptr != sptr) && (*buf) )
       sendto_one(acptr, ":%s MODE %s :%s",
 		 sptr->name, sptr->name, buf);
+#endif
   
-      if (cptr && MyClient(cptr))
+  if (cptr && MyClient(cptr))
     send_umode(cptr, sptr, old, ALL_UMODES, buf);
 }
 
