@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.24 1998/06/13 23:21:17 lusky Exp $
+ * $Id: config.h,v 1.25 1998/07/04 21:44:08 db Exp $
  */
 
 #ifndef	__config_include__
@@ -363,8 +363,8 @@
 #define F_LINES_OPER_ONLY
 
 /* STATS_NOTICE - See a notice when a user does a /stats
+ * its always defined now
  */
-#define STATS_NOTICE
 
 /* LINKS_NOTICE - See a notice when a user does a /links
  * its always defined now
@@ -376,6 +376,13 @@
  * to do /links but not too often -Dianora
  */
 #define LINK_WAIT 10
+
+/* MOTD_MOTD - minimum seconds between use of MOTD
+ * Allow a motd request only every MOTD_WAIT seconds to
+ * discourage motd flooders
+ * -Dianora
+ */
+#define MOTD_WAIT 10
 
 /* EXTRA_BOT_NOTICES - Have the server send extra bot notices?
  */

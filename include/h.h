@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.8 1998/02/09 03:47:45 lusky Exp $
+ * $Id: h.h,v 1.9 1998/07/04 21:44:09 db Exp $
  *
  */
 
@@ -194,6 +194,8 @@ extern	void	server_reboot (void);
 extern	void	terminate (void), write_pidfile (void);
 
 extern	int	send_queued (aClient *);
+extern  int     send_motd(aClient *,aClient *,int,char **);
+
 /* Missing definitions */
 /*VARARGS*/
 extern  void	sendto_ops_lev();		/* defined in send.c */

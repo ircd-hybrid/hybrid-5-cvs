@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.44 1998/07/04 20:03:09 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.45 1998/07/04 21:44:13 db Exp $";
 
 #endif
 
@@ -955,7 +955,7 @@ static	int	register_user(aClient *cptr,
 		  sendto_one(sptr, rpl_str(RPL_ENDOFMOTD),
 			     me.name, parv[0]);
 #else
-		  (void)m_motd(sptr, sptr, 1, parv);
+		  (void)send_motd(sptr, sptr, 1, parv);
 #endif
 #ifdef LITTLE_I_LINES
 		  if(sptr->confs && sptr->confs->value.aconf &&
@@ -1539,7 +1539,11 @@ nickkilldone:
       else
 	{
 	  sendto_common_channels(sptr, ":%s NICK :%s", parv[0], nick);
+#ifdef ANTI_IP_SPOOF
 	  if ((sptr->user)&&(sptr->flags & FLAGS_GOT_ANTI_SPOOF_PING))
+#else
+	  if (sptr->user)
+#endif
 	    {
 	      add_history(sptr,1);
 	      
