@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)send.c	2.32 2/28/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: send.c,v 1.11 1998/07/14 04:47:25 db Exp $";
+static char *rcs_version = "$Id: send.c,v 1.12 1998/07/14 15:10:59 db Exp $";
 #endif
 
 #include "struct.h"
@@ -34,10 +34,13 @@ static char *rcs_version = "$Id: send.c,v 1.11 1998/07/14 04:47:25 db Exp $";
 
 /* FDLIST */
 void sendto_fdlist();
+
+#ifdef USE_LINKLIST
 /* LINKLIST */
 extern aClient *local_cptr_list;
 extern aClient *oper_cptr_list;
 extern aClient *serv_cptr_list;
+#endif
 
 #define	NEWLINE	"\n"
 
