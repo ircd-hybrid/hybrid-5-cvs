@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.16 1998/05/07 01:20:06 db Exp $
+ * $Id: struct.h,v 1.15.4.1 1998/05/07 01:32:22 db Exp $
  */
 
 #ifndef	__struct_include__
