@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.14 1998/01/23 19:35:47 db Exp $
+ * $Id: config.h,v 1.15 1998/01/29 03:36:52 db Exp $
  */
 
 #ifndef	__config_include__
@@ -308,6 +308,12 @@
  * Your opers can be hit with retalitation... Or if your opers use
  * scripts that stick an ID into the comment field. etc. It's up to you
  * whether you want to use it or not.
+ *
+ * I have rewritten a portion of the k-line processing making it faster
+ * unfortuantely, using KLINE_WITH_REASON would slow down this
+ * processing slightly.. how much I can't say. For very few clients
+ * being KLINED very little difference, but you have been forewarned
+ *
  */
 #define KLINE_WITH_REASON
 
