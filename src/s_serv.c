@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.13 1997/10/13 21:27:40 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.14 1997/10/17 01:40:07 db Exp $";
 #endif
 
 
@@ -2661,6 +2661,10 @@ static int majority_gline(char *oper_nick,
 
   while(gline_pending_ptr)
     {
+	/* Remember it might be *luser@*some.host.com 
+	   not luser@fix.some.host.com, so I have to use match
+	   -Dianora */
+
       if( (match(gline_pending_ptr->user,user) != 0) || 
 	  (match(gline_pending_ptr->host,host) != 0) )
 	{
