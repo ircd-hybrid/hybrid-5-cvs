@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_debug.c	2.28 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *version = "$Id: s_debug.c,v 1.1 1997/09/29 15:35:27 db Exp $";
+static char *version = "$Id: s_debug.c,v 1.2 1997/10/01 00:31:49 db Exp $";
 #endif
 
 #include "struct.h"
@@ -125,7 +125,7 @@ char	serveropts[] = {
 'F',
 #endif
 
-#ifdef GLINE
+#ifdef GLINES
 'G',
 #endif
 
