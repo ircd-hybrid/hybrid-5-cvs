@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.5 1997/10/05 19:09:13 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.6 1997/10/06 02:52:54 db Exp $";
 #endif
 
 
@@ -1366,19 +1366,17 @@ int	m_stats(aClient *cptr,
 
 /* sendto_one(sptr, err_str(ERR_NOPRIVILEGES), me.name, parv[0]); */
     case 'K' :
-      if (IsAnOper(sptr))
-	{
-	  report_conf_links(sptr, &KList1, RPL_STATSKLINE, 'K');
-	  report_conf_links(sptr, &KList2, RPL_STATSKLINE, 'K');
-	  report_conf_links(sptr, &KList3, RPL_STATSKLINE, 'K');
-	}
+      if(parc > 3)
+	report_matching_host_klines(sptr,parv[3]);
       else
-	{
-	  if(parc > 2)
-	    report_matching_host_klines(sptr,parv[2]);
-	  else
-	    report_matching_host_klines(sptr,sptr->sockhost);
-	}
+	if (IsAnOper(sptr))
+	  {
+	    report_conf_links(sptr, &KList1, RPL_STATSKLINE, 'K');
+	    report_conf_links(sptr, &KList2, RPL_STATSKLINE, 'K');
+	    report_conf_links(sptr, &KList3, RPL_STATSKLINE, 'K');
+	  }
+	else
+	  report_matching_host_klines(sptr,sptr->sockhost);
       break;
 
     case 'M' : case 'm' :
