@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.23 1998/03/06 17:31:34 mpearce Exp $";
+static char *rcs_version="$Id: channel.c,v 1.23.4.1 1998/06/13 22:51:11 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -31,6 +31,16 @@ static char *rcs_version="$Id: channel.c,v 1.23 1998/03/06 17:31:34 mpearce Exp 
 #include "numeric.h"
 #include "channel.h"
 #include "h.h"
+
+#ifdef NO_CHANOPS_WHEN_SPLIT
+#include "fdlist.h"
+extern fdlist serv_fdlist;
+
+int server_was_split=NO;
+time_t server_split_time;
+int server_split_recovery_time = (MAX_SERVER_SPLIT_RECOVERY_TIME * 60);
+#define USE_ALLOW_OP
+#endif
 
 #ifdef LITTLE_I_LINES
 #ifndef USE_ALLOW_OP
@@ -1562,6 +1572,30 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
 	  ** Operator.
 	  */
 	  flags = (ChannelExists(name)) ? 0 : CHFL_CHANOP;
+#ifdef NO_CHANOPS_WHEN_SPLIT
+	  if(!IsAnOper(sptr) && server_was_split && server_split_recovery_time)
+	    {
+	      if( (server_split_time + server_split_recovery_time) < NOW)
+		{
+		  if(serv_fdlist.entry[1] > serv_fdlist.last_entry)
+		    server_was_split = NO;
+		  else
+		    {
+		      server_split_time = NOW;	/* still split */
+		      allow_op = NO;
+		    }
+		}
+	      else
+		{
+		  allow_op = NO;
+		}
+		  if(!IsRestricted(sptr) && !allow_op)
+		      sendto_one(sptr,":%s NOTICE %s :*** Notice -- Due to a network split, you can not obtain channel operator status in a new channel at this time.",
+				 me.name,
+				 sptr->name);
+	    }
+#endif
+
 #ifdef LITTLE_I_LINES
 	  if(!IsAnOper(sptr) && IsRestricted(sptr))
 	    {
@@ -1654,10 +1688,7 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
       */
       if (MyClient(sptr) && flags == CHFL_CHANOP)
 	{
-	  if((chptr->channelts = timeofday) < (time_t)887300000)
-	    ts_warn("Setting insane TS (%ld) for %s", chptr->channelts,
-			chptr->chname);
-	      
+	  chptr->channelts = timeofday;
 #ifdef USE_ALLOW_OP
 	  if(allow_op)
 	    sendto_match_servs(chptr, cptr,

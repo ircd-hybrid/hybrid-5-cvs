@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.11 1998/02/09 03:47:53 lusky Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.11.4.1 1998/06/13 22:51:12 lusky Exp $";
 #endif
 
 #include "struct.h"
@@ -1046,7 +1046,7 @@ int	rehash(aClient *cptr,aClient *sptr,int sig)
     if ((fd = openconf(filenamebuf)) == -1)
       sendto_ops("Can't open %s file klines could be missing!",filenamebuf);
     else
-      (void)initconf(0,fd))
+      (void)initconf(0,fd);
   }
 #else
 #ifdef KLINEFILE
