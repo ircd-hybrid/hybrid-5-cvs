@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.7 1997/12/10 22:35:23 db Exp $
+ * $Id: struct.h,v 1.8 1998/01/18 18:24:10 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -163,6 +163,7 @@ typedef struct	MotdItem aMotd;
 #define	FLAGS_WALLOP     0x0040 /* send wallops to them */
 #define	FLAGS_SERVNOTICE 0x0080 /* server notices such as kill */
 #define	FLAGS_BLOCKED    0x0100	/* socket is in a blocked condition */
+#define FLAGS_REJECT_HOLD 0x0200 /* client has been klined */
 /* #define FLAGS_UNIX	 0x0200  Not used anymore, free for other use */
      				/* socket is in the unix domain, not inet */
 #define	FLAGS_CLOSING    0x0400	/* set when closing to suppress errors */

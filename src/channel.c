@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.11 1998/01/09 18:15:53 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.12 1998/01/18 18:24:11 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1581,9 +1581,11 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
  
               if(sptr->oper_warn_count_down == 0)
                 {
-                  sendto_realops("User %s (%s@%s) is a possible spambot",
+                  sendto_realops("User %s (%s@%s) trying to join %s is a possible spambot",
                              sptr->name,
-                             sptr->user->username, sptr->user->host);
+                             sptr->user->username,
+			     sptr->user->host,
+			     name);	
                   sptr->oper_warn_count_down = OPER_SPAM_COUNTDOWN;
                 }
 #ifndef ANTI_SPAMBOT_WARN_ONLY
