@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.9 1998/07/04 21:44:09 db Exp $
+ * $Id: h.h,v 1.10 1998/07/05 00:09:04 db Exp $
  *
  */
 
@@ -195,6 +195,7 @@ extern	void	terminate (void), write_pidfile (void);
 
 extern	int	send_queued (aClient *);
 extern  int     send_motd(aClient *,aClient *,int,char **);
+extern  int     place_dline(aClient *,aClient *,int,char **,char*, char*, char*);
 
 /* Missing definitions */
 /*VARARGS*/
