@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.34 1998/01/26 21:50:28 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.35 1998/01/27 21:45:36 db Exp $";
 
 #endif
 
@@ -881,8 +881,21 @@ static	int	register_user(aClient *cptr,
 		  sendto_one(sptr,"NOTICE %s :*** Notice -- motd was last changed at %s",
 			     nick, motd_last_changed_date);
 #ifdef SHORT_MOTD
-		  sendto_one(sptr,"NOTICE %s :*** Notice -- Please read motd if you haven't read it ",
+		  sendto_one(sptr,
+       "NOTICE %s :*** Notice -- Please read the motd if you haven't read it",
 			     nick);
+
+		  sendto_one(sptr, rpl_str(RPL_MOTDSTART),
+			     me.name, parv[0], me.name);
+
+		  sendto_one(sptr,
+			     rpl_str(RPL_MOTD),
+			     me.name, parv[0],
+			     "*** This is the short motd ***"
+			     );
+
+		  sendto_one(sptr, rpl_str(RPL_ENDOFMOTD),
+			     me.name, parv[0]);
 #else
 		  (void)m_motd(sptr, sptr, 1, parv);
 #endif
