@@ -21,7 +21,7 @@
 #ifndef lint
 static  char sccsid[] = "@(#)s_debug.c	2.28 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *version = "$Id: s_debug.c,v 1.3 1997/12/07 23:06:03 db Exp $";
+static char *version = "$Id: s_debug.c,v 1.4 1997/12/07 23:51:07 db Exp $";
 #endif
 
 #include "struct.h"
@@ -116,9 +116,9 @@ char	serveropts[] = {
 '=',
 
 #ifdef ANTI_SPAMBOT
-'B'
+'B',
 #else
-'b'
+'b',
 #endif
 
 #ifdef CLIENT_SERVER
@@ -151,9 +151,9 @@ char	serveropts[] = {
 # endif
 
 #ifdef ANTI_IP_SPOOF
-'S'
+'S',
 #else
-'s'
+'s',
 #endif
 
 # ifdef TOPIC_INFO

@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.7 1997/12/07 23:06:00 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.8 1997/12/07 23:51:06 db Exp $";
 #endif
 
 #include "struct.h"
@@ -67,6 +67,11 @@ static	char	modebuf[MODEBUFLEN], parabuf[MODEBUFLEN];
 
 /* externally defined function */
 extern Link *find_channel_link(Link *,aChannel *);	/* defined in list.c */
+
+#ifdef ANTI_SPAMBOT
+extern int spam_num;	/* defined in s_serv.c */
+extern int spam_time;	/* defined in s_serv.c */
+#endif
 
 /*
  * return the length (>=0) of a chain of links.

@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.23 1997/12/07 23:06:04 db Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.24 1997/12/07 23:51:08 db Exp $";
 #endif
 
 
@@ -2103,6 +2103,11 @@ int	m_admin(aClient *cptr,
 extern int flud_num;
 extern int flud_time;
 extern int flud_block;
+#endif
+
+#ifdef ANTI_SPAMBOT
+extern int spam_num;
+extern int spam_time;
 #endif
 
 /*
