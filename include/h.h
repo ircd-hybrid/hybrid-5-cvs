@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.6 1998/02/05 19:11:33 db Exp $
+ * $Id: h.h,v 1.7 1998/02/08 20:58:29 db Exp $
  *
  */
 
@@ -59,7 +59,7 @@ extern aConfList	FList2;
 extern aConfList	FList3;
 
 #include "fdlist.h"
-extern lifesux;
+extern int lifesux;
 extern fdlist serv_fdlist;
 extern fdlist busycli_fdlist;
 extern fdlist default_fdlist;

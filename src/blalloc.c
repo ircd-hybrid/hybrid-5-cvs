@@ -1,14 +1,14 @@
 /* ************************************************************************ */
 /*                                                                          */
 /* File:   blalloc.c                                                        */
-/* Owner:  jolo                                                             */
+/* Owner:  Wohali (Joan Touzet)
 /*                                                                          */
 /*         Hacked up for use in ircd by Dianora                             */
 /*                                                                          */
 /* ************************************************************************ */
 
 #ifndef lint
-static char *rcs_version = "$Id: blalloc.c,v 1.1 1997/09/29 15:35:26 db Exp $";
+static char *rcs_version = "$Id: blalloc.c,v 1.2 1998/02/08 20:58:32 db Exp $";
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -269,7 +269,12 @@ int BlockHeapFree(BlockHeap *bh, void *ptr)
    unsigned long bitmask;
 
    if (bh == NULL)
-      return 1;
+     {
+#if defined(USE_SYSLOG) && defined(SYSLOG_BLOCK_ALLOCATOR)
+       syslog(LOG_DEBUG,"blalloc.c bh == NULL");
+#endif
+       return 1;
+     }
 
    for (walker = bh->base; walker != NULL; walker = walker->next)
      {
@@ -282,8 +287,18 @@ int BlockHeapFree(BlockHeap *bh, void *ptr)
 	  bitmask = 1L << (ctr % (sizeof(long) * 8));
 	  ctr = ctr / (sizeof(long) * 8);
 	  /* Flip the right allocation bit */
-	  walker->allocMap[ctr] = walker->allocMap[ctr] & ~bitmask;
-	  walker->freeElems++;  bh->freeElems++;
+	  if( (walker->allocMap[ctr] & ~bitmask) == 0 )
+	    {
+#if defined(USE_SYSLOG) && defined(SYSLOG_BLOCK_ALLOCATOR)
+	      syslog(LOG_DEBUG,"blalloc.c bit already clear in map!");
+#endif
+	      sendto_ops("DEBUG: blalloc.c bit already clear in map!");
+	    }
+	  else
+	    {
+	      walker->allocMap[ctr] = walker->allocMap[ctr] & ~bitmask;
+	      walker->freeElems++;  bh->freeElems++;
+	    }
 	  return 0;
 	}
      }

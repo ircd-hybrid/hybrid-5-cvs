@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.38 1998/02/06 06:54:49 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.39 1998/02/08 20:58:39 db Exp $";
 
 #endif
 
@@ -2731,13 +2731,15 @@ int	m_away(aClient *cptr,
    commented out this sendto_serv_butone() call -Dianora */
 /*  sendto_serv_butone(cptr, ":%s AWAY :%s", parv[0], awy2); */
 
+  /* don't use realloc() -Dianora */
+
   if (away)
-    away = (char *)MyRealloc(away, strlen(awy2)+1);
-  else
-    away = (char *)MyMalloc(strlen(awy2)+1);
+    MyFree(away);
+
+  away = (char *)MyMalloc(strlen(awy2)+1);
 
   sptr->user->away = away;
-  (void)strcpy(away, awy2);
+
   if (MyConnect(sptr))
     sendto_one(sptr, rpl_str(RPL_NOWAWAY), me.name, parv[0]);
   return 0;
