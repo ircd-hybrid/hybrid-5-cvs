@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.9 1997/10/07 19:22:37 mpearce Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.10 1997/10/08 21:04:11 mpearce Exp $";
 
 #endif
 
@@ -3325,7 +3325,7 @@ void announce_fluder(aClient *fluder,	/* fluder, client being fluded */
   else
     fludee = chptr->chname;
 
-  sendto_ops_lev(CCONN_LEV, "Flooder %s [%s@%s] on %s target: %s",
+  sendto_ops_lev(REJ_LEV, "Flooder %s [%s@%s] on %s target: %s",
 		 fluder->name, fluder->user->username, fluder->user->host,
 		 fluder->user->server, fludee);
 }
