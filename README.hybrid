@@ -1,3 +1,7 @@
++hybrid-5.3p4 (11/25/1998)
+* These commands are flood controlled: INFO, LINKS, STATS, HELP,
+  LUSERS, MOTD, WHOIS (remote only)
+
 +hybrid-5.3p3 (11/23/98)
 * fixed +k handling (Dianora)
 * fixed a dns problem (kalt)

@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.44.4.10 1998/11/24 03:00:06 lusky Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.44.4.11 1998/11/26 07:26:58 lusky Exp $";
 #endif
 
 
@@ -216,17 +216,6 @@ int	m_version(aClient *cptr,
 
   if (hunt_server(cptr,sptr,":%s VERSION :%s",1,parc,parv)==HUNTED_ISME)
     {
-      if(!IsAnOper(sptr))
-        {
-          if((last_used + MOTD_WAIT) > NOW)
-            {
-              return 0;
-            }
-          else
-            {
-              last_used = NOW;
-            }
-        }
       sendto_one(sptr, rpl_str(RPL_VERSION), me.name,
 		 parv[0], version, debugmode, me.name, serveropts);
     }
@@ -2580,31 +2569,9 @@ int	m_admin(aClient *cptr,
 		char *parv[])
 {
   aConfItem *aconf;
-  static time_t last_used=0L;
-  static int last_count=0;
-
-  if(!IsAnOper(sptr))
-    {
-      if((last_used + MOTD_WAIT) > NOW)
-	return 0;
-      else
-	last_used = NOW;
-    }
 
   if (hunt_server(cptr,sptr,":%s ADMIN :%s",1,parc,parv) != HUNTED_ISME)
     return 0;
-
-  if(!IsAnOper(sptr))
-    {
-      if((last_used + MOTD_WAIT) > NOW)
-        {
-          return 0;
-        }
-      else
-        {
-          last_used = NOW;
-        }
-    }
 
   if (IsPerson(sptr))
     sendto_realops_lev(SPY_LEV, "ADMIN requested by %s (%s@%s) [%s]", sptr->name,
