@@ -21,7 +21,7 @@
 #ifndef lint
 static	char sccsid[] = "@(#)ircd.c	2.48 3/9/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
-static char *rcs_version="$Id: ircd.c,v 1.32 1998/07/10 21:31:25 db Exp $";
+static char *rcs_version="$Id: ircd.c,v 1.33 1998/07/12 23:18:32 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1489,6 +1489,21 @@ static	void	setup_signals()
   */
   (void)siginterrupt(SIGALRM, 1);
 #endif
+}
+
+/*
+ * simple function added because its used more than once
+ * - Dianora
+ */
+
+report_error_on_tty(char *error_message)
+{
+  int fd;
+  if((fd = open("/dev/tty", O_WRONLY)) >= 0 )
+    {
+      write(fd,error_message,strlen(error_message));
+      close(fd);
+    }
 }
 
 #ifndef NO_PRIORITY

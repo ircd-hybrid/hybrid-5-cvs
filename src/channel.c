@@ -22,7 +22,7 @@
 static	char sccsid[] = "@(#)channel.c	2.58 2/18/94 (C) 1990 University of Oulu, Computing\
  Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: channel.c,v 1.28 1998/07/11 05:12:51 db Exp $";
+static char *rcs_version="$Id: channel.c,v 1.29 1998/07/12 23:18:30 db Exp $";
 #endif
 
 #include "struct.h"
@@ -1599,7 +1599,7 @@ int spam_num = MAX_JOIN_LEAVE_COUNT;
 		{
 		  allow_op = NO;
 		}
-		  if(!IsRestricted(sptr) && !allow_op)
+		  if(!IsRestricted(sptr) && (flags == CHFL_CHANOP) && !allow_op)
 		      sendto_one(sptr,":%s NOTICE %s :*** Notice -- Due to a network split, you can not obtain channel operator status in a new channel at this time.",
 				 me.name,
 				 sptr->name);

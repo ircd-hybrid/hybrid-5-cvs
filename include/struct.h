@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.25 1998/07/11 03:05:23 db Exp $
+ * $Id: struct.h,v 1.26 1998/07/12 23:18:29 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -424,7 +424,7 @@ struct	User
   int	joined;		/* number of channels joined */
   char	username[USERLEN+1];
   char	host[HOSTLEN+1];
-  char *server;		/* pointer to scached server name */
+  char	*server;	/* pointer to scached server name */
   /*
   ** In a perfect world the 'server' name
   ** should not be needed, a pointer to the
@@ -438,7 +438,7 @@ struct	User
 struct	Server
 {
   anUser *user;		/* who activated this connection */
-  char  *up;		/* Pointer to scache name */
+  char	*up;		/* Pointer to scache name */
   char	by[NICKLEN+1];
   aConfItem *nline;	/* N-line pointer for this server */
 };
