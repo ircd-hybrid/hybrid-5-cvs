@@ -18,7 +18,7 @@
 #endif
 
 #ifndef lint
-static char *rcs_version="$Id: viconf.c,v 1.2 1998/02/05 19:23:37 db Exp $";
+static char *rcs_version="$Id: viconf.c,v 1.3 1998/07/08 06:35:43 db Exp $";
 #endif /* lint */
 
 int main(int argc, char *argv[])
@@ -26,6 +26,12 @@ int main(int argc, char *argv[])
 #ifdef LOCKFILE
 	int fd;
 	char s[20], *ed, *p, *filename = CONFIGFILE;
+
+	if( chdir(DPATH) < 0 )
+	  {
+	    fprintf(stderr,"Cannot chdir to %s\n", DPATH);
+	    exit(errno);
+	  }
 
 	if((p = strrchr(argv[0], '/')) == NULL)
 		p = argv[0];

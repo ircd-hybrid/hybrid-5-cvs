@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.21 1998/07/07 03:43:04 db Exp $
+ * $Id: struct.h,v 1.22 1998/07/08 06:35:40 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -189,9 +189,13 @@ typedef struct	MotdItem aMotd;
 #define	FLAGS_NCHANGE  0x2000000 /* Nick change notice */
 #define	FLAGS_SPY      0x4000000 /* see STATS / LINKS */
 #define FLAGS_DEBUG    0x8000000 /* 'debugging' info */
-#define FLAGS_SENDQEX 0x10000000 /* Sendq exceeded */
+#define FLAGS_SENDQEX  0x10000000 /* Sendq exceeded */
 #define FLAGS_OPERWALL 0x20000000 /* Operwalls */
 #define FLAGS_IPHASH   0x40000000 /* iphashed this client */
+
+#ifdef ANTI_IP_SPOOF
+#define FLAGS_GOT_ANTI_SPOOF_PING 0x80000000 
+#endif
 
 /* *sigh* overflow flags */
 #define FLAGS2_RESTRICTED   0x0001      /* restricted client */

@@ -23,7 +23,7 @@
 
 #ifndef lint
 static  char sccsid[] = "@(#)s_err.c	1.11 5/17/93 (C) 1992 Darren Reed";
-static char *rcs_version = "$Id: s_err.c,v 1.5 1998/07/08 06:11:07 db Exp $";
+static char *rcs_version = "$Id: s_err.c,v 1.6 1998/07/08 06:35:41 db Exp $";
 #endif
 
 typedef	struct	{
@@ -155,7 +155,7 @@ static	Numeric	numeric_replies[] = {
 /* 299 */	0, (char *)NULL,
 /* 300 */	RPL_NONE, (char *)NULL,
 /* 301 */	RPL_AWAY, ":%s 301 %s %s :%s",
-/* 302 */	RPL_USERHOST, ":%s 302 %s :",
+/* 302 */	RPL_USERHOST, ":%s 302 %s :%s 302 %s :",
 /* 303 */	RPL_ISON, ":%s 303 %s :",
 /* 304 */	RPL_TEXT, (char *)NULL,
 /* 305 */	RPL_UNAWAY, ":%s 305 %s :You are no longer marked as being away",
