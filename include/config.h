@@ -16,7 +16,7 @@
  *   along with this program; if not, write to the Free Software
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
- * $Id: config.h,v 1.37 1998/07/15 06:25:18 db Exp $
+ * $Id: config.h,v 1.38 1998/07/15 23:06:15 db Exp $
  */
 
 #ifndef	__config_include__
@@ -383,12 +383,6 @@
  */
 #define MOTD_WAIT 10
 
-/* IDLE_CHECK
- * If a client has been idle for idletime (set in /quote set) then
- * exit the client, and give it a 1 minute temporary kline 
- */
-#undef IDLE_CHECK
-
 /* EXTRA_BOT_NOTICES - Have the server send extra bot notices?
  */
 #define EXTRA_BOT_NOTICES
@@ -672,10 +666,15 @@
 #undef LIMIT_UH
 
 /* IDLE_CHECK
- *
+ * If this is defined, each client is checked for excessive idleness
+ * This adds some CPU... you might not want to use this on a large server.
+ * However, if defined, and a client is discovered idling more than
+ * IDLE_TIME minutes, it is t-klined for 1 minute to discourage
+ * reconnects.
+ * -Dianora
  */
 #define IDLE_CHECK
-#define IDLE_TIME 60
+#define IDLE_TIME 30
 
 /*   STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP STOP  */
 

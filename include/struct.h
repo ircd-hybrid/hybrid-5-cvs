@@ -18,7 +18,7 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  *
- * $Id: struct.h,v 1.28 1998/07/15 06:25:20 db Exp $
+ * $Id: struct.h,v 1.29 1998/07/15 23:06:17 db Exp $
  */
 
 #ifndef	__struct_include__
@@ -212,6 +212,7 @@ typedef struct	MotdItem aMotd;
 #define FLAGS2_OPER_REMOTE	0x0040	/* oper can do squits/connects */
 #define FLAGS2_OPER_UNKLINE	0x0080	/* oper can use unkline */
 #define FLAGS2_OPER_GLINE	0x0100	/* oper can use gline */
+#define FLAGS2_OPER_TCM		0x0200	/* oper is actually a tcm */
 
 /* for sendto_ops_lev */
 #define CCONN_LEV	1
@@ -298,6 +299,8 @@ typedef struct	MotdItem aMotd;
 #define IsSetOperUnkline(x)	((x)->flags2 & FLAGS2_OPER_UNKLINE)
 #define SetOperGline(x)		((x)->flags2 |= FLAGS2_OPER_GLINE)
 #define IsSetOperGline(x)	((x)->flags2 & FLAGS2_OPER_GLINE)
+#define SetOpertcm(x)		((x)->flags2 |= FLAGS2_OPER_TCM)
+#define IsSetOpertcm(x)		((x)->flags2 & FLAGS2_OPER_TCM)
 
 /*
  * defined debugging levels
@@ -439,10 +442,12 @@ struct	ConfItem
 #endif
 
 /* port definitions for Opers */
+
 #define CONF_OPER_GLOBAL_KILL 1
 #define CONF_OPER_REMOTE      2
 #define CONF_OPER_UNKLINE     4
 #define CONF_OPER_GLINE	      8
+#define CONF_OPER_TCM	     16
 
 /*
  * Client structures

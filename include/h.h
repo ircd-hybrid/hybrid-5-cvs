@@ -23,7 +23,7 @@
  * Most of the externs and prototypes thrown in here to 'cleanup' things.
  * -avalon
  *
- * $Id: h.h,v 1.19 1998/07/15 06:25:20 db Exp $
+ * $Id: h.h,v 1.20 1998/07/15 23:06:16 db Exp $
  *
  */
 
@@ -360,5 +360,5 @@ void	free_fludees();
 #endif
 
 #ifdef IDLE_CHECK
-#define MIN_IDLETIME 60
+#define MIN_IDLETIME 1800
 #endif
