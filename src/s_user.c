@@ -25,7 +25,7 @@
 static  char sccsid[] = "@(#)s_user.c	2.68 07 Nov 1993 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version="$Id: s_user.c,v 1.13 1997/10/11 04:47:56 db Exp $";
+static char *rcs_version="$Id: s_user.c,v 1.14 1997/10/11 15:09:45 db Exp $";
 
 #endif
 
@@ -2029,18 +2029,15 @@ int	m_whois(aClient *cptr,
 	   * - only send replies about common or public channels
 	   *   the target user(s) are on;
 	   */
-#ifdef ANTI_IP_SPOOF
+
+/* If its an unregistered client, ignore it, it can
+   be "seen" on a /trace anyway  -Dianora */
+
           if(!IsRegistered(acptr))
-	    {
-	      user = &UnknownUser;
-	      name = "?";
-	    }
-	  else
-#endif
-	    {
-              user = acptr->user ? acptr->user : &UnknownUser;
-	      name = (!*acptr->name) ? "?" : acptr->name;
-            }
+	    continue;
+
+          user = acptr->user ? acptr->user : &UnknownUser;
+	  name = (!*acptr->name) ? "?" : acptr->name;
 	  invis = IsInvisible(acptr);
 	  member = (user->channel) ? 1 : 0;
 	  showperson = (wilds && !invis && !member) || !wilds;

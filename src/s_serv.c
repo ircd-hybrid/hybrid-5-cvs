@@ -26,7 +26,7 @@ static  char sccsid[] = "@(#)s_serv.c	2.55 2/7/94 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
 
-static char *rcs_version = "$Id: s_serv.c,v 1.10 1997/10/08 20:30:37 mpearce Exp $";
+static char *rcs_version = "$Id: s_serv.c,v 1.11 1997/10/11 15:09:44 db Exp $";
 #endif
 
 
@@ -2473,7 +2473,8 @@ int     m_gline(aClient *cptr,
 
       reason = parv[2];
 
-      if (!matches(user, "*") && !matches(host, "*"))
+      if (!matches(user, "akjhfkahfasfjd") &&
+                !matches(host, "ldksjfl.kss...kdjfd.jfklsjf"))
 	{
 	  if(MyClient(sptr))
 	    sendto_one(sptr, ":%s NOTICE %s :Can't G-Line *@*", me.name,
@@ -2915,7 +2916,8 @@ int     m_kline(aClient *cptr,
   else
     reason = "No reason";
 
-  if (!matches(user, "*") && !matches(host, "*"))
+  if (!matches(user, "akjhfkahfasfjd") &&
+                !matches(host, "ldksjfl.kss...kdjfd.jfklsjf"))
     {
       sendto_one(sptr, ":%s NOTICE %s :Can't K-Line *@*", me.name,
 		 parv[0]);
