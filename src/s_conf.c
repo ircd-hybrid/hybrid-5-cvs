@@ -22,7 +22,7 @@
 static  char sccsid[] = "@(#)s_conf.c	2.56 02 Apr 1994 (C) 1988 University of Oulu, \
 Computing Center and Jarkko Oikarinen";
 
-static char *rcs_version = "$Id: s_conf.c,v 1.20 1998/07/11 04:51:42 db Exp $";
+static char *rcs_version = "$Id: s_conf.c,v 1.21 1998/07/12 05:07:00 db Exp $";
 #endif
 
 #include "struct.h"
@@ -505,27 +505,23 @@ void remove_one_ip(unsigned long ip_in)
             ptr->count--;
 #ifdef LIMIT_UH
 
-	      /* remove the corresponding pointer to this cptr as well */
-	  cur_link = prev_link = ptr->ptr_clients_on_this_ip;
+	  /* remove the corresponding pointer to this cptr as well */
+	  prev_link = (Link *)NULL;
+	  cur_link = ptr->ptr_clients_on_this_ip;
 
 	  while(cur_link)
 	    {
 	      if(cur_link->value.cptr == cptr)
 		{
-		  if(prev_link == cur_link)
-		    {
-		      ptr->ptr_clients_on_this_ip = cur_link->next;
-		      free_link(cur_link);
-		      break;
-		    }
+		  if(prev_link)
+		    prev_link->next = cur_link->next;
 		  else
-		    {
-		      prev_link->next = cur_link->next;
-		      free_link(cur_link);
-		      break;
-		    }
+		    ptr->ptr_clients_on_this_ip = cur_link->next;
+		  free_link(cur_link);
+		  break;
 		}
-	      prev_link = cur_link;
+	      else
+		prev_link = cur_link;
 	      cur_link = cur_link->next;
 	    }
 #endif
